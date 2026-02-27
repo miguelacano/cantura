@@ -1,0 +1,141 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// =======================
+// Core Identity Models
+// =======================
+
+enum UserRole {
+  TEACHER
+  GUARDIAN
+  STUDENT
+}
+
+enum StudentAccessRole {
+  TEACHER
+  GUARDIAN
+  STUDENT
+}
+
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  role      UserRole @default(TEACHER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  studentAccess StudentAccess[]
+  notes         Note[]
+  pieces        Piece[] // if pieces are teacher-owned, keep this
+}
+
+model Student {
+  id        String   @id @default(cuid())
+  name      String
+  instrument String?
+  level     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  access       StudentAccess[]
+  studentPieces StudentPiece[]
+  notes         Note[]
+}
+
+model StudentAccess {
+  id        String            @id @default(cuid())
+  studentId String
+  userId    String
+  role      StudentAccessRole
+
+  student   Student           @relation(fields: [studentId], references: [id])
+  user      User              @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@unique([studentId, userId, role])
+  @@index([userId])
+  @@index([studentId])
+}
+
+
+
+
+model Piece {
+  id        String   @id @default(cuid())
+  teacherId String
+  teacher   User     @relation(fields: [teacherId], references: [id])
+
+  title    String
+  composer String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  studentPieces StudentPiece[]
+
+  @@index([teacherId])
+  @@index([teacherId, title])
+}
+
+model StudentPiece {
+  id        String   @id @default(cuid())
+  studentId String
+  student   Student  @relation(fields: [studentId], references: [id])
+
+  pieceId   String
+  piece     Piece    @relation(fields: [pieceId], references: [id])
+
+  status    String   @default("active")
+  startedAt DateTime?
+  completedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  notes Note[]
+
+  @@unique([studentId, pieceId])
+  @@index([studentId])
+  @@index([pieceId])
+}
+
+model Note {
+  id             String   @id @default(cuid())
+
+  authorId       String
+  author         User     @relation(fields: [authorId], references: [id])
+
+  studentId      String
+  student        Student  @relation(fields: [studentId], references: [id])
+
+  studentPieceId String?
+  studentPiece   StudentPiece? @relation(fields: [studentPieceId], references: [id])
+
+  // Reply support (extensible)
+  parentId       String?
+  parent         Note?    @relation("NoteReplies", fields: [parentId], references: [id])
+  replies        Note[]   @relation("NoteReplies")
+
+  body           String
+  createdAt      DateTime @default(now())
+
+  @@index([studentId, createdAt])
+  @@index([parentId, createdAt])
+  @@index([authorId, createdAt])
+}
