@@ -1,368 +1,347 @@
 # Cantura Architecture (MVP)
 
-This document aligns with `AGENTS.md` and captures the minimal, production-shaped MVP architecture for Cantura.
+Cantura is a production-oriented studio management web app for private music teachers. The system manages relationships between Teachers, Students, and Guardians with strict server-side authorization.
+
+This document captures the minimal, production-shaped MVP architecture: entities, flows, auth rules, and route/API shape.
 
 ---
 
-**1) Final Prisma Schema**
+## Goals (MVP)
 
-```prisma
-// prisma/schema.prisma
+- Teacher-led studio workflows:
+  - create students
+  - attach teachers to students by instrument
+  - invite guardians / students
+  - manage a teacher library of repertoire (pieces + exercises)
+  - assign repertoire to students
+  - write notes and replies (single-level)
+  - guardians/students can view and participate in notes
 
-generator client {
-  provider = "prisma-client-js"
-}
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-enum UserRole {
-  TEACHER
-  GUARDIAN
-  STUDENT // reserved for future use
-}
-
-enum StudentAccessRole {
-  TEACHER
-  GUARDIAN
-}
-
-model User {
-  id          String           @id @default(cuid())
-  email       String           @unique
-  name        String?
-  role        UserRole
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-
-  studentAccesses StudentAccess[]
-  notes           Note[]        @relation("NoteAuthor")
-
-  @@index([role])
-}
-
-model Student {
-  id          String          @id @default(cuid())
-  firstName   String
-  lastName    String
-  dateOfBirth DateTime?
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
-
-  accesses    StudentAccess[]
-  pieces      StudentPiece[]
-  notes       Note[]
-
-  @@index([lastName, firstName])
-}
-
-model StudentAccess {
-  id         String            @id @default(cuid())
-  studentId  String
-  userId     String
-  role       StudentAccessRole
-  createdAt  DateTime          @default(now())
-
-  student    Student           @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([studentId, userId])
-  @@index([userId])
-  @@index([studentId, role])
-}
-
-model Piece {
-  id          String          @id @default(cuid())
-  title       String
-  composer    String?
-  createdById String
-  createdAt   DateTime        @default(now())
-
-  createdBy    User           @relation(fields: [createdById], references: [id])
-  studentLinks StudentPiece[]
-
-  @@index([createdById])
-  @@index([title])
-}
-
-model StudentPiece {
-  id           String         @id @default(cuid())
-  studentId    String
-  pieceId      String
-  assignedById String
-  assignedAt   DateTime       @default(now())
-  status       String?        // "assigned", "in_progress", "completed"
-
-  student     Student         @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  piece       Piece           @relation(fields: [pieceId], references: [id], onDelete: Restrict)
-  assignedBy  User            @relation(fields: [assignedById], references: [id])
-  notes       Note[]
-
-  @@unique([studentId, pieceId])
-  @@index([studentId, assignedAt])
-  @@index([pieceId])
-}
-
-model Note {
-  id             String        @id @default(cuid())
-  studentId      String
-  authorId       String
-  studentPieceId String?
-  parentId       String?
-  content        String
-  createdAt      DateTime      @default(now())
-
-  student       Student        @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  author        User           @relation("NoteAuthor", fields: [authorId], references: [id])
-  studentPiece  StudentPiece?  @relation(fields: [studentPieceId], references: [id], onDelete: SetNull)
-
-  parent        Note?          @relation("NoteReplies", fields: [parentId], references: [id], onDelete: Cascade)
-  replies       Note[]         @relation("NoteReplies")
-
-  @@index([studentId, createdAt])
-  @@index([studentPieceId, createdAt])
-  @@index([parentId])
-}
-```
-
-Why this shape:
-1. Students are independent of user accounts.
-2. Access is explicit and role-based via `StudentAccess`.
-3. Notes relate to `StudentPiece` (not directly to `Piece`), keeping student-specific assignment context.
-4. Reply depth is enforced at the service layer (parent note must have no parent).
+- Admin workflows:
+  - create/manage users (especially teachers)
+  - manage instrument catalog
+  - (optional) support view into a student’s access graph
 
 ---
 
-**2) Folder Structure Tree**
+## Non-Goals (MVP)
 
-```
-src/
-  app/
-    api/
-      students/
-        route.ts
-        [id]/
-          route.ts
-          notes/
-            route.ts
-            [noteId]/
-              reply/
-                route.ts
-          pieces/
-            route.ts
-          access/
-            route.ts
-  server/
-    auth/
-      requireUser.ts
-    db/
-      prisma.ts
-    services/
-      studentService.ts
-      accessService.ts
-      noteService.ts
-      pieceService.ts
-    validation/
-      student.ts
-      access.ts
-      piece.ts
-      note.ts
-```
-
-Why:
-- `src/server/**` owns all domain and data access logic, per `AGENTS.md`.
-- Route handlers remain thin and call services.
+- calendar/scheduling, payments, messaging, notifications
+- multi-tenant studio organizations
+- audio uploads, AI analysis
+- deep threaded discussions (only one reply depth)
 
 ---
 
-**3) Service-Layer Outline (TypeScript Examples)**
+## Data Model Overview
 
-```ts
-// src/server/services/accessService.ts
-import { prisma } from "@/server/db/prisma";
+> Do not treat the Prisma schema as “database first.” This model is designed to reflect user flows:
+> instrument-scoped teaching relationships, shared repertoire, teacher library, and student assignments.
 
-export async function requireStudentAccess(userId: string, studentId: string) {
-  const access = await prisma.studentAccess.findUnique({
-    where: { studentId_userId: { studentId, userId } },
-  });
-  if (!access) throw new Error("FORBIDDEN");
-  return access;
-}
+### Core Entities
 
-export function canWriteStudent(accessRole: "TEACHER" | "GUARDIAN") {
-  return accessRole === "TEACHER";
-}
-```
+- **User**
+  - roles: ADMIN, TEACHER, GUARDIAN, STUDENT
+  - authenticates + logs in
 
-```ts
-// src/server/services/noteService.ts
-import { prisma } from "@/server/db/prisma";
-import { requireStudentAccess } from "./accessService";
+- **Student**
+  - represents a learner
+  - may or may not have login credentials (linked to a User with role STUDENT)
 
-export async function createNote(params: {
-  userId: string;
-  studentId: string;
-  studentPieceId?: string;
-  content: string;
-}) {
-  await requireStudentAccess(params.userId, params.studentId);
-  return prisma.note.create({
-    data: {
-      studentId: params.studentId,
-      authorId: params.userId,
-      studentPieceId: params.studentPieceId,
-      content: params.content,
-    },
-  });
-}
+- **Instrument**
+  - admin-managed catalog (Piano, Guitar, Violin, Voice, etc.)
+  - used to scope teacher↔student relationships and assignments
 
-export async function replyToNote(params: {
-  userId: string;
-  studentId: string;
-  parentNoteId: string;
-  content: string;
-}) {
-  await requireStudentAccess(params.userId, params.studentId);
+### Access Control
 
-  const parent = await prisma.note.findUnique({
-    where: { id: params.parentNoteId },
-    select: { id: true, studentId: true, parentId: true },
-  });
-  if (!parent || parent.studentId !== params.studentId) throw new Error("NOT_FOUND");
-  if (parent.parentId) throw new Error("REPLY_DEPTH_EXCEEDED");
+- **StudentAccess** (join model)
+  - defines whether a User can access a Student
+  - **TEACHER access is instrument-scoped** (requires instrumentId)
+  - GUARDIAN and STUDENT access is student-wide (instrumentId must be null)
+  - supports revoke (soft revoke recommended)
 
-  return prisma.note.create({
-    data: {
-      studentId: params.studentId,
-      authorId: params.userId,
-      parentId: parent.id,
-      content: params.content,
-    },
-  });
-}
-```
+### Repertoire + Assignments
 
-Why:
-- Services are the only place that touch Prisma.
-- Reply depth is enforced consistently.
-- Authorization checks are centralized and required for every student-scoped action.
+- **RepertoireItem** (canonical shared catalog)
+  - tracks metadata only (title, composer, collection, etc.)
+  - may store external identifiers for metadata providers
+  - does not store copyrighted score files
+
+- **TeacherLibraryItem**
+  - teacher’s curated library entry referencing a RepertoireItem
+  - allows teacher-specific overrides/notes without duplicating repertoire
+
+- **StudentAssignment**
+  - assignment of a TeacherLibraryItem to a Student within an Instrument context
+  - prevents duplicate assignment of the same library item in the same instrument lane
+
+### Notes
+
+- **Note**
+  - belongs to a Student
+  - authored by a User (Teacher/Guardian/Student)
+  - optionally attaches to a StudentAssignment
+  - supports replies via parentId
+  - **reply depth is limited to one level** (enforced in application logic)
+
+### Guardian/Student Dashboard Support (Optional but useful)
+
+- **UserStudentLastSeen**
+  - used for “unread since last visit” on dashboards
+  - avoids building a notifications system
 
 ---
 
-**4) Route List (App Router)**
+## Authorization Rules (MVP)
 
-1. `app/api/students/route.ts`
-2. `app/api/students/[id]/route.ts`
-3. `app/api/students/[id]/notes/route.ts`
-4. `app/api/students/[id]/notes/[noteId]/reply/route.ts`
-5. `app/api/students/[id]/pieces/route.ts`
-6. `app/api/students/[id]/access/route.ts`
+Authorization is enforced server-side in services (not only in UI).
 
----
+### TEACHER
 
-**5) Zod Validation Examples**
+- can view students where they have StudentAccess(role=TEACHER, instrumentId=…)
+- can create/edit students they teach (policy choice; safe MVP: allow edits for any teacher access)
+- can manage guardian/student access for students they teach
+- can create/own TeacherLibraryItems
+- can assign repertoire to students in an instrument they teach
+- can create/edit/delete notes (for students they teach)
+- can reply to notes
 
-```ts
-// src/server/validation/student.ts
-import { z } from "zod";
+### GUARDIAN
 
-export const createStudentSchema = z.object({
-  firstName: z.string().min(1).max(100),
-  lastName: z.string().min(1).max(100),
-  dateOfBirth: z.string().datetime().optional(),
-});
-```
+- can view student(s) they have StudentAccess(role=GUARDIAN)
+- can create notes and replies (single-level)
+- cannot manage access
+- cannot assign repertoire
+- cannot edit/delete other users’ notes (safe MVP: guardians can edit/delete only their own notes or none)
 
-```ts
-// src/server/validation/piece.ts
-import { z } from "zod";
+### STUDENT
 
-export const assignPieceSchema = z.object({
-  pieceId: z.string().cuid(),
-});
-```
+- can view student record linked to them and/or students they have StudentAccess(role=STUDENT)
+- can view assignments + notes
+- can create notes and replies (same as guardian)
 
-```ts
-// src/server/validation/note.ts
-import { z } from "zod";
+### ADMIN
 
-export const createNoteSchema = z.object({
-  content: z.string().min(1).max(2000),
-  studentPieceId: z.string().cuid().optional(),
-});
-
-export const replyToNoteSchema = z.object({
-  content: z.string().min(1).max(2000),
-});
-```
-
-```ts
-// src/server/validation/access.ts
-import { z } from "zod";
-
-export const addGuardianAccessSchema = z.object({
-  userId: z.string().cuid(),
-  role: z.literal("GUARDIAN"),
-});
-```
+- can manage users
+- can manage instrument catalog
+- can (optionally) view student + access graph for support
+- does not need to participate in notes or assignments
 
 ---
 
-**6) Authorization Flow**
+## Critical Invariants (Enforce in Service Layer)
 
-1. Authenticate the user in every route.
-2. Call `requireStudentAccess(userId, studentId)` in every student-scoped service method.
-3. Enforce role-based permissions server-side:
-   - `TEACHER`: read/write student, assign pieces, manage access, create notes, reply.
-   - `GUARDIAN`: read student, read pieces, create notes, reply.
-4. Prevent escalation:
-   - Only `TEACHER` can grant/revoke access.
-   - Guardian access endpoint forces role to `GUARDIAN`.
-5. Reply depth enforcement:
-   - Replies only allowed if `parent.parentId` is null.
+Because some constraints are hard to enforce purely in Prisma/Postgres:
 
----
+1. StudentAccess invariants:
 
-**7) 14-Day Build Plan**
+- if role=TEACHER => instrumentId is required
+- if role in (GUARDIAN, STUDENT) => instrumentId must be null
 
-Day 1: Confirm scope, finalize schema, create migrations.  
-Day 2: Prisma client setup, auth utilities, seed data.  
-Day 3: Access service and student service.  
-Day 4: Student routes + zod validation.  
-Day 5: Piece service + routes.  
-Day 6: Note service + routes.  
-Day 7: Pagination for notes, indexes review, consistent errors.  
-Day 8: Minimal UI pages (server components) for student list and detail.  
-Day 9: Notes UI (list + create + reply).  
-Day 10: Guardian access UI.  
-Day 11: Basic tests for services.  
-Day 12: Hardening (edge cases, safe errors).  
-Day 13: Performance pass (avoid N+1, include relations).  
-Day 14: Cleanup, docs, deploy checklist.
+2. Reply depth:
 
-Minimum viable path if time is tight:
-1. Schema + migrations.
-2. Access service + student read endpoints.
-3. Notes (create + reply) with pagination.
-4. Thin UI for teacher use only.
-5. Add guardian access endpoint.
+- when creating a reply (parentId provided), parent must exist and parent.parentId must be null
+
+3. Assignment authorization:
+
+- assigning teacher must have StudentAccess(role=TEACHER, instrumentId matches assignment.instrumentId)
+
+4. Prevent duplicates:
+
+- StudentAssignment unique constraint blocks duplicates for (studentId, teacherLibraryItemId, instrumentId)
 
 ---
 
-**8) Performance Considerations**
+## UI Routes (App Router)
 
-1. Pagination:
-   - Cursor pagination on `createdAt` + `id` for stable ordering.
-2. Avoid N+1:
-   - Use `include` or focused `select` in Prisma service methods.
-3. Indexes:
-   - `StudentAccess` by `userId` and `studentId`.
-   - `Note` by `studentId, createdAt`.
-   - `Note` by `studentPieceId, createdAt`.
-4. Next.js caching:
-   - Later phase: use `revalidate` for read-only pages.
-   - No caching layer for writes.
-5. No Redis for MVP.
-```
+### Shared
+
+- /login
+- /logout
+- /error (optional)
+- /404 (not-found)
+
+### Admin
+
+- /admin
+- /admin/users
+- /admin/instruments
+- /admin/students/[studentId] (optional support view)
+
+### Teacher
+
+- /teacher
+- /teacher/students
+- /teacher/students/new
+- /teacher/students/[studentId]
+- /teacher/repertoire (search canonical catalog)
+- /teacher/library (teacher’s saved repertoire)
+- /teacher/library/new (optional shortcut)
+
+### Guardian
+
+- /guardian
+- /guardian/students/[studentId]
+
+### Student
+
+- /student
+- /student/me (or /student/students/[studentId] if future multi linkage)
+
+---
+
+## Key Screens and Flows
+
+### 1) Login + Role Landing
+
+- POST login -> resolve user role -> redirect:
+  - ADMIN -> /admin
+  - TEACHER -> /teacher/students
+  - GUARDIAN -> /guardian
+  - STUDENT -> /student
+
+### 2) Teacher Onboarding (first run)
+
+- show “Create your first student”
+- create Student + attach teacher access with instrument selection
+- land on Student hub
+
+### 3) Student Creation (Teacher)
+
+- create student record
+- attach teacher(s) by instrument via StudentAccess
+
+### 4) Attach Additional Teacher (Instrument-scoped)
+
+- Student hub -> Access -> “Add teacher”
+- select teacher user + instrument
+- create StudentAccess(role=TEACHER, instrumentId)
+
+### 5) Guardian / Student Invite (Access)
+
+- Student hub -> Access -> “Invite guardian/student”
+- create invite token
+- recipient sets password -> StudentAccess row created
+
+### 6) Repertoire Catalog -> Teacher Library
+
+- Teacher searches RepertoireItem catalog
+- “Add to my library” creates TeacherLibraryItem
+- if not found, teacher/admin can create RepertoireItem (metadata only)
+
+### 7) Assign Repertoire to Student (Instrument lane)
+
+- from student -> choose instrument lane
+- select TeacherLibraryItem -> create StudentAssignment (instrumentId required)
+
+### 8) Notes + Replies
+
+- notes list paginates top-level notes only (parentId null)
+- include replies in response for each top-level note
+- create note: student-scoped, optional assignmentId
+- create reply: parent must be top-level note
+
+### 9) Guardian/Student Dashboard (multi-child)
+
+- list all students accessible via StudentAccess(role=GUARDIAN or STUDENT)
+- show recent activity computed from notes + assignments
+- optional unread via UserStudentLastSeen
+
+---
+
+## API / Service Layer Shape (Minimal)
+
+Keep route handlers thin. Put all auth + invariants in services.
+
+Example service boundaries:
+
+- AuthService
+  - login/logout, role-based redirect
+
+- StudentService
+  - createStudent (teacher/admin)
+  - getStudent (requires access)
+  - listAccessibleStudents (role-aware)
+  - updateStudent (teacher/admin)
+
+- AccessService
+  - grantTeacherAccess(studentId, teacherUserId, instrumentId)
+  - inviteGuardianOrStudent(studentId, email, role)
+  - revokeAccess(accessId)
+
+- RepertoireService
+  - searchCatalog(query)
+  - createRepertoireItem (teacher/admin)
+  - addToTeacherLibrary(teacherId, repertoireItemId)
+
+- AssignmentService
+  - assignToStudent(studentId, instrumentId, teacherLibraryItemId)
+  - updateAssignmentStatus(assignmentId, status)
+  - listAssignments(studentId, instrumentId?)
+
+- NoteService
+  - listNotes(studentId, cursor/pageSize) // paginated top-level notes
+  - createNote(studentId, body, assignmentId?)
+  - replyToNote(parentNoteId, body) // enforce single-level
+  - deleteNote(noteId) // teacher-only in MVP
+
+---
+
+## Error Handling / Pages
+
+- 401: unauthenticated -> redirect to /login
+- 403: authenticated but forbidden -> show “No access”
+- 404: resource not found (or masked) -> Not Found page
+- 422: validation errors -> inline form errors
+- 500: unexpected -> generic error page
+
+Next.js:
+
+- app/not-found.tsx
+- app/error.tsx
+
+---
+
+## Pagination Requirements
+
+- Notes must be paginated:
+  - paginate only top-level notes (parentId null)
+  - include replies for returned parents (bounded)
+  - recommended: cursor-based pagination by createdAt/id
+
+---
+
+## MVP Build Plan (Realistic When Job Hunting)
+
+This is not a “14 day sprint.” It’s a **vertical slice** + **optional increments**.
+
+### Slice 1 (1–3 focused sessions)
+
+- Auth + role landing
+- Teacher: create student + attach teacher access (instrument)
+- Teacher: create repertoire item + add to library
+- Teacher: assign to student
+- Notes: create top-level note + reply (single depth)
+- Guardian: dashboard + view student + add note
+
+### Slice 2 (next 1–2 sessions)
+
+- Invites (guardian + student)
+- Last-seen/unread for dashboards (optional)
+- Admin: instrument management
+
+### Slice 3 (only if time)
+
+- Curriculum tables + “assign next in level”
+- Better search/import for repertoire metadata sources
+- Polished empty states and 403/404 UX
+
+---
+
+## Future Extensions (Post-MVP)
+
+- studio organizations / multi-tenant
+- scheduling/calendar + recurring lessons
+- notifications
+- practice recordings + AI analysis
+- deep analytics/progress charts
