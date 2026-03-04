@@ -1,13 +1,13 @@
-import "dotenv/config"
-import { PrismaClient } from "../src/generated/prisma/client"
-import { PrismaPg } from "@prisma/adapter-pg"
-import bcrypt from "bcryptjs"
+import "dotenv/config";
+import { PrismaClient } from "../src/generated/prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
+import bcrypt from "bcryptjs";
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! })
-const db = new PrismaClient({ adapter })
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
+const db = new PrismaClient({ adapter });
 
 async function main() {
-  const hash = (pw: string) => bcrypt.hashSync(pw, 10)
+  const hash = (pw: string) => bcrypt.hashSync(pw, 10);
 
   // Users
   const admin = await db.user.upsert({
@@ -19,7 +19,7 @@ async function main() {
       role: "ADMIN",
       passwordHash: hash("password"),
     },
-  })
+  });
 
   const teacher = await db.user.upsert({
     where: { email: "teacher@cantura.dev" },
@@ -31,7 +31,7 @@ async function main() {
       studioName: "Rivera Music Studio",
       passwordHash: hash("password"),
     },
-  })
+  });
 
   const guardian = await db.user.upsert({
     where: { email: "guardian@cantura.dev" },
@@ -42,7 +42,7 @@ async function main() {
       role: "GUARDIAN",
       passwordHash: hash("password"),
     },
-  })
+  });
 
   const studentUser = await db.user.upsert({
     where: { email: "student@cantura.dev" },
@@ -53,26 +53,26 @@ async function main() {
       role: "STUDENT",
       passwordHash: hash("password"),
     },
-  })
+  });
 
   // Instruments
   const piano = await db.instrument.upsert({
     where: { name: "Piano" },
     update: {},
     create: { name: "Piano" },
-  })
+  });
 
   await db.instrument.upsert({
     where: { name: "Violin" },
     update: {},
     create: { name: "Violin" },
-  })
+  });
 
   await db.instrument.upsert({
     where: { name: "Guitar" },
     update: {},
     create: { name: "Guitar" },
-  })
+  });
 
   // Student record
   const student = await db.student.upsert({
@@ -84,7 +84,7 @@ async function main() {
       lastName: "Chen",
       level: "Intermediate",
     },
-  })
+  });
 
   // Access grants
   await db.studentAccess.upsert({
@@ -103,24 +103,34 @@ async function main() {
       role: "TEACHER",
       instrumentId: piano.id,
     },
-  })
+  });
 
   const guardianAccess = await db.studentAccess.findFirst({
     where: { studentId: student.id, userId: guardian.id, role: "GUARDIAN" },
-  })
+  });
   if (!guardianAccess) {
     await db.studentAccess.create({
-      data: { studentId: student.id, userId: guardian.id, role: "GUARDIAN", instrumentId: null },
-    })
+      data: {
+        studentId: student.id,
+        userId: guardian.id,
+        role: "GUARDIAN",
+        instrumentId: null,
+      },
+    });
   }
 
   const studentAccess = await db.studentAccess.findFirst({
     where: { studentId: student.id, userId: studentUser.id, role: "STUDENT" },
-  })
+  });
   if (!studentAccess) {
     await db.studentAccess.create({
-      data: { studentId: student.id, userId: studentUser.id, role: "STUDENT", instrumentId: null },
-    })
+      data: {
+        studentId: student.id,
+        userId: studentUser.id,
+        role: "STUDENT",
+        instrumentId: null,
+      },
+    });
   }
 
   // Sample repertoire + teacher library
@@ -133,24 +143,32 @@ async function main() {
       composer: "Beethoven",
       category: "Classical",
     },
-  })
+  });
 
   await db.teacherLibraryItem.upsert({
-    where: { teacherId_repertoireItemId: { teacherId: teacher.id, repertoireItemId: piece.id } },
+    where: {
+      teacherId_repertoireItemId: {
+        teacherId: teacher.id,
+        repertoireItemId: piece.id,
+      },
+    },
     update: {},
     create: {
       teacherId: teacher.id,
       repertoireItemId: piece.id,
     },
-  })
+  });
 
-  console.log("? Seeded successfully")
-  console.log("  admin@cantura.dev    / password  (ADMIN)")
-  console.log("  teacher@cantura.dev  / password  (TEACHER)")
-  console.log("  guardian@cantura.dev / password  (GUARDIAN)")
-  console.log("  student@cantura.dev  / password  (STUDENT)")
+  console.log("✓ Seeded successfully");
+  console.log("  admin@cantura.dev    / password  (ADMIN)");
+  console.log("  teacher@cantura.dev  / password  (TEACHER)");
+  console.log("  guardian@cantura.dev / password  (GUARDIAN)");
+  console.log("  student@cantura.dev  / password  (STUDENT)");
 }
 
 main()
-  .catch((e) => { console.error(e); process.exit(1) })
-  .finally(() => db.$disconnect())
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(() => db.$disconnect());
