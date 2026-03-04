@@ -1,11 +1,11 @@
-import { PrismaClient } from "@/generated/prisma/client"
-import { PrismaPg } from "@prisma/adapter-pg"
+import { PrismaClient } from "@/generated/prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
 
 function createPrismaClient() {
-  const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! })
-  return new PrismaClient({ adapter })
+  const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
+  return new PrismaClient({ adapter });
 }
 
-export const db = globalThis.prisma ?? createPrismaClient()
+export const db = globalThis.prisma ?? createPrismaClient();
 
-if (process.env.NODE_ENV !== "production") globalThis.prisma = db
+if (process.env.NODE_ENV !== "production") globalThis.prisma = db;
