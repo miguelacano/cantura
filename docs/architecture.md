@@ -1,368 +1,313 @@
 # Cantura Architecture (MVP)
 
-This document aligns with `AGENTS.md` and captures the minimal, production-shaped MVP architecture for Cantura.
+Cantura is a studio management web app for private music teachers. It manages relationships between Teachers, Students, and Guardians with strict server-side authorization.
 
 ---
 
-**1) Final Prisma Schema**
+## Tech Stack
 
-```prisma
-// prisma/schema.prisma
+| Layer | Choice |
+|-------|--------|
+| Framework | Next.js 16 (App Router, Turbopack in dev) |
+| Language | TypeScript |
+| Database | PostgreSQL via Prisma 7 (driver adapters) |
+| ORM | Prisma 7 — `provider = "prisma-client"`, output `src/generated/prisma` |
+| DB Adapter | `@prisma/adapter-pg` + `pg` — required by Prisma 7's new client generator |
+| Auth | Auth.js v5 (`next-auth@beta`) — JWT sessions, Credentials provider |
+| Validation | Zod |
+| Styling | Tailwind CSS v4 |
+| Testing | Vitest |
+| Package Manager | pnpm |
 
-generator client {
-  provider = "prisma-client-js"
-}
+### Critical Prisma 7 Notes
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
+- Generator is `prisma-client` (not `prisma-client-js`) — uses driver adapters, no embedded Rust engine
+- Import path is `@/generated/prisma/client` — the generated dir has no `index.ts`
+- All `PrismaClient` instances must be constructed with `{ adapter: new PrismaPg({ connectionString: ... }) }`
+- Seed uses `findFirst + create` (not `upsert`) for rows with nullable fields in composite unique keys
 
-enum UserRole {
-  TEACHER
-  GUARDIAN
-  STUDENT // reserved for future use
-}
+### Auth.js v5 Split Config (Required)
 
-enum StudentAccessRole {
-  TEACHER
-  GUARDIAN
-}
+Middleware runs on the Edge Runtime — it cannot import Prisma or Node.js built-ins. Auth config is split:
 
-model User {
-  id          String           @id @default(cuid())
-  email       String           @unique
-  name        String?
-  role        UserRole
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-
-  studentAccesses StudentAccess[]
-  notes           Note[]        @relation("NoteAuthor")
-
-  @@index([role])
-}
-
-model Student {
-  id          String          @id @default(cuid())
-  firstName   String
-  lastName    String
-  dateOfBirth DateTime?
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
-
-  accesses    StudentAccess[]
-  pieces      StudentPiece[]
-  notes       Note[]
-
-  @@index([lastName, firstName])
-}
-
-model StudentAccess {
-  id         String            @id @default(cuid())
-  studentId  String
-  userId     String
-  role       StudentAccessRole
-  createdAt  DateTime          @default(now())
-
-  student    Student           @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([studentId, userId])
-  @@index([userId])
-  @@index([studentId, role])
-}
-
-model Piece {
-  id          String          @id @default(cuid())
-  title       String
-  composer    String?
-  createdById String
-  createdAt   DateTime        @default(now())
-
-  createdBy    User           @relation(fields: [createdById], references: [id])
-  studentLinks StudentPiece[]
-
-  @@index([createdById])
-  @@index([title])
-}
-
-model StudentPiece {
-  id           String         @id @default(cuid())
-  studentId    String
-  pieceId      String
-  assignedById String
-  assignedAt   DateTime       @default(now())
-  status       String?        // "assigned", "in_progress", "completed"
-
-  student     Student         @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  piece       Piece           @relation(fields: [pieceId], references: [id], onDelete: Restrict)
-  assignedBy  User            @relation(fields: [assignedById], references: [id])
-  notes       Note[]
-
-  @@unique([studentId, pieceId])
-  @@index([studentId, assignedAt])
-  @@index([pieceId])
-}
-
-model Note {
-  id             String        @id @default(cuid())
-  studentId      String
-  authorId       String
-  studentPieceId String?
-  parentId       String?
-  content        String
-  createdAt      DateTime      @default(now())
-
-  student       Student        @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  author        User           @relation("NoteAuthor", fields: [authorId], references: [id])
-  studentPiece  StudentPiece?  @relation(fields: [studentPieceId], references: [id], onDelete: SetNull)
-
-  parent        Note?          @relation("NoteReplies", fields: [parentId], references: [id], onDelete: Cascade)
-  replies       Note[]         @relation("NoteReplies")
-
-  @@index([studentId, createdAt])
-  @@index([studentPieceId, createdAt])
-  @@index([parentId])
-}
-```
-
-Why this shape:
-1. Students are independent of user accounts.
-2. Access is explicit and role-based via `StudentAccess`.
-3. Notes relate to `StudentPiece` (not directly to `Piece`), keeping student-specific assignment context.
-4. Reply depth is enforced at the service layer (parent note must have no parent).
+- `src/lib/auth.config.ts` — Edge-safe. No db import. Used in middleware for JWT validation.
+- `src/lib/auth.ts` — Node.js only. Adds Credentials provider with bcrypt + db lookup.
+- `src/middleware.ts` — creates its own `NextAuth(authConfig)` instance from the Edge-safe config.
 
 ---
 
-**2) Folder Structure Tree**
+## Goals (MVP)
 
-```
-src/
-  app/
-    api/
-      students/
-        route.ts
-        [id]/
-          route.ts
-          notes/
-            route.ts
-            [noteId]/
-              reply/
-                route.ts
-          pieces/
-            route.ts
-          access/
-            route.ts
-  server/
-    auth/
-      requireUser.ts
-    db/
-      prisma.ts
-    services/
-      studentService.ts
-      accessService.ts
-      noteService.ts
-      pieceService.ts
-    validation/
-      student.ts
-      access.ts
-      piece.ts
-      note.ts
-```
+**Teacher workflows:**
+- Create students (with required guardian association at creation time)
+- Instrument-scoped teacher↔student access via StudentAccess
+- Manage a personal repertoire library (TeacherLibraryItem → RepertoireItem)
+- Assign repertoire to students by instrument
+- Write notes and replies (single-level depth) on students/assignments
+- 1:1 messaging with guardians (student-scoped and general threads)
 
-Why:
-- `src/server/**` owns all domain and data access logic, per `AGENTS.md`.
-- Route handlers remain thin and call services.
+**Guardian workflows:**
+- View their student(s) and current assignments
+- Participate in notes and replies
+- Message teachers (1:1 per thread)
+
+**Student workflows:**
+- View own assignments and notes
+- Optionally message teachers (controlled per-student by `Student.canMessage`)
+
+**Admin workflows:**
+- Create and manage user accounts
+- Manage instrument catalog
+- View student access graph (optional support view)
 
 ---
 
-**3) Service-Layer Outline (TypeScript Examples)**
+## Non-Goals (MVP)
 
-```ts
-// src/server/services/accessService.ts
-import { prisma } from "@/server/db/prisma";
-
-export async function requireStudentAccess(userId: string, studentId: string) {
-  const access = await prisma.studentAccess.findUnique({
-    where: { studentId_userId: { studentId, userId } },
-  });
-  if (!access) throw new Error("FORBIDDEN");
-  return access;
-}
-
-export function canWriteStudent(accessRole: "TEACHER" | "GUARDIAN") {
-  return accessRole === "TEACHER";
-}
-```
-
-```ts
-// src/server/services/noteService.ts
-import { prisma } from "@/server/db/prisma";
-import { requireStudentAccess } from "./accessService";
-
-export async function createNote(params: {
-  userId: string;
-  studentId: string;
-  studentPieceId?: string;
-  content: string;
-}) {
-  await requireStudentAccess(params.userId, params.studentId);
-  return prisma.note.create({
-    data: {
-      studentId: params.studentId,
-      authorId: params.userId,
-      studentPieceId: params.studentPieceId,
-      content: params.content,
-    },
-  });
-}
-
-export async function replyToNote(params: {
-  userId: string;
-  studentId: string;
-  parentNoteId: string;
-  content: string;
-}) {
-  await requireStudentAccess(params.userId, params.studentId);
-
-  const parent = await prisma.note.findUnique({
-    where: { id: params.parentNoteId },
-    select: { id: true, studentId: true, parentId: true },
-  });
-  if (!parent || parent.studentId !== params.studentId) throw new Error("NOT_FOUND");
-  if (parent.parentId) throw new Error("REPLY_DEPTH_EXCEEDED");
-
-  return prisma.note.create({
-    data: {
-      studentId: params.studentId,
-      authorId: params.userId,
-      parentId: parent.id,
-      content: params.content,
-    },
-  });
-}
-```
-
-Why:
-- Services are the only place that touch Prisma.
-- Reply depth is enforced consistently.
-- Authorization checks are centralized and required for every student-scoped action.
+- Calendar/scheduling, payments, push notifications
+- Multi-tenant studio organizations
+- Audio/video uploads, AI analysis
+- Deep threaded discussions (one reply level only)
+- Real-time messaging (async polling is sufficient for MVP; see Future Extensions)
+- Guardian search/autocomplete on student creation (use findOrCreate by email for now)
 
 ---
 
-**4) Route List (App Router)**
+## Data Model
 
-1. `app/api/students/route.ts`
-2. `app/api/students/[id]/route.ts`
-3. `app/api/students/[id]/notes/route.ts`
-4. `app/api/students/[id]/notes/[noteId]/reply/route.ts`
-5. `app/api/students/[id]/pieces/route.ts`
-6. `app/api/students/[id]/access/route.ts`
+### User
 
----
+Fields: `id`, `email` (unique), `name?`, `role` (UserRole), `passwordHash?`, `bio?`, `studioName?`, `createdAt`, `updatedAt`
 
-**5) Zod Validation Examples**
+Roles: `ADMIN`, `TEACHER`, `GUARDIAN`, `STUDENT`
 
-```ts
-// src/server/validation/student.ts
-import { z } from "zod";
+### Student
 
-export const createStudentSchema = z.object({
-  firstName: z.string().min(1).max(100),
-  lastName: z.string().min(1).max(100),
-  dateOfBirth: z.string().datetime().optional(),
-});
-```
+Fields: `id`, `firstName`, `lastName`, `level?`, `canMessage` (Boolean, default false), `createdAt`, `updatedAt`
 
-```ts
-// src/server/validation/piece.ts
-import { z } from "zod";
+- `firstName` + `lastName` are separate fields (not a single `name`)
+- `canMessage` controls whether this student can participate in teacher↔guardian message threads
+- Display name: use the `fullName(student)` helper from `studentService.ts`
 
-export const assignPieceSchema = z.object({
-  pieceId: z.string().cuid(),
-});
-```
+### Instrument
 
-```ts
-// src/server/validation/note.ts
-import { z } from "zod";
+Admin-managed catalog. Used to scope teacher↔student relationships and assignments.
 
-export const createNoteSchema = z.object({
-  content: z.string().min(1).max(2000),
-  studentPieceId: z.string().cuid().optional(),
-});
+### StudentAccess (join model)
 
-export const replyToNoteSchema = z.object({
-  content: z.string().min(1).max(2000),
-});
-```
+Controls who can access which student and in what role:
 
-```ts
-// src/server/validation/access.ts
-import { z } from "zod";
+- `role = TEACHER` → `instrumentId` **required** (teacher access is instrument-scoped)
+- `role = GUARDIAN` or `STUDENT` → `instrumentId` **must be null**
+- Unique constraint: `(studentId, userId, role, instrumentId)`
+- **Note:** upsert with `null` instrumentId fails in Prisma due to PostgreSQL NULL semantics — use `findFirst + create` instead
 
-export const addGuardianAccessSchema = z.object({
-  userId: z.string().cuid(),
-  role: z.literal("GUARDIAN"),
-});
-```
+### RepertoireItem
 
----
+Canonical catalog of pieces. Fields: `title`, `composer?`, `collection?`, `category?`, `source` (default "MANUAL"), `externalId?`. The `source` and `externalId` fields are stubs for future OpenOpus/MusicBrainz integration.
 
-**6) Authorization Flow**
+### TeacherLibraryItem
 
-1. Authenticate the user in every route.
-2. Call `requireStudentAccess(userId, studentId)` in every student-scoped service method.
-3. Enforce role-based permissions server-side:
-   - `TEACHER`: read/write student, assign pieces, manage access, create notes, reply.
-   - `GUARDIAN`: read student, read pieces, create notes, reply.
-4. Prevent escalation:
-   - Only `TEACHER` can grant/revoke access.
-   - Guardian access endpoint forces role to `GUARDIAN`.
-5. Reply depth enforcement:
-   - Replies only allowed if `parent.parentId` is null.
+A teacher's personal library entry referencing a RepertoireItem. Allows teacher-specific notes without duplicating catalog data.
+
+### StudentAssignment
+
+Assignment of a TeacherLibraryItem to a Student within an Instrument context. Status: `ACTIVE | COMPLETED | DROPPED`. Unique on `(studentId, teacherLibraryItemId, instrumentId)`.
+
+### Note
+
+Student-scoped communication visible to all parties with StudentAccess. Fields: `authorId`, `studentId`, `assignmentId?`, `parentId?`, `body`.
+
+- Reply depth is **one level only** (enforced in service layer)
+- Top-level notes: `parentId = null`; replies: `parentId` points to a top-level note
+
+### MessageThread
+
+Private 1:1 conversation between a teacher and a guardian. Fields: `teacherId`, `guardianId`, `studentId?` (null = general thread), `subject?`, `createdAt`, `updatedAt`.
+
+- Thread uniqueness enforced in **service layer** (not DB) — PostgreSQL does not treat two `NULL` values as equal in unique constraints
+- Student-scoped threads: `studentId` set; student can read/participate if `student.canMessage = true`
+- General threads: `studentId = null`; students never see these
+
+### Message
+
+Individual message within a `MessageThread`. Fields: `threadId`, `authorId`, `body`, `createdAt`. Cascade-deletes when thread is deleted.
+
+### MessageThreadReadStatus
+
+Tracks last-read cursor per user per thread for unread indicators. Fields: `userId`, `threadId`, `lastReadAt` (auto-updated). Unique on `(userId, threadId)`.
+
+Unread detection: `thread.updatedAt > readStatus.lastReadAt`
+
+### UserStudentLastSeen
+
+Tracks when a user last viewed a student's profile. Used for "new activity since last visit" indicators on dashboards. Unique on `(userId, studentId)`.
 
 ---
 
-**7) 14-Day Build Plan**
+## Authorization Rules
 
-Day 1: Confirm scope, finalize schema, create migrations.  
-Day 2: Prisma client setup, auth utilities, seed data.  
-Day 3: Access service and student service.  
-Day 4: Student routes + zod validation.  
-Day 5: Piece service + routes.  
-Day 6: Note service + routes.  
-Day 7: Pagination for notes, indexes review, consistent errors.  
-Day 8: Minimal UI pages (server components) for student list and detail.  
-Day 9: Notes UI (list + create + reply).  
-Day 10: Guardian access UI.  
-Day 11: Basic tests for services.  
-Day 12: Hardening (edge cases, safe errors).  
-Day 13: Performance pass (avoid N+1, include relations).  
-Day 14: Cleanup, docs, deploy checklist.
+All authorization is enforced in services, not only in the UI.
 
-Minimum viable path if time is tight:
-1. Schema + migrations.
-2. Access service + student read endpoints.
-3. Notes (create + reply) with pagination.
-4. Thin UI for teacher use only.
-5. Add guardian access endpoint.
+### TEACHER
+- View/edit students where they have `StudentAccess(role=TEACHER, instrumentId=…)`
+- Own `TeacherLibraryItem` records
+- Assign repertoire to students they teach (instrument must match their access)
+- Create/reply/delete notes for students they teach
+- Send and receive messages in threads where `teacherId = self`
+
+### GUARDIAN
+- View students where they have `StudentAccess(role=GUARDIAN)`
+- Create notes and replies (own notes only for edit/delete)
+- Send and receive messages in threads where `guardianId = self`
+- Toggle `student.canMessage` for their student(s)
+
+### STUDENT
+- View student record linked to them + their assignments and notes
+- Create notes and replies (if access exists)
+- Participate in message threads where `thread.studentId = their studentId` AND `student.canMessage = true`
+
+### ADMIN
+- Manage users and instrument catalog
+- Optional: view student + access graph for support
+- Does not participate in notes or messaging
 
 ---
 
-**8) Performance Considerations**
+## Critical Invariants (Enforced in Service Layer)
 
-1. Pagination:
-   - Cursor pagination on `createdAt` + `id` for stable ordering.
-2. Avoid N+1:
-   - Use `include` or focused `select` in Prisma service methods.
-3. Indexes:
-   - `StudentAccess` by `userId` and `studentId`.
-   - `Note` by `studentId, createdAt`.
-   - `Note` by `studentPieceId, createdAt`.
-4. Next.js caching:
-   - Later phase: use `revalidate` for read-only pages.
-   - No caching layer for writes.
-5. No Redis for MVP.
-```
+1. **StudentAccess:** if `role=TEACHER` → `instrumentId` required; if `role=GUARDIAN/STUDENT` → `instrumentId` must be null
+2. **Note reply depth:** parent note must exist and must have `parentId = null` (no nested replies)
+3. **Assignment authorization:** assigning teacher must have `StudentAccess(role=TEACHER, instrumentId)` matching the assignment's instrument
+4. **Message authorization:** sender must be a participant in the thread (`teacherId` or `guardianId` or student with `canMessage=true`)
+5. **Thread deduplication:** before creating a thread, check for existing `(teacherId, guardianId, studentId)` in service layer
+
+---
+
+## Student Creation Flow
+
+When a teacher creates a student, a guardian is required at creation time:
+
+1. Teacher submits: student `firstName`, `lastName`, `level?`, guardian `firstName`, `lastName`, `email`
+2. `createStudent` in `studentService.ts`:
+   - `findOrCreate` guardian `User` by email (deduplicates — email is unique on User)
+   - If new guardian: create `User(role=GUARDIAN, name="firstName lastName")` with no password (they log in later via admin-set credentials)
+   - Create `Student` record
+   - Create `StudentAccess(role=GUARDIAN, instrumentId=null)` for the guardian
+   - Create `StudentAccess(role=TEACHER, instrumentId)` for the creating teacher
+   - All in a single `db.$transaction()`
+
+**Post-MVP:** Replace inline guardian name/email form with a search-first autocomplete (see Task #26).
+
+---
+
+## UI Routes
+
+### Shared
+- `/login`, `/logout`
+- `/403` — forbidden
+- `/not-found` — 404
+- `/error` — 500
+
+### Admin (`requireRole("ADMIN")`)
+- `/admin` → redirect to `/admin/instruments`
+- `/admin/instruments`
+- `/admin/users`
+
+### Teacher (`requireRole("TEACHER")`)
+- `/teacher/setup` — onboarding wizard (name + studioName + bio); shown on first login when profile incomplete
+- `/teacher/students` — roster + recent notes dashboard
+- `/teacher/students/new`
+- `/teacher/students/[studentId]` — student hub (assignments + notes)
+- `/teacher/students/[studentId]/assign`
+- `/teacher/repertoire` — search canonical catalog
+- `/teacher/library` — teacher's saved pieces
+- `/teacher/library/new`
+- `/teacher/messages` — inbox
+- `/teacher/messages/[threadId]`
+
+### Guardian (`requireRole("GUARDIAN")`)
+- `/guardian` — student cards with "Add practice note" CTA
+- `/guardian/students/[studentId]`
+- `/guardian/messages` — inbox
+- `/guardian/messages/[threadId]`
+
+### Student (`requireRole("STUDENT")`)
+- `/student/me` — assignments + notes
+- `/student/messages` — only if `student.canMessage = true`
+- `/student/messages/[threadId]`
+
+---
+
+## Messaging Design
+
+### Overview
+
+Private 1:1 threads between teachers and guardians. Separate from Notes (which are student-progress records visible to all access holders).
+
+### Thread Types
+
+| Type | `studentId` | Who can see |
+|------|-------------|-------------|
+| General | `null` | Teacher + Guardian only |
+| Student-scoped | Student's id | Teacher + Guardian + Student (if `canMessage=true`) |
+
+### Unread Tracking
+
+`MessageThreadReadStatus.lastReadAt` updated when user opens a thread. Unread = `thread.updatedAt > lastReadAt`.
+
+### Service Functions (`src/server/messageService.ts`)
+
+- `findOrCreateThread(teacherId, guardianId, studentId?)` — deduplicates in service layer
+- `sendMessage(authorId, threadId, body)` — validates participant, updates `thread.updatedAt`
+- `listThreadsForUser(userId, role)` — inbox with latest message preview + unread flag
+- `getThreadMessages(threadId, userId, cursor?)` — paginated, marks thread read on fetch
+- `markThreadRead(userId, threadId)` — upserts `MessageThreadReadStatus`
+
+---
+
+## Service Layer
+
+All business logic lives in `src/server/`. Route handlers stay thin.
+
+| Service | File | Status |
+|---------|------|--------|
+| Session helpers | `src/server/session.ts` | ✅ Done |
+| StudentService | `src/server/studentService.ts` | ✅ Done |
+| AccessService | `src/server/accessService.ts` | 🔲 Pending |
+| RepertoireService | `src/server/repertoireService.ts` | 🔲 Pending |
+| AssignmentService | `src/server/assignmentService.ts` | 🔲 Pending |
+| NoteService | `src/server/noteService.ts` | 🔲 Pending |
+| MessageService | `src/server/messageService.ts` | 🔲 Pending |
+
+---
+
+## Error Handling
+
+- `401` → redirect `/login`
+- `403` → `/403` page ("You don't have access")
+- `404` → `app/not-found.tsx`
+- `422` → inline form errors
+- `500` → `app/error.tsx`
+
+---
+
+## Pagination
+
+Notes and messages use cursor-based pagination:
+- Notes: paginate top-level only (`parentId = null`); bundle replies with each parent
+- Messages: paginate by `createdAt` within a thread
+
+---
+
+## Future Extensions
+
+- **Real-time messaging** — current async model (page refresh) is MVP. Post-MVP: upgrade to WebSockets or Server-Sent Events for live message delivery without page refresh.
+- **Guardian search on student creation** — replace inline name/email form with autocomplete that searches existing guardian users first (Task #26)
+- **Email notifications** — notify guardians/teachers of new messages or notes via email
+- **Studio organizations / multi-tenant** — multiple studios, owner billing accounts
+- **Scheduling/calendar** — recurring lessons, cancellation tracking
+- **Practice recordings + AI analysis**
+- **Progress charts and analytics**
+- **CSV/Excel roster import** — teacher uploads spreadsheet, system maps columns and creates students + guardian accounts in bulk
+- **External repertoire APIs** — OpenOpus (classical), MusicBrainz integration; `RepertoireItem.source` + `externalId` fields are already stubbed for this
