@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#3f2d1c",
+                "background-light": "#f7f7f6",
+                "background-dark": "#1d1915",
+              },
+              fontFamily: {
+                "display": ["Manrope"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+      </script>
+<title>Student Dashboard - Refined</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 transition-colors duration-200">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/10 px-6 md:px-20 py-4 bg-white dark:bg-background-dark/50">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-8 flex items-center justify-center rounded-lg bg-primary text-white">
+<span class="material-symbols-outlined">music_note</span>
+</div>
+<h2 class="text-primary dark:text-slate-100 text-xl font-bold leading-tight tracking-tight">Refined</h2>
+</div>
+<div class="flex flex-1 justify-end gap-4 items-center">
+<div class="hidden md:flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-primary/10 text-primary dark:text-slate-100 hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-primary/10 text-primary dark:text-slate-100 hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/20" data-alt="Portrait of student Mia Chen smiling" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBO3B6nLZNanI2bWiKTMGmEfJWIV2dpRMnmL25RsYb7zVEteKMlqjamxW_b4QacO1Gjn6o7v4vtuqr_Qcqm6GJEafMVhMrG8rI9fZPKL6oKJmvY3nsvOH2mFXTo10vv0X3lxLKaI3IbmCcv8Gy_xTC5ITHAkGz9UPDNbOgapQ3-aUcox_SrQTrGWy6ZGNAG6YjOv6igdgSJbuyU9KRw2mnD3yDR-Xe4vfWq2Gz4_GIdALVvlZnn41h7nCKxddI7xD1gZHFSM4jCMkg");'></div>
+</div>
+</header>
+<div class="flex flex-1 flex-col md:flex-row">
+<!-- Sidebar Navigation -->
+<aside class="w-full md:w-64 border-r border-primary/10 bg-white/50 dark:bg-background-dark/20 p-4 space-y-2">
+<div class="flex items-center gap-3 px-3 py-3 rounded-xl bg-primary text-white">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-semibold">Dashboard</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-3 rounded-xl text-primary dark:text-slate-300 hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined">assignment</span>
+<p class="text-sm font-medium">Assignments</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-3 rounded-xl text-primary dark:text-slate-300 hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined">history_edu</span>
+<p class="text-sm font-medium">Practice Log</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-3 rounded-xl text-primary dark:text-slate-300 hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined">forum</span>
+<p class="text-sm font-medium">Messages</p>
+</div>
+<div class="pt-8 px-3">
+<p class="text-xs font-bold text-primary/40 dark:text-slate-500 uppercase tracking-widest">Resources</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-3 rounded-xl text-primary dark:text-slate-300 hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined">library_music</span>
+<p class="text-sm font-medium">Sheet Music</p>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 p-6 md:p-10 space-y-8">
+<!-- Hero Section -->
+<section class="relative overflow-hidden rounded-xl bg-primary p-8 text-white shadow-xl">
+<div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+<div class="flex gap-6 items-center">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-24 border-4 border-white/20" data-alt="Close up portrait of Mia Chen" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCQNT8nhcPPlcbqrQXnAiY5vmcR-sX3QTEFD6po_9Ix6kP4h3T4OcT1lx5jE5CXuA6wj2JpF-CK25t0jdC_c4ug7m0F3ZSThrFSjHQ6KwfR8QVeJJYYIfnwKMac1XURS1Jh_GHqv0nHHUA0pYJ9E_666k9PFWTKjYN5uCNN49wDgXM_T0SxMhn81Ezy2bR0pOzd-AMnWQJi9KQbWKF6unh9Ch0IHX77dSEUH-5CCYTRiOmPoKPHpVf62Wz30NSXdvL0c0MG-WP6iYk");'></div>
+<div>
+<h1 class="text-3xl font-extrabold tracking-tight">Welcome back, Mia!</h1>
+<p class="text-white/80 text-lg mt-1">Violin Student • Intermediate Level</p>
+<div class="flex items-center gap-2 mt-3 bg-white/20 w-fit px-3 py-1 rounded-full text-sm font-bold">
+<span class="material-symbols-outlined text-sm">local_fire_department</span>
+                                    12 Day Practice Streak
+                                </div>
+</div>
+</div>
+<div class="flex flex-col gap-2 w-full md:w-auto">
+<button class="flex items-center justify-center gap-2 rounded-lg h-12 px-6 bg-white text-primary font-bold hover:bg-slate-100 transition-all shadow-md">
+<span class="material-symbols-outlined">add_circle</span>
+                                Log Today's Practice
+                            </button>
+<button class="flex items-center justify-center gap-2 rounded-lg h-12 px-6 bg-primary/40 border border-white/20 text-white font-bold hover:bg-primary/50 transition-all">
+<span class="material-symbols-outlined">chat_bubble</span>
+                                Message Teacher
+                            </button>
+</div>
+</div>
+<!-- Decorative background pattern -->
+<div class="absolute top-0 right-0 h-full w-1/3 opacity-10 pointer-events-none">
+<svg class="h-full w-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0,0 L100,0 L100,100 Z" fill="currentColor"></path>
+</svg>
+</div>
+</section>
+<!-- Stats Overview -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-background-dark border border-primary/10 shadow-sm">
+<p class="text-primary/60 dark:text-slate-400 text-sm font-bold uppercase tracking-wider">Total Practice</p>
+<p class="text-primary dark:text-slate-100 text-3xl font-extrabold">42h 15m</p>
+<div class="h-1 w-full bg-primary/10 rounded-full mt-2 overflow-hidden">
+<div class="h-full bg-primary w-[75%]"></div>
+</div>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-background-dark border border-primary/10 shadow-sm">
+<p class="text-primary/60 dark:text-slate-400 text-sm font-bold uppercase tracking-wider">Lessons Completed</p>
+<p class="text-primary dark:text-slate-100 text-3xl font-extrabold">24</p>
+<p class="text-xs text-green-600 font-bold flex items-center gap-1 mt-2">
+<span class="material-symbols-outlined text-xs">trending_up</span> +2 this month
+                        </p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-background-dark border border-primary/10 shadow-sm">
+<p class="text-primary/60 dark:text-slate-400 text-sm font-bold uppercase tracking-wider">Upcoming Goal</p>
+<p class="text-primary dark:text-slate-100 text-xl font-bold">Spring Recital</p>
+<p class="text-xs text-primary/40 dark:text-slate-500 font-medium mt-2">14 days remaining</p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- My Assignments -->
+<div class="lg:col-span-2 space-y-6">
+<div class="flex items-center justify-between">
+<h2 class="text-2xl font-bold text-primary dark:text-slate-100">My Assignments</h2>
+<div class="flex gap-2">
+<button class="px-4 py-1.5 rounded-full bg-primary text-white text-xs font-bold">Active</button>
+<button class="px-4 py-1.5 rounded-full bg-primary/5 dark:bg-white/5 text-primary/60 dark:text-slate-400 text-xs font-bold hover:bg-primary/10">Completed</button>
+</div>
+</div>
+<div class="space-y-4">
+<!-- Assignment Card -->
+<div class="flex flex-col md:flex-row gap-4 p-5 bg-white dark:bg-background-dark border border-primary/10 rounded-xl hover:shadow-md transition-shadow">
+<div class="h-16 w-16 rounded-lg bg-primary/5 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-3xl">music_note</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-primary dark:text-slate-100 text-lg">Bach: Partita No. 2 in D Minor</h3>
+<p class="text-primary/60 dark:text-slate-400 text-sm">Focus: Allemande (Measures 1-16)</p>
+</div>
+<span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-[10px] font-bold uppercase rounded-full tracking-wider">In Progress</span>
+</div>
+<div class="mt-4 flex flex-wrap items-center gap-6">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary/40">event</span>
+<span class="text-xs font-medium text-primary/60 dark:text-slate-400">Due: May 12</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary/40">schedule</span>
+<span class="text-xs font-medium text-primary/60 dark:text-slate-400">45m Practice Goal</span>
+</div>
+<button class="ml-auto text-primary font-bold text-xs hover:underline">View Sheet Music</button>
+</div>
+</div>
+</div>
+<!-- Assignment Card -->
+<div class="flex flex-col md:flex-row gap-4 p-5 bg-white dark:bg-background-dark border border-primary/10 rounded-xl hover:shadow-md transition-shadow">
+<div class="h-16 w-16 rounded-lg bg-primary/5 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-3xl">exercise</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-primary dark:text-slate-100 text-lg">Scale Exercises: G Major 3 Octaves</h3>
+<p class="text-primary/60 dark:text-slate-400 text-sm">Focus: Intonation and fluid shifting</p>
+</div>
+<span class="px-3 py-1 bg-blue-100 text-blue-800 text-[10px] font-bold uppercase rounded-full tracking-wider">New</span>
+</div>
+<div class="mt-4 flex flex-wrap items-center gap-6">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary/40">event</span>
+<span class="text-xs font-medium text-primary/60 dark:text-slate-400">Due: May 15</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary/40">schedule</span>
+<span class="text-xs font-medium text-primary/60 dark:text-slate-400">15m Daily Warmup</span>
+</div>
+<button class="ml-auto text-primary font-bold text-xs hover:underline">Mark Started</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Practice Notes Feed -->
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<h2 class="text-2xl font-bold text-primary dark:text-slate-100">Practice Notes</h2>
+<button class="text-primary font-bold text-xs hover:underline">View All</button>
+</div>
+<div class="space-y-4">
+<!-- Note Card -->
+<div class="p-5 bg-primary/5 dark:bg-white/5 rounded-xl border-l-4 border-primary space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px] text-primary">person</span>
+</div>
+<p class="text-xs font-bold text-primary dark:text-slate-200">Teacher: Mr. Harrison</p>
+</div>
+<p class="text-[10px] text-primary/40 dark:text-slate-500 font-medium italic">Yesterday</p>
+</div>
+<p class="text-sm text-primary/80 dark:text-slate-300 leading-relaxed italic">
+                                    "Great work on the bow distribution today! Try to keep the pinky more curved when you reach the tip."
+                                </p>
+</div>
+<!-- Note Card -->
+<div class="p-5 bg-primary/5 dark:bg-white/5 rounded-xl border-l-4 border-slate-400 space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-slate-200 flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px] text-slate-600">family_restroom</span>
+</div>
+<p class="text-xs font-bold text-slate-700 dark:text-slate-300">Guardian Note</p>
+</div>
+<p class="text-[10px] text-primary/40 dark:text-slate-500 font-medium italic">2 days ago</p>
+</div>
+<p class="text-sm text-primary/80 dark:text-slate-300 leading-relaxed italic">
+                                    "Mia practiced for 60 minutes today without being asked. Very proud!"
+                                </p>
+</div>
+<!-- Note Card -->
+<div class="p-5 bg-primary/5 dark:bg-white/5 rounded-xl border-l-4 border-primary space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px] text-primary">person</span>
+</div>
+<p class="text-xs font-bold text-primary dark:text-slate-200">Teacher: Mr. Harrison</p>
+</div>
+<p class="text-[10px] text-primary/40 dark:text-slate-500 font-medium italic">May 1st</p>
+</div>
+<p class="text-sm text-primary/80 dark:text-slate-300 leading-relaxed italic">
+                                    "Let's focus on the vibrato exercises we talked about in our next session. Bring your metronome!"
+                                </p>
+</div>
+</div>
+<!-- CTA Card -->
+<div class="mt-8 p-6 rounded-xl bg-primary text-white text-center space-y-3">
+<span class="material-symbols-outlined text-4xl opacity-50">auto_awesome</span>
+<h3 class="font-bold">Next Lesson</h3>
+<p class="text-sm text-white/70">Friday, May 10th at 4:30 PM with Mr. Harrison</p>
+<button class="w-full py-2 bg-white text-primary rounded-lg text-sm font-bold mt-4 hover:bg-slate-100 transition-colors">Confirm Attendance</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</div>
+</body></html>
