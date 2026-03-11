@@ -129,7 +129,7 @@ async function main() {
     update: {},
     create: {
       id: "seed-piece-001",
-      title: "Für Elise",
+      title: "FÃ¼r Elise",
       composer: "Beethoven",
       category: "Classical",
     },
