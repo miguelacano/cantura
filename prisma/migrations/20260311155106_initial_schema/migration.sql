@@ -25,8 +25,10 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Student" (
     "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
+    "firstName" TEXT NOT NULL,
+    "lastName" TEXT NOT NULL,
     "level" TEXT,
+    "canMessage" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -119,6 +121,40 @@ CREATE TABLE "UserStudentLastSeen" (
     CONSTRAINT "UserStudentLastSeen_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "MessageThread" (
+    "id" TEXT NOT NULL,
+    "teacherId" TEXT NOT NULL,
+    "guardianId" TEXT NOT NULL,
+    "studentId" TEXT,
+    "subject" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "MessageThread_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Message" (
+    "id" TEXT NOT NULL,
+    "threadId" TEXT NOT NULL,
+    "authorId" TEXT NOT NULL,
+    "body" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Message_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "MessageThreadReadStatus" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "threadId" TEXT NOT NULL,
+    "lastReadAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "MessageThreadReadStatus_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
@@ -167,6 +203,24 @@ CREATE INDEX "Note_authorId_createdAt_idx" ON "Note"("authorId", "createdAt");
 -- CreateIndex
 CREATE UNIQUE INDEX "UserStudentLastSeen_userId_studentId_key" ON "UserStudentLastSeen"("userId", "studentId");
 
+-- CreateIndex
+CREATE INDEX "MessageThread_teacherId_idx" ON "MessageThread"("teacherId");
+
+-- CreateIndex
+CREATE INDEX "MessageThread_guardianId_idx" ON "MessageThread"("guardianId");
+
+-- CreateIndex
+CREATE INDEX "MessageThread_studentId_idx" ON "MessageThread"("studentId");
+
+-- CreateIndex
+CREATE INDEX "Message_threadId_createdAt_idx" ON "Message"("threadId", "createdAt");
+
+-- CreateIndex
+CREATE INDEX "Message_authorId_idx" ON "Message"("authorId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "MessageThreadReadStatus_userId_threadId_key" ON "MessageThreadReadStatus"("userId", "threadId");
+
 -- AddForeignKey
 ALTER TABLE "StudentAccess" ADD CONSTRAINT "StudentAccess_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -208,3 +262,24 @@ ALTER TABLE "UserStudentLastSeen" ADD CONSTRAINT "UserStudentLastSeen_userId_fke
 
 -- AddForeignKey
 ALTER TABLE "UserStudentLastSeen" ADD CONSTRAINT "UserStudentLastSeen_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MessageThread" ADD CONSTRAINT "MessageThread_teacherId_fkey" FOREIGN KEY ("teacherId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MessageThread" ADD CONSTRAINT "MessageThread_guardianId_fkey" FOREIGN KEY ("guardianId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MessageThread" ADD CONSTRAINT "MessageThread_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Message" ADD CONSTRAINT "Message_threadId_fkey" FOREIGN KEY ("threadId") REFERENCES "MessageThread"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Message" ADD CONSTRAINT "Message_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MessageThreadReadStatus" ADD CONSTRAINT "MessageThreadReadStatus_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MessageThreadReadStatus" ADD CONSTRAINT "MessageThreadReadStatus_threadId_fkey" FOREIGN KEY ("threadId") REFERENCES "MessageThread"("id") ON DELETE CASCADE ON UPDATE CASCADE;

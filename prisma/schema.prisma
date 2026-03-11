@@ -41,6 +41,10 @@ model User {
   notes               Note[]
   teacherLibraryItems TeacherLibraryItem[]
   lastSeen            UserStudentLastSeen[]
+  teacherThreads      MessageThread[]         @relation("TeacherThreads")
+  guardianThreads     MessageThread[]         @relation("GuardianThreads")
+  authoredMessages    Message[]               @relation("MessageAuthor")
+  threadReadStatus    MessageThreadReadStatus[]
 }
 
 model Student {
@@ -48,13 +52,15 @@ model Student {
   firstName   String
   lastName    String
   level       String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  canMessage  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  access      StudentAccess[]
-  assignments StudentAssignment[]
-  notes       Note[]
-  lastSeen    UserStudentLastSeen[]
+  access         StudentAccess[]
+  assignments    StudentAssignment[]
+  notes          Note[]
+  lastSeen       UserStudentLastSeen[]
+  messageThreads MessageThread[]
 }
 
 model Instrument {
@@ -166,4 +172,48 @@ model UserStudentLastSeen {
   seenAt    DateTime @default(now()) @updatedAt
 
   @@unique([userId, studentId])
+}
+
+model MessageThread {
+  id         String   @id @default(cuid())
+  teacherId  String
+  teacher    User     @relation("TeacherThreads", fields: [teacherId], references: [id])
+  guardianId String
+  guardian   User     @relation("GuardianThreads", fields: [guardianId], references: [id])
+  studentId  String?
+  student    Student? @relation(fields: [studentId], references: [id])
+  subject    String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  messages   Message[]
+  readStatus MessageThreadReadStatus[]
+
+  @@index([teacherId])
+  @@index([guardianId])
+  @@index([studentId])
+}
+
+model Message {
+  id        String        @id @default(cuid())
+  threadId  String
+  thread    MessageThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User          @relation("MessageAuthor", fields: [authorId], references: [id])
+  body      String
+  createdAt DateTime      @default(now())
+
+  @@index([threadId, createdAt])
+  @@index([authorId])
+}
+
+model MessageThreadReadStatus {
+  id         String        @id @default(cuid())
+  userId     String
+  user       User          @relation(fields: [userId], references: [id])
+  threadId   String
+  thread     MessageThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  lastReadAt DateTime      @default(now()) @updatedAt
+
+  @@unique([userId, threadId])
 }
