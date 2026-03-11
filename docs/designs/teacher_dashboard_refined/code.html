@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cantura Teacher Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3f2d1c",
+                        "background-light": "#f7f7f6",
+                        "background-dark": "#1d1915",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased">
+<div class="relative flex h-screen w-full flex-col overflow-hidden">
+<!-- Top Header Navigation -->
+<header class="flex h-16 items-center justify-between border-b border-primary/10 bg-white dark:bg-background-dark px-6 z-20">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2 text-primary dark:text-slate-100">
+<span class="material-symbols-outlined text-3xl">music_note</span>
+<h1 class="text-xl font-bold tracking-tight">Cantura</h1>
+</div>
+<div class="hidden md:flex items-center">
+<label class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-primary/50">search</span>
+<input class="h-9 w-64 rounded-lg border-none bg-primary/5 pl-10 text-sm focus:ring-2 focus:ring-primary/20" placeholder="Search students or repertoire..." type="text"/>
+</label>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex h-9 w-9 items-center justify-center rounded-full bg-primary/5 text-primary">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-primary/10">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-semibold leading-none">Ms. Rivera</p>
+<p class="text-xs text-primary/60">Piano Instructor</p>
+</div>
+<div class="h-10 w-10 rounded-full bg-primary/20 bg-cover bg-center border border-primary/10" data-alt="Professional headshot of a female piano teacher" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBwGAvloHpoBD-W8uNszwxx-cTKo_TWXDqE9ro5UsSdb9tIAI0ykR3YqNj_6sPMcWnRzLmKyf9PEQzSCiNJa2Fyu-w94Fe3BrzBX6vJ7T5wBLjNmsFyOLrIJEHkzL0m_zWX1kMlZu-7bBrMNbBXxgeqECKp8Hoimw1WBSWhAPvSalKXolrct0VBVJoG7CnmefqXkHZFDTIyryWRVQJlOPox1CsD17aac9E0qo3MMnumpWxO05-jIsBzWA-gWIYXI4Nx0PXDqkieq-A')">
+</div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-64 flex-col border-r border-primary/10 bg-white dark:bg-background-dark hidden lg:flex">
+<nav class="flex-1 p-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary text-white font-medium" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Overview</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-primary/70 hover:bg-primary/5 transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span>Students</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-primary/70 hover:bg-primary/5 transition-colors" href="#">
+<span class="material-symbols-outlined">library_music</span>
+<span>Repertoire</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-primary/70 hover:bg-primary/5 transition-colors" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span>Library</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-primary/70 hover:bg-primary/5 transition-colors relative" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span>Messages</span>
+<span class="absolute right-4 h-2 w-2 rounded-full bg-primary"></span>
+</a>
+</nav>
+<div class="p-4 border-t border-primary/10">
+<button class="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-bold text-white shadow-sm hover:bg-primary/90 transition-all">
+<span class="material-symbols-outlined text-lg">person_add</span>
+<span>New Student</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto bg-background-light p-6 lg:p-8">
+<div class="max-w-6xl mx-auto space-y-8">
+<!-- Welcome Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="text-3xl font-extrabold text-primary tracking-tight">Today at a Glance</h2>
+<p class="text-primary/60 mt-1">Thursday, October 24th — 4 lessons scheduled</p>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 rounded-lg border border-primary/20 bg-white px-4 py-2 text-sm font-medium text-primary hover:bg-primary/5">
+<span class="material-symbols-outlined text-lg">calendar_month</span>
+                            Full Schedule
+                        </button>
+</div>
+</div>
+<!-- Upcoming Lessons Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Lesson Card 1 -->
+<div class="group relative overflow-hidden rounded-2xl bg-white p-4 shadow-sm border border-primary/5 hover:shadow-md transition-all">
+<div class="flex items-center gap-4 mb-4">
+<div class="h-12 w-12 rounded-xl bg-cover bg-center" data-alt="Portrait of student Leo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCiPrD1EVVsByRMIdiKNMGhqKepm_9FEtvekNLKdxMJzrZOyL5eU59V-X7QmEaQayrWr7CnGUwfKFMGadfiekXdMtzvuzD59IJ0iAgDdTSpneKiuGMaWBTxObID5Aqlfa0QR0P0FUL6BjcCAeQLnthbthEiunsdPymStINL7ytwk-NAmkU8N6HnkunAJ-PolaP1_t84KP-V9Iav62jnBqH-vZSJ6nbG0EUf7GWp41e3GdjNp7I9NCa5Ahnor1WW5_5synw4wrNuZTg')"></div>
+<div>
+<h3 class="font-bold text-primary">Leo H.</h3>
+<p class="text-xs text-primary/60">Piano • Grade 3</p>
+</div>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="inline-flex items-center gap-1 text-primary/80 font-medium">
+<span class="material-symbols-outlined text-base">schedule</span>
+                                09:00 AM
+                            </span>
+<span class="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">In Studio</span>
+</div>
+</div>
+<!-- Lesson Card 2 -->
+<div class="group relative overflow-hidden rounded-2xl bg-white p-4 shadow-sm border border-primary/5 hover:shadow-md transition-all">
+<div class="flex items-center gap-4 mb-4">
+<div class="h-12 w-12 rounded-xl bg-cover bg-center" data-alt="Portrait of student Sofia" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDAcJbb4DZj3s78FOosODA_J_OpX9c2Q5C96YRNuatHs3de8mrBaGsjKuevHcIr1ugsVWuiKGeyEBtMOOxTZYHswT-f55ZSToV62NXtmqOnBH78Y8EdnshuAVUJDF2m9T7WIj05dZuTZB8it2OXkBhHY1afA6509OCeRJaAyRYREzsBAaJV-djyWoVTHSsEWRwGHzf3LFajE2oCtIBn2p482T_SdwpySSAPNl8kwpf_pWIW9qYGZZ_1mHoERRdkTPDb1aYKX9WwzXQ')"></div>
+<div>
+<h3 class="font-bold text-primary">Sofia M.</h3>
+<p class="text-xs text-primary/60">Violin • Beginner</p>
+</div>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="inline-flex items-center gap-1 text-primary/80 font-medium">
+<span class="material-symbols-outlined text-base">videocam</span>
+                                10:30 AM
+                            </span>
+<span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">Online</span>
+</div>
+</div>
+<!-- Lesson Card 3 -->
+<div class="group relative overflow-hidden rounded-2xl bg-white p-4 shadow-sm border border-primary/5 hover:shadow-md transition-all border-l-4 border-l-primary/30">
+<div class="flex items-center gap-4 mb-4">
+<div class="h-12 w-12 rounded-xl bg-cover bg-center" data-alt="Portrait of student Marcus" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCsXvtNBiIXJPOsl24-b1d5AhUB3KjQBendJor9z2AYmFUNH5o_os9LHarAcM-_WrwvFi7qBPKsMRn-VipphalX33xJKoe4Zn-Zue9ykAGsr4uv_r8H7KFC8ESjVnsowu_Wf8jyaTLsSi-0XDo1hLCc-dscZIOIo39BAbCIG-jlfJuID6SRzz_jGGXnkStlkwTwofoDGSai0Pz_M-4a2OOiMMGQe7rVc-EJBKY6X6shkb82l6kQwX2DdZJ-ge1OjpOCiJDB6qE6xcI')"></div>
+<div>
+<h3 class="font-bold text-primary">Marcus K.</h3>
+<p class="text-xs text-primary/60">Cello • Advanced</p>
+</div>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="inline-flex items-center gap-1 text-primary/80 font-medium">
+<span class="material-symbols-outlined text-base">schedule</span>
+                                01:00 PM
+                            </span>
+<span class="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">In Studio</span>
+</div>
+</div>
+<!-- Lesson Card 4 -->
+<div class="group relative overflow-hidden rounded-2xl bg-white p-4 shadow-sm border border-primary/5 hover:shadow-md transition-all">
+<div class="flex items-center gap-4 mb-4">
+<div class="h-12 w-12 rounded-xl bg-cover bg-center" data-alt="Portrait of student Elena" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCUbM43A3rk0WhufSiiwsUIBYFQ4em-9Z6tQWyaKa7P4dPh-pL4bxrR_euJav_Cndf2OuN2LOR9bxgUvSDMlTz5ESGGQ2Oh-T-gu_oll6Vfjk4aU73GOyzIGASVQQ9pXAcvgZfLv5dkjGW4SrgqgJb_hgsLpdGLgbZAECodogFeb8gc_y9enZsOhMICfANaHPs2RnpifvbKIbGkZeYioFGzdXssiVrf36h6UkZf6SNIi-NZJRzA01BXwJT1ku819dgsCjtPquG3Kqo')"></div>
+<div>
+<h3 class="font-bold text-primary">Elena V.</h3>
+<p class="text-xs text-primary/60">Flute • Intermediate</p>
+</div>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="inline-flex items-center gap-1 text-primary/80 font-medium">
+<span class="material-symbols-outlined text-base">schedule</span>
+                                03:30 PM
+                            </span>
+<span class="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">In Studio</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Recent Activity Feed -->
+<div class="lg:col-span-2 space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="text-xl font-bold text-primary">Recent Activity</h3>
+<button class="text-sm font-semibold text-primary/60 hover:text-primary underline">Mark all read</button>
+</div>
+<div class="bg-white rounded-2xl border border-primary/5 shadow-sm overflow-hidden">
+<div class="divide-y divide-primary/5">
+<!-- Activity Item 1 -->
+<div class="flex gap-4 p-5 hover:bg-primary/[0.02] transition-colors">
+<div class="h-10 w-10 shrink-0 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<p class="text-sm font-bold text-primary">New Practice Log</p>
+<span class="text-xs text-primary/40">10m ago</span>
+</div>
+<p class="text-sm text-primary/70 mt-1">Sofia M. submitted her practice hours for "Moonlight Sonata".</p>
+</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="flex gap-4 p-5 hover:bg-primary/[0.02] transition-colors">
+<div class="h-10 w-10 shrink-0 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
+<span class="material-symbols-outlined">chat</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<p class="text-sm font-bold text-primary">Message from Guardian</p>
+<span class="text-xs text-primary/40">2h ago</span>
+</div>
+<p class="text-sm text-primary/70 mt-1">Marcus's mother: "Would it be possible to shift the recital prep to earlier?"</p>
+</div>
+</div>
+<!-- Activity Item 3 -->
+<div class="flex gap-4 p-5 hover:bg-primary/[0.02] transition-colors">
+<div class="h-10 w-10 shrink-0 rounded-full bg-orange-50 flex items-center justify-center text-orange-600">
+<span class="material-symbols-outlined">assignment_turned_in</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<p class="text-sm font-bold text-primary">Assessment Completed</p>
+<span class="text-xs text-primary/40">5h ago</span>
+</div>
+<p class="text-sm text-primary/70 mt-1">Leo H. completed the Theory Module 2 Quiz with 94%.</p>
+</div>
+</div>
+</div>
+<button class="w-full py-4 bg-primary/5 text-sm font-bold text-primary/60 hover:bg-primary/10 transition-colors uppercase tracking-widest">
+                                View Full History
+                            </button>
+</div>
+</div>
+<!-- Priority Students Grid -->
+<div class="space-y-4">
+<h3 class="text-xl font-bold text-primary">Priority Students</h3>
+<div class="grid grid-cols-1 gap-3">
+<!-- Priority Student 1 -->
+<div class="flex items-center gap-4 rounded-2xl bg-white p-4 shadow-sm border border-primary/5 hover:border-primary/20 transition-all">
+<div class="relative">
+<div class="h-12 w-12 rounded-full bg-cover bg-center border-2 border-primary/20" data-alt="Portrait of student Julian" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAGs_axMhB6HYMIcEwlTed8upk8hy11UHICSiwSIOwuHm2-VkJy0g6UMydop6YigRVb-UDvZv1itXO-VxYx_izMcW5-CERilTzNjll1xItQyh5IlrT41HcnsiS3FjfTO5U5q7PLfEyPStgoyY3G4eqfZobFV9AKlAhtvpAhn10TufpK0LslZLIVmfzhg8PKoww6FhSkPNGbOIA9n2aYmX6tCvjOd-rKW4cp9fVHQJZ5Srg1sGYex8TuMN6B7TFQPfFJQc_4bfSIeFs')"></div>
+<span class="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-primary border-2 border-white"></span>
+</div>
+<div class="flex-1">
+<h4 class="text-sm font-bold text-primary leading-none">Julian R.</h4>
+<p class="text-xs text-primary/60 mt-1">Recital in 4 days</p>
+</div>
+<span class="material-symbols-outlined text-primary/30">chevron_right</span>
+</div>
+<!-- Priority Student 2 -->
+<div class="flex items-center gap-4 rounded-2xl bg-white p-4 shadow-sm border border-primary/5 hover:border-primary/20 transition-all">
+<div class="relative">
+<div class="h-12 w-12 rounded-full bg-cover bg-center border-2 border-primary/20" data-alt="Portrait of student Sarah" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAVRG_TORgElNiIGdAfzuODO-hbAOE12QB_gD2ug_w98IrHbAnBDwmzpoyj4b8xSCKGK2UOteX7mP3BwXXLJ9f_h2ORSCBWACtsVDPc0XNk1REgpJ0UaOz3leHzQhM4b8_SkoeaRFcNjgTOtFIJ0QbastEbfWdOlhJ8MQC_E0PiNcEx5ihYDbPNZZDWKAzHCNxODXh6rQD90A5ZeBHoVHit_k6cI2TitJwEUxGTChbDqBJCTkRxntJwR9XBFWSHL4hKOSia9er3bXU')"></div>
+<span class="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-primary border-2 border-white"></span>
+</div>
+<div class="flex-1">
+<h4 class="text-sm font-bold text-primary leading-none">Sarah L.</h4>
+<p class="text-xs text-primary/60 mt-1">3 New Guardian Notes</p>
+</div>
+<span class="material-symbols-outlined text-primary/30">chevron_right</span>
+</div>
+<!-- Priority Student 3 -->
+<div class="flex items-center gap-4 rounded-2xl bg-white p-4 shadow-sm border border-primary/5 hover:border-primary/20 transition-all">
+<div class="relative">
+<div class="h-12 w-12 rounded-full bg-cover bg-center border-2 border-primary/20" data-alt="Portrait of student Mia" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBc2CQSdljRLgadCMky2Nm7WVBy3sAeis7SUX89U0PmOMavHVDSnjLw76AhsNTNf0lWMCMTxLTNnI4y3sOAM0TEmTq9kucks2SuAnH731wR5_do63eCulEWrnN5Ji-34q0E12UB8112DZMLxGb97hU2Ro1I_EQWswUg8HwTEP9aGszpCA1tY5WYUBa1OrqbjgBGQEN1VrmTu9bbaq1zyLpM1ZZZrmwntL5B_FakQsYp9JNR5RJg_pGP-aNSiTTBQUfZKCWY2CJMaCA')"></div>
+<span class="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-primary border-2 border-white"></span>
+</div>
+<div class="flex-1">
+<h4 class="text-sm font-bold text-primary leading-none">Mia T.</h4>
+<p class="text-xs text-primary/60 mt-1">Portfolio Review Due</p>
+</div>
+<span class="material-symbols-outlined text-primary/30">chevron_right</span>
+</div>
+<button class="mt-2 py-3 rounded-xl border-2 border-dashed border-primary/10 text-primary/40 hover:text-primary/60 hover:bg-primary/5 transition-all text-xs font-bold uppercase tracking-widest">
+                                Manage Watchlist
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>
