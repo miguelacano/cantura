@@ -2,7 +2,12 @@
 import { signIn } from "@/lib/auth"
 import { AuthError } from "next-auth"
 
-export async function loginAction(formData: FormData) {
+export type LoginState = { error: string } | undefined
+
+export async function loginAction(
+  _prev: LoginState,
+  formData: FormData
+): Promise<LoginState> {
   try {
     await signIn("credentials", {
       email: formData.get("email"),
