@@ -3,5 +3,5 @@ import { NextResponse } from "next/server"
 
 export async function POST() {
   await signOut({ redirect: false })
-  return NextResponse.redirect(new URL("/login", "http://localhost"))
+  return NextResponse.redirect(new URL("/login", request.url))
 }
