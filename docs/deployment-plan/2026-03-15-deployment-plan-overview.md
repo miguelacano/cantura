@@ -24,6 +24,7 @@
 ### Promotion rule (one-person)
 - Deploy to staging preview on each commit.
 - Promote to production only when release checklist passes.
+- Do not merge while there are unresolved Graphite comments.
 
 ## 3) Why not containers yet
 
@@ -40,6 +41,7 @@ Decision details are kept in: [2026-03-15-container-vs-no-container.md](./2026-0
 ## 5) Pipeline requirements (authoritative)
 
 - Lint, type check, tests, and build must pass before prod promotion.
+- Graphite review must be clean (all comments addressed or intentionally closed).
 - Prisma migration files must exist for all schema changes.
 - All environment variables and secret changes must be documented in this deployment plan before production rollout.
 

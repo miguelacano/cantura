@@ -4,6 +4,10 @@
 
 ## 1) Pre-release checklist
 
+### Code review gate
+- [ ] All Graphite comments are reviewed and resolved.
+- [ ] Optional second reviewer pass complete (if enabled).
+
 ### App health
 - [ ] `pnpm lint` passes
 - [ ] `pnpm test:run` passes
@@ -34,6 +38,7 @@
 
 - All staging checks pass.
 - No unresolved schema or auth regressions.
+- All Graphite comments are resolved.
 - Security-sensitive actions (auth, message/note write paths) pass manual smoke pass.
 - Commit is tagged or logged as release baseline.
 

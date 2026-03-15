@@ -24,9 +24,12 @@
 3. Run DB-dependent tests.
 4. Keep migration lock and seed strategy explicit before merge.
 
-### Stage C: Deployment
-1. If branch is not `main`, publish preview.
-2. If branch is `main`, publish production after checklist pass (manual promotion).
+### Stage C: Review and deployment gate
+1. Confirm Graphite has no unresolved comments.
+2. Confirm all requested blocker comments are addressed.
+3. If a second reviewer exists, require that optional reviewer pass before merge.
+4. If branch is not `main`, publish preview.
+5. If branch is `main`, publish production after checklist pass (manual promotion).
 
 ## 3) Suggested script additions
 
@@ -54,4 +57,5 @@ Add to `cantura/package.json` scripts:
 - All CI jobs pass
 - Migration plan confirmed
 - Runtime env secrets validated in staging
+- Graphite review gate satisfied
 - Smoke checklist completed (see release checklist doc)
