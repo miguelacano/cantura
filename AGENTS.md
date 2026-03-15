@@ -276,3 +276,22 @@ When implementing features:
 6. Maintain production-quality TypeScript.
 
 All changes must align with the product intent and architectural constraints defined above.
+
+# Design-System Workflow (Staff Designer + Atomic Mapping)
+
+For any new design-system or page implementation work using existing full-page mockups:
+
+1. A design decomposition must be produced first by the `staff-product-designer` skill from:
+   - `docs/plans/2026-03-10-component-library-design.md`
+   - `docs/plans/2026-03-10-component-library-plan.md`
+   - `docs/plans/atomic-implementation/2026-03-15-atomic-page-to-atomic-mapping.md`
+2. The design step must output component extraction, component ownership, and per-page reuse mappings.
+3. Coding begins only after design outputs are approved and recorded.
+4. During implementation, new atomic components are added only to `src/design-system/*` and mapped to canonical shared ownership in the mapping doc.
+5. If a requested UI pattern exists as an atom/molecule variant, implement by extending props/states instead of creating page-level one-off components.
+
+This rule is intended to prevent duplicate atomic implementations and keep `staff-product-designer` as the design authority before code changes.
+
+# Documentation Language Policy
+
+Primary language for repository documentation is English. Any new or updated `.md` documentation in this repo should be written in English unless explicitly required by external source material or a regulatory/legal constraint. Keep generated notes, plans, and design handoffs clear and English-first for cross-session readability.
