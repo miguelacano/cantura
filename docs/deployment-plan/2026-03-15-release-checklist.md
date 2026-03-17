@@ -1,4 +1,4 @@
-﻿# Release Checklist and Smoke Validation
+# Release Checklist and Smoke Validation
 
 **Date:** 2026-03-15
 
@@ -10,12 +10,14 @@
 
 ### App health
 - [ ] `pnpm lint` passes
+- [ ] `pnpm stylelint` passes
 - [ ] `pnpm test:run` passes
 - [ ] `pnpm build` passes
 - [ ] `pnpm typecheck` passes (or plan for this step)
+- [ ] `pnpm commitlint` (for PR commit messages) has been honored
 
 ### Data and auth
-- [ ] Migration files reviewed and applied in staging
+- [ ] Migration files reviewed and applied in preview
 - [ ] `DATABASE_URL`, `AUTH_SECRET`, `AUTH_URL` set correctly for environment
 - [ ] Seed or fixture plan confirmed if needed
 
@@ -24,19 +26,19 @@
 - [ ] Redirect from `/` to `/login` is still active
 - [ ] Role-based routes not broken by routing/security regression
 
-## 2) Staging smoke checks
+## 2) Staging smoke checks (run on latest preview URL)
 
-- Open staging URL.
+- Open latest preview URL.
 - Verify:
   - `GET /` redirects to `/login`
   - `GET /login` returns HTTP 200 and render path is functional
   - login flow succeeds for known user
-  - health endpoint returns HTTP 200 (add when implemented)
+  - `GET /api/health` returns HTTP 200
   - no critical client/server console/runtime errors in first use path
 
 ## 3) Production release criteria
 
-- All staging checks pass.
+- All preview checks pass.
 - No unresolved schema or auth regressions.
 - All Graphite comments are resolved.
 - Security-sensitive actions (auth, message/note write paths) pass manual smoke pass.
