@@ -1,0 +1,50 @@
+name: Seed Database
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Target environment for seeding"
+        required: true
+        type: choice
+        options:
+          - preview
+          - production
+      run_migrations:
+        description: "Run prisma migrate deploy before seeding"
+        required: false
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+
+jobs:
+  seed:
+    name: Seed ${{ inputs.environment }} database
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+      AUTH_URL: ${{ secrets.AUTH_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Prisma generate
+        run: pnpm db:generate
+      - name: Apply migrations
+        if: github.event.inputs.run_migrations == 'true'
+        run: pnpm db:migrate:deploy
+      - name: Seed database
+        run: pnpm db:seed

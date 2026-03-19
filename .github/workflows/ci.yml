@@ -1,0 +1,85 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    env:
+      # CI intentionally uses an isolated ephemeral Postgres instance.
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/cantura
+      AUTH_SECRET: test-ci-secret
+      AUTH_URL: http://localhost:3000
+      VERCEL_TELEMETRY_DISABLED: 1
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: cantura
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+        ports:
+          - 5432:5432
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.29.3
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Prisma generate
+        run: pnpm db:generate
+      - name: Apply migrations
+        run: pnpm db:migrate:deploy
+      - name: Lint
+        run: pnpm lint
+      - name: Style lint
+        run: pnpm stylelint
+      - name: Commit message lint
+        if: github.event_name == 'pull_request'
+        run: pnpm commitlint --from="${{ github.event.pull_request.base.sha }}" --to="${{ github.sha }}"
+      - name: Run tests
+        run: pnpm test:run
+      - name: Type check
+        run: pnpm typecheck
+      - name: Pull Vercel environment
+        run: pnpm vercel pull --yes --environment=${{ github.event_name == 'pull_request' && 'preview' || 'production' }} --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Build
+        run: pnpm vercel build ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Deploy to Vercel (preview | pr)
+        if: github.event_name == 'pull_request'
+        run: pnpm vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Deploy to Vercel (production)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: pnpm vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}

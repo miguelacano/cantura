@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "mcp__github__pull_request_read"
+      "mcp__github__pull_request_read",
+      "mcp__vercel__get_deployment_build_logs",
+      "mcp__vercel__list_deployments"
     ]
   }
 }

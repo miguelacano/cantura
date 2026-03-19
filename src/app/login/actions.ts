@@ -1,8 +1,8 @@
-"use server"
-import { signIn } from "@/lib/auth"
-import { AuthError } from "next-auth"
+"use server";
+import { signIn } from "@/lib/auth";
+import { AuthError } from "next-auth";
 
-export type LoginState = { error: string } | undefined
+export type LoginState = { error: string } | undefined;
 
 export async function loginAction(
   _prev: LoginState,
@@ -13,11 +13,11 @@ export async function loginAction(
       email: formData.get("email"),
       password: formData.get("password"),
       redirectTo: "/",
-    })
+    });
   } catch (error) {
     if (error instanceof AuthError) {
-      return { error: "Invalid email or password" }
+      return { error: "Invalid email or password" };
     }
-    throw error
+    throw error;
   }
 }

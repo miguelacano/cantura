@@ -20,7 +20,7 @@ export function fullName(s: { firstName: string; lastName: string }) {
 
 export async function createStudent(
   teacherId: string,
-  input: CreateStudentInput,
+  input: CreateStudentInput
 ) {
   const data = CreateStudentSchema.parse(input);
 
@@ -121,7 +121,7 @@ export async function listStudentsForGuardianWithTeachers(guardianId: string) {
 
 export async function listRecentNotesAcrossStudents(
   teacherId: string,
-  limit = 5,
+  limit = 5
 ) {
   const accesses = await db.studentAccess.findMany({
     where: { userId: teacherId, role: "TEACHER" },

@@ -10,6 +10,7 @@ async function main() {
   const hash = (pw: string) => bcrypt.hashSync(pw, 10);
 
   // Users
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const admin = await db.user.upsert({
     where: { email: "admin@cantura.dev" },
     update: {},

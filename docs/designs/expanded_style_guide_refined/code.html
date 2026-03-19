@@ -1,290 +1,560 @@
-<html><head><meta charset="utf-8"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-  tailwind.config = {
-    darkMode: "class",
-    theme: {
-      extend: {
-        colors: {
-          "primary": "#3f2d1c",
-          "background-light": "#f7f7f6",
-          "background-dark": "#1d1915",
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#3f2d1c",
+              "background-light": "#f7f7f6",
+              "background-dark": "#1d1915",
+            },
+            fontFamily: {
+              display: ["Manrope"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
         },
-        fontFamily: {
-          "display": ["Manrope"]
-        },
-        borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-      },
-    },
-  }
-</script>
-<style>
-  .material-symbols-outlined {
-    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-    vertical-align: middle;
-  }
-  body {
-    font-family: 'Manrope', sans-serif;
-  }
-</style>
-</head><body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
-<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
-<div class="layout-container flex h-full grow flex-col">
-<!-- Top Navigation Bar -->
-<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/10 px-10 py-4 bg-background-light dark:bg-background-dark sticky top-0 z-50">
-<div class="flex items-center gap-8">
-<div class="flex items-center gap-4 text-primary">
-<div class="size-6 bg-primary rounded flex items-center justify-center">
-<span class="material-symbols-outlined text-white">architecture</span>
-</div>
-<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">Refined Design System</h2>
-</div>
-<div class="flex items-center gap-8">
-<a class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors" href="#atoms">Atoms</a>
-<a class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors" href="#molecules">Molecules</a>
-<a class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors" href="#organisms">Organisms</a>
-</div>
-</div>
-<div class="flex flex-1 justify-end gap-6">
-<label class="flex flex-col min-w-40 h-10 max-w-64">
-<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-primary/5 dark:bg-primary/20">
-<div class="text-primary/60 flex items-center justify-center pl-4 rounded-l-lg">
-<span class="material-symbols-outlined">search</span>
-</div>
-<input class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:ring-0 h-full placeholder:text-primary/40 px-4 text-base font-normal" placeholder="Search components..." value=""/>
-</div>
-</label>
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ring-2 ring-primary/10" data-alt="User profile avatar portrait" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCh35Vn1hhdkAjXL4uCZTaXhMx_LsMD0OKsZABtU8K4_RhBCRkCEHf9qLSx4GR8Hq_8ZRdVrZsUEenObNjRXhSnKVaTnagAqO8OHu1a1ZAmx6-6pbg6WmUdgTaL9XxHNxkdwEJ6Kop0niV42ydURp0wrpC6fn0T_P06ArySh8aeaX2BIXMr3jCFfvKCKDSuoNl3kbqoeoNwxH2S_snGl1E_yWN-9OEhn0JEmlkswCqPdL8jycSyL-ejIgW_fperpoM1QAt97uh_6xI");'></div>
-</div>
-</header>
-<div class="flex flex-1">
-<!-- Navigation Sidebar Molecule -->
-<aside class="w-72 border-r border-primary/10 p-6 flex flex-col justify-between hidden lg:flex">
-<div class="flex flex-col gap-8">
-<div class="flex gap-3 items-center">
-<div class="bg-primary/10 rounded-full size-10 flex items-center justify-center">
-<span class="material-symbols-outlined text-primary">auto_awesome</span>
-</div>
-<div class="flex flex-col">
-<h1 class="text-slate-900 dark:text-slate-100 text-sm font-bold leading-none">Refined Admin</h1>
-<p class="text-primary/60 text-xs font-medium mt-1">Version 2.4.0</p>
-</div>
-</div>
-<nav class="flex flex-col gap-1">
-<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary text-white shadow-sm">
-<span class="material-symbols-outlined">dashboard</span>
-<p class="text-sm font-semibold">Dashboard</p>
-</div>
-<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-primary/5 transition-colors cursor-pointer">
-<span class="material-symbols-outlined">folder</span>
-<p class="text-sm font-medium">Projects</p>
-</div>
-<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-primary/5 transition-colors cursor-pointer">
-<span class="material-symbols-outlined">chat</span>
-<p class="text-sm font-medium">Messages</p>
-<span class="ml-auto bg-primary/10 text-primary text-[10px] font-bold px-1.5 py-0.5 rounded-full">12</span>
-</div>
-<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-primary/5 transition-colors cursor-pointer">
-<span class="material-symbols-outlined">image</span>
-<p class="text-sm font-medium">Assets</p>
-</div>
-<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-primary/5 transition-colors cursor-pointer">
-<span class="material-symbols-outlined">settings</span>
-<p class="text-sm font-medium">Settings</p>
-</div>
-</nav>
-</div>
-<div class="flex flex-col gap-4">
-<div class="bg-primary/5 dark:bg-primary/10 p-4 rounded-xl">
-<p class="text-xs font-bold text-primary uppercase tracking-wider mb-2">Usage</p>
-<div class="w-full bg-primary/10 rounded-full h-1.5 mb-2">
-<div class="bg-primary h-1.5 rounded-full" style="width: 75%"></div>
-</div>
-<p class="text-[11px] text-slate-500">75% of storage used</p>
-</div>
-<button class="w-full py-3 px-4 bg-primary text-white rounded-lg text-sm font-bold shadow-md hover:opacity-90 transition-opacity">
-            Upgrade Plan
-          </button>
-</div>
-</aside>
-<!-- Main Content Area -->
-<main class="flex-1 p-8 md:p-12 overflow-y-auto max-w-5xl mx-auto">
-<!-- Header Section -->
-<section class="mb-16">
-<div class="flex flex-col gap-3">
-<p class="text-primary font-bold text-sm uppercase tracking-[0.2em]">Components Library</p>
-<h1 class="text-slate-900 dark:text-slate-100 text-5xl font-black leading-tight tracking-tighter">Expanded UI Guide</h1>
-<p class="text-slate-600 dark:text-slate-400 text-lg max-w-2xl">A curated collection of design tokens, atoms, and molecules following the Refined aesthetic.</p>
-</div>
-</section>
-<!-- Section 1: Forms & Controls -->
-<section class="mb-20" id="atoms">
-<div class="flex items-center gap-4 mb-8">
-<div class="h-px grow bg-primary/10"></div>
-<h3 class="text-primary font-bold text-lg px-4 italic">01. Forms &amp; Controls</h3>
-<div class="h-px grow bg-primary/10"></div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-<div class="flex flex-col gap-6">
-<div class="flex flex-col gap-2">
-<label class="text-sm font-bold text-slate-700 dark:text-slate-300">Username</label>
-<input class="w-full px-4 py-3 rounded-lg border border-primary/20 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-slate-400" placeholder="Enter your handle" type="text"/>
-</div>
-<div class="flex flex-col gap-2">
-<label class="text-sm font-bold text-slate-700 dark:text-slate-300">Category</label>
-<div class="relative">
-<select class="w-full px-4 py-3 rounded-lg border border-primary/20 bg-white dark:bg-slate-800 appearance-none focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all">
-<option>Product Design</option>
-<option>Branding</option>
-<option>UI Development</option>
-</select>
-<span class="material-symbols-outlined absolute right-3 top-3.5 text-slate-400 pointer-events-none">unfold_more</span>
-</div>
-</div>
-</div>
-<div class="flex flex-col gap-8 justify-center">
-<div class="flex items-center justify-between p-4 rounded-xl border border-primary/10 bg-primary/5">
-<div class="flex flex-col">
-<span class="text-sm font-bold text-slate-800 dark:text-slate-200">Email Notifications</span>
-<span class="text-xs text-slate-500">Receive weekly digests</span>
-</div>
-<label class="relative inline-flex items-center cursor-pointer">
-<input checked="" class="sr-only peer" type="checkbox"/>
-<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
-</label>
-</div>
-<div class="flex items-center justify-between p-4 rounded-xl border border-primary/10 bg-primary/5">
-<div class="flex flex-col">
-<span class="text-sm font-bold text-slate-800 dark:text-slate-200">Public Profile</span>
-<span class="text-xs text-slate-500">Make profile visible to all</span>
-</div>
-<label class="relative inline-flex items-center cursor-pointer">
-<input class="sr-only peer" type="checkbox"/>
-<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
-</label>
-</div>
-</div>
-</div>
-</section>
-<!-- Section 2: Communication -->
-<section class="mb-20" id="molecules">
-<div class="flex items-center gap-4 mb-8">
-<div class="h-px grow bg-primary/10"></div>
-<h3 class="text-primary font-bold text-lg px-4 italic">02. Communication</h3>
-<div class="h-px grow bg-primary/10"></div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-<!-- Messaging Bubble -->
-<div class="flex flex-col gap-6">
-<div class="flex items-end gap-3 max-w-[80%]">
-<div class="size-8 rounded-full bg-slate-200 shrink-0 overflow-hidden" data-alt="Recipient avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDrSjljFstXTqWMps8stvTQ6CW80rCKuUjjQ2qktsolZB4rCziLOWCUPR6rLz88saxkfvMmifQUzGS5sBjBFpFp7MCIfbhxv3ED1QnznpX7srTiGGb8h5Td8C7R7xl5-C-zjwyQDJk7SA6uKVdRUGYd1RvGsStUXH_yu_1n-A45D-G7uQIsQxzhSXx80xso4Iyh_pMp3uPqa7dXi1A6k45zXcDroo7whD6DTG-3zdmDclo8EDD_H6Q1HEIBwy9IMTF665NJjUzmjDY");'></div>
-<div class="bg-white dark:bg-slate-800 p-4 rounded-2xl rounded-bl-none border border-primary/5 shadow-sm">
-<p class="text-sm text-slate-700 dark:text-slate-300">Hey! Did you get a chance to look at the new brand guidelines? They're finally ready for review.</p>
-<p class="text-[10px] text-slate-400 mt-2 font-bold uppercase tracking-widest text-right">09:42 AM</p>
-</div>
-</div>
-<div class="flex items-end gap-3 max-w-[80%] self-end flex-row-reverse">
-<div class="size-8 rounded-full bg-primary shrink-0 flex items-center justify-center text-white text-[10px] font-bold">ME</div>
-<div class="bg-primary text-white p-4 rounded-2xl rounded-br-none shadow-md">
-<p class="text-sm">Just opening them now. The typography choices look very sophisticated. Love the focus on legibility!</p>
-<p class="text-[10px] text-white/60 mt-2 font-bold uppercase tracking-widest text-right">09:45 AM</p>
-</div>
-</div>
-</div>
-<!-- Practice Note Card -->
-<div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-primary/10 shadow-lg relative overflow-hidden group">
-<div class="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full -mr-12 -mt-12 transition-transform group-hover:scale-110"></div>
-<div class="flex items-center gap-4 mb-4">
-<div class="size-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined">edit_note</span>
-</div>
-<div>
-<h4 class="text-base font-bold text-slate-900 dark:text-slate-100 leading-tight">Project Status Note</h4>
-<p class="text-xs text-primary font-medium">Updated 2 hours ago</p>
-</div>
-</div>
-<p class="text-sm text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
-                Remember to verify the color contrast ratios for the new "Earthy" palette. We need to ensure AA compliance for all primary call-to-actions.
-              </p>
-<div class="flex items-center justify-between border-t border-primary/5 pt-4">
-<div class="flex -space-x-2">
-<div class="size-6 rounded-full border-2 border-white dark:border-slate-800 bg-slate-300" data-alt="Collaborator avatar 1" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCJj4tLSZaJvPV0rMjaZ4idikDukKVYHm04PpacdV_zziqw8H6f_8q36uPECQRFxwZjfGs81N2j_zQ4ER1JSvBvMy3lSUKJHNiuIXnd6AV3_RyJngzW67vbqid9g4z7HvRVtcGOprHPF0EfganrqIBanvUMOfcNcUc6hQSLPKWi5n7z6z1-m5qEen_HkmyRJJT-RBVMavNkuf-KsgojCDAgrhQWnYwpIpDb1ExOUhaP2fYZLe_hLdvcH6HuAvufaVJGmxPB9MG3bcc");'></div>
-<div class="size-6 rounded-full border-2 border-white dark:border-slate-800 bg-slate-300" data-alt="Collaborator avatar 2" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBfcR4NIwGD81l84lnkQJiqlJLo3e1jUI534k853rnqivvwfSuXqumsdK20WmMIabxRdEj0A_BwS1IGV2BcaQirV5G4XjIOK8g5-5lJaqKEdePVHIhOSm1SaVhXuTiqv8GmpLiKbfzY5kaokMDf2bxAjEUtL-RdaXnOTjtbfSsjkxVu7aIHMgdlNEzbLQhXvyv1l7-QX2Y2yvpZGsRsuH08BFzJl-nWz6BGtHSceRmh0cnh7Yy93IOh0MoCYGh_xFfV9LkpPkVf3pY");'></div>
-<div class="size-6 rounded-full border-2 border-white dark:border-slate-800 bg-primary flex items-center justify-center text-[8px] text-white font-bold">+3</div>
-</div>
-<button class="text-xs font-bold text-primary flex items-center gap-1 hover:underline">
-                  Add Comment <span class="material-symbols-outlined text-sm">arrow_forward</span>
-</button>
-</div>
-</div>
-</div>
-</section>
-<!-- Section 3: Navigation Elements -->
-<section class="mb-20" id="organisms">
-<div class="flex items-center gap-4 mb-8">
-<div class="h-px grow bg-primary/10"></div>
-<h3 class="text-primary font-bold text-lg px-4 italic">03. Navigation Details</h3>
-<div class="h-px grow bg-primary/10"></div>
-</div>
-<div class="bg-white dark:bg-slate-800 p-8 rounded-3xl border border-primary/10 shadow-sm">
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-<!-- Menu Item 1 -->
-<div class="flex flex-col gap-4 p-5 rounded-2xl hover:bg-primary/5 transition-colors cursor-pointer group">
-<div class="size-12 rounded-xl bg-primary flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined">insights</span>
-</div>
-<div>
-<h5 class="font-bold text-slate-900 dark:text-slate-100">Analytics</h5>
-<p class="text-xs text-slate-500 mt-1">Deep dive into data</p>
-</div>
-</div>
-<!-- Menu Item 2 -->
-<div class="flex flex-col gap-4 p-5 rounded-2xl hover:bg-primary/5 transition-colors cursor-pointer group">
-<div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined">inventory_2</span>
-</div>
-<div>
-<h5 class="font-bold text-slate-900 dark:text-slate-100">Inventory</h5>
-<p class="text-xs text-slate-500 mt-1">Stock and supply tracking</p>
-</div>
-</div>
-<!-- Menu Item 3 -->
-<div class="flex flex-col gap-4 p-5 rounded-2xl hover:bg-primary/5 transition-colors cursor-pointer group">
-<div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined">groups</span>
-</div>
-<div>
-<h5 class="font-bold text-slate-900 dark:text-slate-100">Team Management</h5>
-<p class="text-xs text-slate-500 mt-1">Roles and permissions</p>
-</div>
-</div>
-<!-- Menu Item 4 -->
-<div class="flex flex-col gap-4 p-5 rounded-2xl hover:bg-primary/5 transition-colors cursor-pointer group">
-<div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined">campaign</span>
-</div>
-<div>
-<h5 class="font-bold text-slate-900 dark:text-slate-100">Marketing</h5>
-<p class="text-xs text-slate-500 mt-1">Campaign performance</p>
-</div>
-</div>
-</div>
-</div>
-</section>
-</main>
-</div>
-<!-- Footer Atoms -->
-<footer class="p-8 border-t border-primary/10 bg-background-light dark:bg-background-dark flex flex-col items-center gap-4">
-<div class="flex gap-6">
-<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer">social_leaderboard</span>
-<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer">alternate_email</span>
-<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer">share</span>
-</div>
-<p class="text-slate-400 text-[11px] font-medium tracking-widest uppercase">© 2024 Refined Style Guide • Crafted with Precision</p>
-</footer>
-</div>
-</div>
-</body></html>
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+        vertical-align: middle;
+      }
+      body {
+        font-family: "Manrope", sans-serif;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display"
+  >
+    <div
+      class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden"
+    >
+      <div class="layout-container flex h-full grow flex-col">
+        <!-- Top Navigation Bar -->
+        <header
+          class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/10 px-10 py-4 bg-background-light dark:bg-background-dark sticky top-0 z-50"
+        >
+          <div class="flex items-center gap-8">
+            <div class="flex items-center gap-4 text-primary">
+              <div
+                class="size-6 bg-primary rounded flex items-center justify-center"
+              >
+                <span class="material-symbols-outlined text-white"
+                  >architecture</span
+                >
+              </div>
+              <h2
+                class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight"
+              >
+                Refined Design System
+              </h2>
+            </div>
+            <div class="flex items-center gap-8">
+              <a
+                class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors"
+                href="#atoms"
+                >Atoms</a
+              >
+              <a
+                class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors"
+                href="#molecules"
+                >Molecules</a
+              >
+              <a
+                class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors"
+                href="#organisms"
+                >Organisms</a
+              >
+            </div>
+          </div>
+          <div class="flex flex-1 justify-end gap-6">
+            <label class="flex flex-col min-w-40 h-10 max-w-64">
+              <div
+                class="flex w-full flex-1 items-stretch rounded-lg h-full bg-primary/5 dark:bg-primary/20"
+              >
+                <div
+                  class="text-primary/60 flex items-center justify-center pl-4 rounded-l-lg"
+                >
+                  <span class="material-symbols-outlined">search</span>
+                </div>
+                <input
+                  class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:ring-0 h-full placeholder:text-primary/40 px-4 text-base font-normal"
+                  placeholder="Search components..."
+                  value=""
+                />
+              </div>
+            </label>
+            <div
+              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ring-2 ring-primary/10"
+              data-alt="User profile avatar portrait"
+              style="
+                background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuCh35Vn1hhdkAjXL4uCZTaXhMx_LsMD0OKsZABtU8K4_RhBCRkCEHf9qLSx4GR8Hq_8ZRdVrZsUEenObNjRXhSnKVaTnagAqO8OHu1a1ZAmx6-6pbg6WmUdgTaL9XxHNxkdwEJ6Kop0niV42ydURp0wrpC6fn0T_P06ArySh8aeaX2BIXMr3jCFfvKCKDSuoNl3kbqoeoNwxH2S_snGl1E_yWN-9OEhn0JEmlkswCqPdL8jycSyL-ejIgW_fperpoM1QAt97uh_6xI&quot;);
+              "
+            ></div>
+          </div>
+        </header>
+        <div class="flex flex-1">
+          <!-- Navigation Sidebar Molecule -->
+          <aside
+            class="w-72 border-r border-primary/10 p-6 flex flex-col justify-between hidden lg:flex"
+          >
+            <div class="flex flex-col gap-8">
+              <div class="flex gap-3 items-center">
+                <div
+                  class="bg-primary/10 rounded-full size-10 flex items-center justify-center"
+                >
+                  <span class="material-symbols-outlined text-primary"
+                    >auto_awesome</span
+                  >
+                </div>
+                <div class="flex flex-col">
+                  <h1
+                    class="text-slate-900 dark:text-slate-100 text-sm font-bold leading-none"
+                  >
+                    Refined Admin
+                  </h1>
+                  <p class="text-primary/60 text-xs font-medium mt-1">
+                    Version 2.4.0
+                  </p>
+                </div>
+              </div>
+              <nav class="flex flex-col gap-1">
+                <div
+                  class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary text-white shadow-sm"
+                >
+                  <span class="material-symbols-outlined">dashboard</span>
+                  <p class="text-sm font-semibold">Dashboard</p>
+                </div>
+                <div
+                  class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-primary/5 transition-colors cursor-pointer"
+                >
+                  <span class="material-symbols-outlined">folder</span>
+                  <p class="text-sm font-medium">Projects</p>
+                </div>
+                <div
+                  class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-primary/5 transition-colors cursor-pointer"
+                >
+                  <span class="material-symbols-outlined">chat</span>
+                  <p class="text-sm font-medium">Messages</p>
+                  <span
+                    class="ml-auto bg-primary/10 text-primary text-[10px] font-bold px-1.5 py-0.5 rounded-full"
+                    >12</span
+                  >
+                </div>
+                <div
+                  class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-primary/5 transition-colors cursor-pointer"
+                >
+                  <span class="material-symbols-outlined">image</span>
+                  <p class="text-sm font-medium">Assets</p>
+                </div>
+                <div
+                  class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-primary/5 transition-colors cursor-pointer"
+                >
+                  <span class="material-symbols-outlined">settings</span>
+                  <p class="text-sm font-medium">Settings</p>
+                </div>
+              </nav>
+            </div>
+            <div class="flex flex-col gap-4">
+              <div class="bg-primary/5 dark:bg-primary/10 p-4 rounded-xl">
+                <p
+                  class="text-xs font-bold text-primary uppercase tracking-wider mb-2"
+                >
+                  Usage
+                </p>
+                <div class="w-full bg-primary/10 rounded-full h-1.5 mb-2">
+                  <div
+                    class="bg-primary h-1.5 rounded-full"
+                    style="width: 75%"
+                  ></div>
+                </div>
+                <p class="text-[11px] text-slate-500">75% of storage used</p>
+              </div>
+              <button
+                class="w-full py-3 px-4 bg-primary text-white rounded-lg text-sm font-bold shadow-md hover:opacity-90 transition-opacity"
+              >
+                Upgrade Plan
+              </button>
+            </div>
+          </aside>
+          <!-- Main Content Area -->
+          <main class="flex-1 p-8 md:p-12 overflow-y-auto max-w-5xl mx-auto">
+            <!-- Header Section -->
+            <section class="mb-16">
+              <div class="flex flex-col gap-3">
+                <p
+                  class="text-primary font-bold text-sm uppercase tracking-[0.2em]"
+                >
+                  Components Library
+                </p>
+                <h1
+                  class="text-slate-900 dark:text-slate-100 text-5xl font-black leading-tight tracking-tighter"
+                >
+                  Expanded UI Guide
+                </h1>
+                <p class="text-slate-600 dark:text-slate-400 text-lg max-w-2xl">
+                  A curated collection of design tokens, atoms, and molecules
+                  following the Refined aesthetic.
+                </p>
+              </div>
+            </section>
+            <!-- Section 1: Forms & Controls -->
+            <section class="mb-20" id="atoms">
+              <div class="flex items-center gap-4 mb-8">
+                <div class="h-px grow bg-primary/10"></div>
+                <h3 class="text-primary font-bold text-lg px-4 italic">
+                  01. Forms &amp; Controls
+                </h3>
+                <div class="h-px grow bg-primary/10"></div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="flex flex-col gap-6">
+                  <div class="flex flex-col gap-2">
+                    <label
+                      class="text-sm font-bold text-slate-700 dark:text-slate-300"
+                      >Username</label
+                    >
+                    <input
+                      class="w-full px-4 py-3 rounded-lg border border-primary/20 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-slate-400"
+                      placeholder="Enter your handle"
+                      type="text"
+                    />
+                  </div>
+                  <div class="flex flex-col gap-2">
+                    <label
+                      class="text-sm font-bold text-slate-700 dark:text-slate-300"
+                      >Category</label
+                    >
+                    <div class="relative">
+                      <select
+                        class="w-full px-4 py-3 rounded-lg border border-primary/20 bg-white dark:bg-slate-800 appearance-none focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                      >
+                        <option>Product Design</option>
+                        <option>Branding</option>
+                        <option>UI Development</option>
+                      </select>
+                      <span
+                        class="material-symbols-outlined absolute right-3 top-3.5 text-slate-400 pointer-events-none"
+                        >unfold_more</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-8 justify-center">
+                  <div
+                    class="flex items-center justify-between p-4 rounded-xl border border-primary/10 bg-primary/5"
+                  >
+                    <div class="flex flex-col">
+                      <span
+                        class="text-sm font-bold text-slate-800 dark:text-slate-200"
+                        >Email Notifications</span
+                      >
+                      <span class="text-xs text-slate-500"
+                        >Receive weekly digests</span
+                      >
+                    </div>
+                    <label
+                      class="relative inline-flex items-center cursor-pointer"
+                    >
+                      <input checked="" class="sr-only peer" type="checkbox" />
+                      <div
+                        class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"
+                      ></div>
+                    </label>
+                  </div>
+                  <div
+                    class="flex items-center justify-between p-4 rounded-xl border border-primary/10 bg-primary/5"
+                  >
+                    <div class="flex flex-col">
+                      <span
+                        class="text-sm font-bold text-slate-800 dark:text-slate-200"
+                        >Public Profile</span
+                      >
+                      <span class="text-xs text-slate-500"
+                        >Make profile visible to all</span
+                      >
+                    </div>
+                    <label
+                      class="relative inline-flex items-center cursor-pointer"
+                    >
+                      <input class="sr-only peer" type="checkbox" />
+                      <div
+                        class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"
+                      ></div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- Section 2: Communication -->
+            <section class="mb-20" id="molecules">
+              <div class="flex items-center gap-4 mb-8">
+                <div class="h-px grow bg-primary/10"></div>
+                <h3 class="text-primary font-bold text-lg px-4 italic">
+                  02. Communication
+                </h3>
+                <div class="h-px grow bg-primary/10"></div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Messaging Bubble -->
+                <div class="flex flex-col gap-6">
+                  <div class="flex items-end gap-3 max-w-[80%]">
+                    <div
+                      class="size-8 rounded-full bg-slate-200 shrink-0 overflow-hidden"
+                      data-alt="Recipient avatar"
+                      style="
+                        background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuDrSjljFstXTqWMps8stvTQ6CW80rCKuUjjQ2qktsolZB4rCziLOWCUPR6rLz88saxkfvMmifQUzGS5sBjBFpFp7MCIfbhxv3ED1QnznpX7srTiGGb8h5Td8C7R7xl5-C-zjwyQDJk7SA6uKVdRUGYd1RvGsStUXH_yu_1n-A45D-G7uQIsQxzhSXx80xso4Iyh_pMp3uPqa7dXi1A6k45zXcDroo7whD6DTG-3zdmDclo8EDD_H6Q1HEIBwy9IMTF665NJjUzmjDY&quot;);
+                      "
+                    ></div>
+                    <div
+                      class="bg-white dark:bg-slate-800 p-4 rounded-2xl rounded-bl-none border border-primary/5 shadow-sm"
+                    >
+                      <p class="text-sm text-slate-700 dark:text-slate-300">
+                        Hey! Did you get a chance to look at the new brand
+                        guidelines? They're finally ready for review.
+                      </p>
+                      <p
+                        class="text-[10px] text-slate-400 mt-2 font-bold uppercase tracking-widest text-right"
+                      >
+                        09:42 AM
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-end gap-3 max-w-[80%] self-end flex-row-reverse"
+                  >
+                    <div
+                      class="size-8 rounded-full bg-primary shrink-0 flex items-center justify-center text-white text-[10px] font-bold"
+                    >
+                      ME
+                    </div>
+                    <div
+                      class="bg-primary text-white p-4 rounded-2xl rounded-br-none shadow-md"
+                    >
+                      <p class="text-sm">
+                        Just opening them now. The typography choices look very
+                        sophisticated. Love the focus on legibility!
+                      </p>
+                      <p
+                        class="text-[10px] text-white/60 mt-2 font-bold uppercase tracking-widest text-right"
+                      >
+                        09:45 AM
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <!-- Practice Note Card -->
+                <div
+                  class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-primary/10 shadow-lg relative overflow-hidden group"
+                >
+                  <div
+                    class="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full -mr-12 -mt-12 transition-transform group-hover:scale-110"
+                  ></div>
+                  <div class="flex items-center gap-4 mb-4">
+                    <div
+                      class="size-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary"
+                    >
+                      <span class="material-symbols-outlined">edit_note</span>
+                    </div>
+                    <div>
+                      <h4
+                        class="text-base font-bold text-slate-900 dark:text-slate-100 leading-tight"
+                      >
+                        Project Status Note
+                      </h4>
+                      <p class="text-xs text-primary font-medium">
+                        Updated 2 hours ago
+                      </p>
+                    </div>
+                  </div>
+                  <p
+                    class="text-sm text-slate-600 dark:text-slate-400 mb-6 leading-relaxed"
+                  >
+                    Remember to verify the color contrast ratios for the new
+                    "Earthy" palette. We need to ensure AA compliance for all
+                    primary call-to-actions.
+                  </p>
+                  <div
+                    class="flex items-center justify-between border-t border-primary/5 pt-4"
+                  >
+                    <div class="flex -space-x-2">
+                      <div
+                        class="size-6 rounded-full border-2 border-white dark:border-slate-800 bg-slate-300"
+                        data-alt="Collaborator avatar 1"
+                        style="
+                          background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuCJj4tLSZaJvPV0rMjaZ4idikDukKVYHm04PpacdV_zziqw8H6f_8q36uPECQRFxwZjfGs81N2j_zQ4ER1JSvBvMy3lSUKJHNiuIXnd6AV3_RyJngzW67vbqid9g4z7HvRVtcGOprHPF0EfganrqIBanvUMOfcNcUc6hQSLPKWi5n7z6z1-m5qEen_HkmyRJJT-RBVMavNkuf-KsgojCDAgrhQWnYwpIpDb1ExOUhaP2fYZLe_hLdvcH6HuAvufaVJGmxPB9MG3bcc&quot;);
+                        "
+                      ></div>
+                      <div
+                        class="size-6 rounded-full border-2 border-white dark:border-slate-800 bg-slate-300"
+                        data-alt="Collaborator avatar 2"
+                        style="
+                          background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuBfcR4NIwGD81l84lnkQJiqlJLo3e1jUI534k853rnqivvwfSuXqumsdK20WmMIabxRdEj0A_BwS1IGV2BcaQirV5G4XjIOK8g5-5lJaqKEdePVHIhOSm1SaVhXuTiqv8GmpLiKbfzY5kaokMDf2bxAjEUtL-RdaXnOTjtbfSsjkxVu7aIHMgdlNEzbLQhXvyv1l7-QX2Y2yvpZGsRsuH08BFzJl-nWz6BGtHSceRmh0cnh7Yy93IOh0MoCYGh_xFfV9LkpPkVf3pY&quot;);
+                        "
+                      ></div>
+                      <div
+                        class="size-6 rounded-full border-2 border-white dark:border-slate-800 bg-primary flex items-center justify-center text-[8px] text-white font-bold"
+                      >
+                        +3
+                      </div>
+                    </div>
+                    <button
+                      class="text-xs font-bold text-primary flex items-center gap-1 hover:underline"
+                    >
+                      Add Comment
+                      <span class="material-symbols-outlined text-sm"
+                        >arrow_forward</span
+                      >
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- Section 3: Navigation Elements -->
+            <section class="mb-20" id="organisms">
+              <div class="flex items-center gap-4 mb-8">
+                <div class="h-px grow bg-primary/10"></div>
+                <h3 class="text-primary font-bold text-lg px-4 italic">
+                  03. Navigation Details
+                </h3>
+                <div class="h-px grow bg-primary/10"></div>
+              </div>
+              <div
+                class="bg-white dark:bg-slate-800 p-8 rounded-3xl border border-primary/10 shadow-sm"
+              >
+                <div
+                  class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+                >
+                  <!-- Menu Item 1 -->
+                  <div
+                    class="flex flex-col gap-4 p-5 rounded-2xl hover:bg-primary/5 transition-colors cursor-pointer group"
+                  >
+                    <div
+                      class="size-12 rounded-xl bg-primary flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform"
+                    >
+                      <span class="material-symbols-outlined">insights</span>
+                    </div>
+                    <div>
+                      <h5 class="font-bold text-slate-900 dark:text-slate-100">
+                        Analytics
+                      </h5>
+                      <p class="text-xs text-slate-500 mt-1">
+                        Deep dive into data
+                      </p>
+                    </div>
+                  </div>
+                  <!-- Menu Item 2 -->
+                  <div
+                    class="flex flex-col gap-4 p-5 rounded-2xl hover:bg-primary/5 transition-colors cursor-pointer group"
+                  >
+                    <div
+                      class="size-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform"
+                    >
+                      <span class="material-symbols-outlined">inventory_2</span>
+                    </div>
+                    <div>
+                      <h5 class="font-bold text-slate-900 dark:text-slate-100">
+                        Inventory
+                      </h5>
+                      <p class="text-xs text-slate-500 mt-1">
+                        Stock and supply tracking
+                      </p>
+                    </div>
+                  </div>
+                  <!-- Menu Item 3 -->
+                  <div
+                    class="flex flex-col gap-4 p-5 rounded-2xl hover:bg-primary/5 transition-colors cursor-pointer group"
+                  >
+                    <div
+                      class="size-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform"
+                    >
+                      <span class="material-symbols-outlined">groups</span>
+                    </div>
+                    <div>
+                      <h5 class="font-bold text-slate-900 dark:text-slate-100">
+                        Team Management
+                      </h5>
+                      <p class="text-xs text-slate-500 mt-1">
+                        Roles and permissions
+                      </p>
+                    </div>
+                  </div>
+                  <!-- Menu Item 4 -->
+                  <div
+                    class="flex flex-col gap-4 p-5 rounded-2xl hover:bg-primary/5 transition-colors cursor-pointer group"
+                  >
+                    <div
+                      class="size-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform"
+                    >
+                      <span class="material-symbols-outlined">campaign</span>
+                    </div>
+                    <div>
+                      <h5 class="font-bold text-slate-900 dark:text-slate-100">
+                        Marketing
+                      </h5>
+                      <p class="text-xs text-slate-500 mt-1">
+                        Campaign performance
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </main>
+        </div>
+        <!-- Footer Atoms -->
+        <footer
+          class="p-8 border-t border-primary/10 bg-background-light dark:bg-background-dark flex flex-col items-center gap-4"
+        >
+          <div class="flex gap-6">
+            <span
+              class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer"
+              >social_leaderboard</span
+            >
+            <span
+              class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer"
+              >alternate_email</span
+            >
+            <span
+              class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer"
+              >share</span
+            >
+          </div>
+          <p
+            class="text-slate-400 text-[11px] font-medium tracking-widest uppercase"
+          >
+            © 2024 Refined Style Guide • Crafted with Precision
+          </p>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

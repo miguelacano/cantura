@@ -1,4 +1,4 @@
-﻿# Cantura Deployment Plan (MVP, One-Person Workflow)
+# Cantura Deployment Plan (MVP, One-Person Workflow)
 
 **Date:** 2026-03-15
 
@@ -18,11 +18,11 @@
 
 ### Environments
 - **Dev:** local `pnpm dev` + local DB from `.env`
-- **Staging:** Vercel preview deployments from commits/branches
+- **Preview (staging):** non-production Vercel preview deployments
 - **Prod:** Vercel production deployment from `main`
 
 ### Promotion rule (one-person)
-- Deploy to staging preview on each commit.
+- Deploy to preview on non-production deployment events.
 - Promote to production only when release checklist passes.
 - Do not merge while there are unresolved Graphite comments.
 
@@ -59,4 +59,4 @@ Decision details are kept in: [2026-03-15-container-vs-no-container.md](./2026-0
 2. Add health check endpoint and observability baseline.
 3. Add Vercel deployment mapping for Preview + Production.
 4. Add release checklist gates and rollback process.
-5. Run first staging deployment and cut first production release.
+5. Run first preview deployment and cut first production release.

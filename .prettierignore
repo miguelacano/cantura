@@ -1,0 +1,17 @@
+# Markdown (formatting changes may conflict with intentional structure)
+**/*.md
+
+# Dependencies
+node_modules/
+
+# Build output
+.next/
+out/
+build/
+
+# Generated files
+src/generated/
+pnpm-lock.yaml
+
+# Prisma (use `prisma format` instead)
+prisma/
