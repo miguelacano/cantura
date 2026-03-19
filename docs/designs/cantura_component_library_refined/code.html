@@ -1,307 +1,579 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#3f2d1c",
-                        "background-light": "#f7f7f6",
-                        "background-dark": "#1d1915",
-                    },
-                    fontFamily: {
-                        "display": ["Manrope", "sans-serif"]
-                    },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-                },
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#3f2d1c",
+              "background-light": "#f7f7f6",
+              "background-dark": "#1d1915",
             },
-        }
+            fontFamily: {
+              display: ["Manrope", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
     </script>
-<title>Cantura Refined - Design System</title>
-</head>
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
-<div class="relative flex min-h-screen flex-col overflow-x-hidden">
-<!-- Top Navigation -->
-<header class="sticky top-0 z-50 w-full border-b border-primary/10 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md px-6 lg:px-20 py-4 flex items-center justify-between">
-<div class="flex items-center gap-8">
-<div class="flex items-center gap-3">
-<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
-<span class="material-symbols-outlined text-xl">auto_awesome</span>
-</div>
-<h2 class="text-primary dark:text-slate-100 text-xl font-bold tracking-tight">Cantura Refined</h2>
-</div>
-<nav class="hidden md:flex items-center gap-6">
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="#atoms">Atoms</a>
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="#molecules">Molecules</a>
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="#organisms">Organisms</a>
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="#assets">Assets</a>
-</nav>
-</div>
-<div class="flex items-center gap-4">
-<div class="relative hidden sm:block">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-primary/40 text-lg">search</span>
-<input class="pl-10 pr-4 py-2 bg-primary/5 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary w-64" placeholder="Search system..." type="text"/>
-</div>
-<div class="h-10 w-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-<span class="material-symbols-outlined text-primary">person</span>
-</div>
-</div>
-</header>
-<main class="flex-1 max-w-7xl mx-auto w-full px-6 lg:px-20 py-12">
-<!-- Hero Section -->
-<section class="mb-20">
-<div class="max-w-3xl">
-<span class="text-primary font-bold tracking-widest text-xs uppercase mb-3 block">Theme Documentation</span>
-<h1 class="text-5xl lg:text-6xl font-extrabold text-primary dark:text-slate-100 tracking-tight mb-6">Refined Style Guide</h1>
-<p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">A cohesive visual language for the Cantura ecosystem. This system prioritizes clarity, warm neutrals, and professional elegance for educational management.</p>
-</div>
-</section>
-<!-- Section: Atoms -->
-<section class="mb-24" id="atoms">
-<div class="flex items-center gap-4 mb-10 border-b border-primary/10 pb-4">
-<span class="material-symbols-outlined text-primary">category</span>
-<h2 class="text-2xl font-bold">Atoms</h2>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
-<!-- Color Palette -->
-<div>
-<h3 class="text-sm font-bold text-primary/60 uppercase tracking-widest mb-6">Color Palette</h3>
-<div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-<div class="space-y-2">
-<div class="h-24 w-full bg-primary rounded-xl shadow-sm"></div>
-<p class="text-xs font-bold">Primary</p>
-<p class="text-[10px] text-slate-500">#3f2d1c</p>
-</div>
-<div class="space-y-2">
-<div class="h-24 w-full bg-primary/60 rounded-xl shadow-sm"></div>
-<p class="text-xs font-bold">Primary Muted</p>
-<p class="text-[10px] text-slate-500">60% Opacity</p>
-</div>
-<div class="space-y-2">
-<div class="h-24 w-full bg-background-light border border-primary/10 rounded-xl shadow-sm"></div>
-<p class="text-xs font-bold">Background</p>
-<p class="text-[10px] text-slate-500">#f7f7f6</p>
-</div>
-<div class="space-y-2">
-<div class="h-24 w-full bg-slate-900 rounded-xl shadow-sm"></div>
-<p class="text-xs font-bold">Slate 900</p>
-<p class="text-[10px] text-slate-500">Text Primary</p>
-</div>
-<div class="space-y-2">
-<div class="h-24 w-full bg-amber-100 rounded-xl shadow-sm"></div>
-<p class="text-xs font-bold">Accent Sand</p>
-<p class="text-[10px] text-slate-500">Highlight</p>
-</div>
-<div class="space-y-2">
-<div class="h-24 w-full bg-emerald-600 rounded-xl shadow-sm"></div>
-<p class="text-xs font-bold">Success</p>
-<p class="text-[10px] text-slate-500">Utility</p>
-</div>
-</div>
-</div>
-<!-- Typography -->
-<div>
-<h3 class="text-sm font-bold text-primary/60 uppercase tracking-widest mb-6">Typography (Manrope)</h3>
-<div class="space-y-6">
-<div>
-<p class="text-4xl font-extrabold tracking-tight">Display Large</p>
-<p class="text-xs text-slate-500 mt-1">ExtraBold 36px / -0.025em</p>
-</div>
-<div>
-<p class="text-2xl font-bold">Heading Medium</p>
-<p class="text-xs text-slate-500 mt-1">Bold 24px</p>
-</div>
-<div>
-<p class="text-base font-normal leading-relaxed">Body regular: The quick brown fox jumps over the lazy dog. Cantura refined theme uses clean geometric lines.</p>
-<p class="text-xs text-slate-500 mt-1">Regular 16px</p>
-</div>
-</div>
-</div>
-</div>
-<!-- Buttons & Icons -->
-<div class="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-16">
-<div>
-<h3 class="text-sm font-bold text-primary/60 uppercase tracking-widest mb-6">Interactive Elements</h3>
-<div class="flex flex-wrap gap-4">
-<button class="bg-primary text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity">Primary Button</button>
-<button class="bg-primary/10 text-primary px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary/20 transition-colors">Secondary</button>
-<button class="border border-primary/20 text-primary px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary/5 transition-colors">Outline</button>
-<button class="bg-primary text-white p-2.5 rounded-lg flex items-center justify-center">
-<span class="material-symbols-outlined">add</span>
-</button>
-</div>
-</div>
-<div>
-<h3 class="text-sm font-bold text-primary/60 uppercase tracking-widest mb-6">Iconography</h3>
-<div class="flex flex-wrap gap-8 text-primary">
-<span class="material-symbols-outlined text-3xl">home</span>
-<span class="material-symbols-outlined text-3xl">calendar_today</span>
-<span class="material-symbols-outlined text-3xl">group</span>
-<span class="material-symbols-outlined text-3xl">book</span>
-<span class="material-symbols-outlined text-3xl">settings</span>
-<span class="material-symbols-outlined text-3xl">notifications</span>
-<span class="material-symbols-outlined text-3xl">verified</span>
-</div>
-</div>
-</div>
-</section>
-<!-- Section: Molecules -->
-<section class="mb-24" id="molecules">
-<div class="flex items-center gap-4 mb-10 border-b border-primary/10 pb-4">
-<span class="material-symbols-outlined text-primary">layers</span>
-<h2 class="text-2xl font-bold">Molecules</h2>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-<!-- Status Pills -->
-<div class="p-6 bg-white dark:bg-background-dark border border-primary/10 rounded-2xl shadow-sm">
-<h4 class="text-xs font-bold text-slate-400 uppercase mb-4">Status Badges</h4>
-<div class="flex flex-wrap gap-3">
-<span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase rounded-full">Completed</span>
-<span class="px-3 py-1 bg-amber-100 text-amber-700 text-[10px] font-bold uppercase rounded-full">In Progress</span>
-<span class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-bold uppercase rounded-full">Archived</span>
-<span class="px-3 py-1 bg-red-100 text-red-700 text-[10px] font-bold uppercase rounded-full">Late</span>
-</div>
-</div>
-<!-- Search Molecule -->
-<div class="p-6 bg-white dark:bg-background-dark border border-primary/10 rounded-2xl shadow-sm">
-<h4 class="text-xs font-bold text-slate-400 uppercase mb-4">Search Bar</h4>
-<div class="flex gap-2">
-<div class="relative flex-1">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
-<input class="w-full pl-10 pr-4 py-2 bg-background-light border border-primary/10 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-primary" placeholder="Find students..." type="text"/>
-</div>
-<button class="p-2 bg-primary/5 text-primary rounded-lg border border-primary/10">
-<span class="material-symbols-outlined text-lg">tune</span>
-</button>
-</div>
-</div>
-<!-- Small Card -->
-<div class="p-4 bg-white dark:bg-background-dark border border-primary/10 rounded-2xl shadow-sm flex items-center gap-4">
-<div class="size-12 rounded-xl bg-primary/5 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined text-2xl">event_available</span>
-</div>
-<div>
-<p class="text-xs text-slate-500 font-medium">Upcoming Session</p>
-<p class="text-sm font-bold">Today, 4:30 PM</p>
-</div>
-</div>
-</div>
-</section>
-<!-- Section: Organisms -->
-<section class="mb-24" id="organisms">
-<div class="flex items-center gap-4 mb-10 border-b border-primary/10 pb-4">
-<span class="material-symbols-outlined text-primary">widgets</span>
-<h2 class="text-2xl font-bold">Organisms</h2>
-</div>
-<div class="grid grid-cols-1 xl:grid-cols-2 gap-12">
-<!-- Practice Note Organism -->
-<div class="space-y-6">
-<h3 class="text-sm font-bold text-primary/60 uppercase tracking-widest">Practice Note</h3>
-<div class="bg-white dark:bg-background-dark border border-primary/10 rounded-2xl overflow-hidden shadow-lg shadow-primary/5">
-<div class="bg-primary/5 p-6 border-b border-primary/10 flex justify-between items-center">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-primary">description</span>
-<h4 class="font-bold">Weekly Piano Session Note</h4>
-</div>
-<span class="text-xs font-medium text-slate-500">Oct 24, 2023</span>
-</div>
-<div class="p-6 space-y-4">
-<p class="text-sm leading-relaxed text-slate-600">Focus on the legato transitions in the second movement. Make sure to keep the wrist relaxed during the octave jumps. Homework: Scales in D major, 3 octaves.</p>
-<div class="flex items-center gap-2 pt-4">
-<span class="material-symbols-outlined text-amber-500">star</span>
-<span class="text-sm font-bold text-primary">Technique Focus: Arpeggios</span>
-</div>
-</div>
-<div class="bg-slate-50 dark:bg-white/5 p-4 flex gap-4">
-<button class="flex-1 text-xs font-bold py-2 rounded-lg bg-primary text-white">Save Note</button>
-<button class="flex-1 text-xs font-bold py-2 rounded-lg border border-primary/20">Email Parent</button>
-</div>
-</div>
-</div>
-<!-- Student Card & Assignment Row -->
-<div class="space-y-12">
-<div>
-<h3 class="text-sm font-bold text-primary/60 uppercase tracking-widest mb-6">Student Card</h3>
-<div class="bg-white dark:bg-background-dark p-6 border border-primary/10 rounded-2xl flex items-center gap-6 shadow-sm">
-<div class="size-20 rounded-full bg-cover bg-center ring-4 ring-primary/5" data-alt="Close up portrait of a smiling young student" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCZ1slu38t-lJW4haS1BPLC0P_dLs7xvfRKPwJubBhV6DYs75Qm6Qf68wRfEWtvlQg5SD3CyeTo2JSswFtjmAIl1w-6Y_edDERzfweccT2JbjgR39xjaQk_euJv-UCmyCvT87Wbm86FMBY6u01Es3qAiqIWUHwaAmpJ5Nyy6eb-NnSSHJ9usGBqzeIi84yHdwLnPOPBZQC76XZzYNnSpByx5xKbpnCHbMXrtQ6UTTSLQX7fWD7sFjUAMmvhKrcHo1kQPXLZqm5VncQ')"></div>
-<div class="flex-1">
-<h4 class="text-xl font-bold mb-1">Eleanor Vance</h4>
-<p class="text-sm text-slate-500 mb-3 italic">Intermediate Cello • Year 3</p>
-<div class="flex items-center gap-4">
-<div class="flex items-center gap-1 text-emerald-600">
-<span class="material-symbols-outlined text-sm">trending_up</span>
-<span class="text-[10px] font-bold uppercase">Improving</span>
-</div>
-<div class="flex items-center gap-1 text-primary/60">
-<span class="material-symbols-outlined text-sm">event</span>
-<span class="text-[10px] font-bold uppercase">Next: Wed</span>
-</div>
-</div>
-</div>
-<button class="size-10 rounded-full border border-primary/10 flex items-center justify-center text-primary hover:bg-primary/5 transition-colors">
-<span class="material-symbols-outlined">more_vert</span>
-</button>
-</div>
-</div>
-<div>
-<h3 class="text-sm font-bold text-primary/60 uppercase tracking-widest mb-6">Assignment Row</h3>
-<div class="space-y-3">
-<div class="group bg-white dark:bg-background-dark p-4 border border-primary/10 rounded-xl flex items-center justify-between hover:border-primary/30 transition-all cursor-pointer">
-<div class="flex items-center gap-4">
-<div class="size-10 rounded-lg bg-primary/5 flex items-center justify-center text-primary font-bold">01</div>
-<div>
-<p class="text-sm font-bold">Chopin Nocturne Op. 9 No. 2</p>
-<p class="text-xs text-slate-400">Due in 3 days • 2 Pages</p>
-</div>
-</div>
-<div class="flex items-center gap-4">
-<span class="px-3 py-1 bg-amber-50 text-amber-600 text-[10px] font-bold rounded-full">Review Required</span>
-<span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors">chevron_right</span>
-</div>
-</div>
-<div class="group bg-white dark:bg-background-dark p-4 border border-primary/10 rounded-xl flex items-center justify-between hover:border-primary/30 transition-all cursor-pointer">
-<div class="flex items-center gap-4">
-<div class="size-10 rounded-lg bg-primary/5 flex items-center justify-center text-primary font-bold">02</div>
-<div>
-<p class="text-sm font-bold">Major Scale Fundamentals</p>
-<p class="text-xs text-slate-400">Completed yesterday</p>
-</div>
-</div>
-<div class="flex items-center gap-4">
-<span class="px-3 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-bold rounded-full">Pass</span>
-<span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors">chevron_right</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-</main>
-<!-- Footer -->
-<footer class="mt-20 border-t border-primary/10 bg-primary/5 py-12 px-6 lg:px-20">
-<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-<div class="flex items-center gap-3">
-<div class="size-6 bg-primary rounded flex items-center justify-center text-white">
-<span class="material-symbols-outlined text-sm">auto_awesome</span>
-</div>
-<span class="font-bold text-primary">Cantura Design</span>
-</div>
-<p class="text-xs text-slate-500">© 2024 Cantura Refined Design System. All rights reserved.</p>
-<div class="flex gap-6">
-<a class="text-xs font-bold text-primary/60 hover:text-primary" href="#">Docs</a>
-<a class="text-xs font-bold text-primary/60 hover:text-primary" href="#">Github</a>
-<a class="text-xs font-bold text-primary/60 hover:text-primary" href="#">Changelog</a>
-</div>
-</div>
-</footer>
-</div>
-</body></html>
+    <title>Cantura Refined - Design System</title>
+  </head>
+  <body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased"
+  >
+    <div class="relative flex min-h-screen flex-col overflow-x-hidden">
+      <!-- Top Navigation -->
+      <header
+        class="sticky top-0 z-50 w-full border-b border-primary/10 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md px-6 lg:px-20 py-4 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-8">
+          <div class="flex items-center gap-3">
+            <div
+              class="size-8 bg-primary rounded-lg flex items-center justify-center text-white"
+            >
+              <span class="material-symbols-outlined text-xl"
+                >auto_awesome</span
+              >
+            </div>
+            <h2
+              class="text-primary dark:text-slate-100 text-xl font-bold tracking-tight"
+            >
+              Cantura Refined
+            </h2>
+          </div>
+          <nav class="hidden md:flex items-center gap-6">
+            <a
+              class="text-sm font-semibold hover:text-primary transition-colors"
+              href="#atoms"
+              >Atoms</a
+            >
+            <a
+              class="text-sm font-semibold hover:text-primary transition-colors"
+              href="#molecules"
+              >Molecules</a
+            >
+            <a
+              class="text-sm font-semibold hover:text-primary transition-colors"
+              href="#organisms"
+              >Organisms</a
+            >
+            <a
+              class="text-sm font-semibold hover:text-primary transition-colors"
+              href="#assets"
+              >Assets</a
+            >
+          </nav>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="relative hidden sm:block">
+            <span
+              class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-primary/40 text-lg"
+              >search</span
+            >
+            <input
+              class="pl-10 pr-4 py-2 bg-primary/5 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary w-64"
+              placeholder="Search system..."
+              type="text"
+            />
+          </div>
+          <div
+            class="h-10 w-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center"
+          >
+            <span class="material-symbols-outlined text-primary">person</span>
+          </div>
+        </div>
+      </header>
+      <main class="flex-1 max-w-7xl mx-auto w-full px-6 lg:px-20 py-12">
+        <!-- Hero Section -->
+        <section class="mb-20">
+          <div class="max-w-3xl">
+            <span
+              class="text-primary font-bold tracking-widest text-xs uppercase mb-3 block"
+              >Theme Documentation</span
+            >
+            <h1
+              class="text-5xl lg:text-6xl font-extrabold text-primary dark:text-slate-100 tracking-tight mb-6"
+            >
+              Refined Style Guide
+            </h1>
+            <p
+              class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed"
+            >
+              A cohesive visual language for the Cantura ecosystem. This system
+              prioritizes clarity, warm neutrals, and professional elegance for
+              educational management.
+            </p>
+          </div>
+        </section>
+        <!-- Section: Atoms -->
+        <section class="mb-24" id="atoms">
+          <div
+            class="flex items-center gap-4 mb-10 border-b border-primary/10 pb-4"
+          >
+            <span class="material-symbols-outlined text-primary">category</span>
+            <h2 class="text-2xl font-bold">Atoms</h2>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <!-- Color Palette -->
+            <div>
+              <h3
+                class="text-sm font-bold text-primary/60 uppercase tracking-widest mb-6"
+              >
+                Color Palette
+              </h3>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                <div class="space-y-2">
+                  <div
+                    class="h-24 w-full bg-primary rounded-xl shadow-sm"
+                  ></div>
+                  <p class="text-xs font-bold">Primary</p>
+                  <p class="text-[10px] text-slate-500">#3f2d1c</p>
+                </div>
+                <div class="space-y-2">
+                  <div
+                    class="h-24 w-full bg-primary/60 rounded-xl shadow-sm"
+                  ></div>
+                  <p class="text-xs font-bold">Primary Muted</p>
+                  <p class="text-[10px] text-slate-500">60% Opacity</p>
+                </div>
+                <div class="space-y-2">
+                  <div
+                    class="h-24 w-full bg-background-light border border-primary/10 rounded-xl shadow-sm"
+                  ></div>
+                  <p class="text-xs font-bold">Background</p>
+                  <p class="text-[10px] text-slate-500">#f7f7f6</p>
+                </div>
+                <div class="space-y-2">
+                  <div
+                    class="h-24 w-full bg-slate-900 rounded-xl shadow-sm"
+                  ></div>
+                  <p class="text-xs font-bold">Slate 900</p>
+                  <p class="text-[10px] text-slate-500">Text Primary</p>
+                </div>
+                <div class="space-y-2">
+                  <div
+                    class="h-24 w-full bg-amber-100 rounded-xl shadow-sm"
+                  ></div>
+                  <p class="text-xs font-bold">Accent Sand</p>
+                  <p class="text-[10px] text-slate-500">Highlight</p>
+                </div>
+                <div class="space-y-2">
+                  <div
+                    class="h-24 w-full bg-emerald-600 rounded-xl shadow-sm"
+                  ></div>
+                  <p class="text-xs font-bold">Success</p>
+                  <p class="text-[10px] text-slate-500">Utility</p>
+                </div>
+              </div>
+            </div>
+            <!-- Typography -->
+            <div>
+              <h3
+                class="text-sm font-bold text-primary/60 uppercase tracking-widest mb-6"
+              >
+                Typography (Manrope)
+              </h3>
+              <div class="space-y-6">
+                <div>
+                  <p class="text-4xl font-extrabold tracking-tight">
+                    Display Large
+                  </p>
+                  <p class="text-xs text-slate-500 mt-1">
+                    ExtraBold 36px / -0.025em
+                  </p>
+                </div>
+                <div>
+                  <p class="text-2xl font-bold">Heading Medium</p>
+                  <p class="text-xs text-slate-500 mt-1">Bold 24px</p>
+                </div>
+                <div>
+                  <p class="text-base font-normal leading-relaxed">
+                    Body regular: The quick brown fox jumps over the lazy dog.
+                    Cantura refined theme uses clean geometric lines.
+                  </p>
+                  <p class="text-xs text-slate-500 mt-1">Regular 16px</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Buttons & Icons -->
+          <div class="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <div>
+              <h3
+                class="text-sm font-bold text-primary/60 uppercase tracking-widest mb-6"
+              >
+                Interactive Elements
+              </h3>
+              <div class="flex flex-wrap gap-4">
+                <button
+                  class="bg-primary text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity"
+                >
+                  Primary Button
+                </button>
+                <button
+                  class="bg-primary/10 text-primary px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary/20 transition-colors"
+                >
+                  Secondary
+                </button>
+                <button
+                  class="border border-primary/20 text-primary px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary/5 transition-colors"
+                >
+                  Outline
+                </button>
+                <button
+                  class="bg-primary text-white p-2.5 rounded-lg flex items-center justify-center"
+                >
+                  <span class="material-symbols-outlined">add</span>
+                </button>
+              </div>
+            </div>
+            <div>
+              <h3
+                class="text-sm font-bold text-primary/60 uppercase tracking-widest mb-6"
+              >
+                Iconography
+              </h3>
+              <div class="flex flex-wrap gap-8 text-primary">
+                <span class="material-symbols-outlined text-3xl">home</span>
+                <span class="material-symbols-outlined text-3xl"
+                  >calendar_today</span
+                >
+                <span class="material-symbols-outlined text-3xl">group</span>
+                <span class="material-symbols-outlined text-3xl">book</span>
+                <span class="material-symbols-outlined text-3xl">settings</span>
+                <span class="material-symbols-outlined text-3xl"
+                  >notifications</span
+                >
+                <span class="material-symbols-outlined text-3xl">verified</span>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Section: Molecules -->
+        <section class="mb-24" id="molecules">
+          <div
+            class="flex items-center gap-4 mb-10 border-b border-primary/10 pb-4"
+          >
+            <span class="material-symbols-outlined text-primary">layers</span>
+            <h2 class="text-2xl font-bold">Molecules</h2>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Status Pills -->
+            <div
+              class="p-6 bg-white dark:bg-background-dark border border-primary/10 rounded-2xl shadow-sm"
+            >
+              <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">
+                Status Badges
+              </h4>
+              <div class="flex flex-wrap gap-3">
+                <span
+                  class="px-3 py-1 bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase rounded-full"
+                  >Completed</span
+                >
+                <span
+                  class="px-3 py-1 bg-amber-100 text-amber-700 text-[10px] font-bold uppercase rounded-full"
+                  >In Progress</span
+                >
+                <span
+                  class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-bold uppercase rounded-full"
+                  >Archived</span
+                >
+                <span
+                  class="px-3 py-1 bg-red-100 text-red-700 text-[10px] font-bold uppercase rounded-full"
+                  >Late</span
+                >
+              </div>
+            </div>
+            <!-- Search Molecule -->
+            <div
+              class="p-6 bg-white dark:bg-background-dark border border-primary/10 rounded-2xl shadow-sm"
+            >
+              <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">
+                Search Bar
+              </h4>
+              <div class="flex gap-2">
+                <div class="relative flex-1">
+                  <span
+                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg"
+                    >search</span
+                  >
+                  <input
+                    class="w-full pl-10 pr-4 py-2 bg-background-light border border-primary/10 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                    placeholder="Find students..."
+                    type="text"
+                  />
+                </div>
+                <button
+                  class="p-2 bg-primary/5 text-primary rounded-lg border border-primary/10"
+                >
+                  <span class="material-symbols-outlined text-lg">tune</span>
+                </button>
+              </div>
+            </div>
+            <!-- Small Card -->
+            <div
+              class="p-4 bg-white dark:bg-background-dark border border-primary/10 rounded-2xl shadow-sm flex items-center gap-4"
+            >
+              <div
+                class="size-12 rounded-xl bg-primary/5 flex items-center justify-center text-primary"
+              >
+                <span class="material-symbols-outlined text-2xl"
+                  >event_available</span
+                >
+              </div>
+              <div>
+                <p class="text-xs text-slate-500 font-medium">
+                  Upcoming Session
+                </p>
+                <p class="text-sm font-bold">Today, 4:30 PM</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Section: Organisms -->
+        <section class="mb-24" id="organisms">
+          <div
+            class="flex items-center gap-4 mb-10 border-b border-primary/10 pb-4"
+          >
+            <span class="material-symbols-outlined text-primary">widgets</span>
+            <h2 class="text-2xl font-bold">Organisms</h2>
+          </div>
+          <div class="grid grid-cols-1 xl:grid-cols-2 gap-12">
+            <!-- Practice Note Organism -->
+            <div class="space-y-6">
+              <h3
+                class="text-sm font-bold text-primary/60 uppercase tracking-widest"
+              >
+                Practice Note
+              </h3>
+              <div
+                class="bg-white dark:bg-background-dark border border-primary/10 rounded-2xl overflow-hidden shadow-lg shadow-primary/5"
+              >
+                <div
+                  class="bg-primary/5 p-6 border-b border-primary/10 flex justify-between items-center"
+                >
+                  <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-primary"
+                      >description</span
+                    >
+                    <h4 class="font-bold">Weekly Piano Session Note</h4>
+                  </div>
+                  <span class="text-xs font-medium text-slate-500"
+                    >Oct 24, 2023</span
+                  >
+                </div>
+                <div class="p-6 space-y-4">
+                  <p class="text-sm leading-relaxed text-slate-600">
+                    Focus on the legato transitions in the second movement. Make
+                    sure to keep the wrist relaxed during the octave jumps.
+                    Homework: Scales in D major, 3 octaves.
+                  </p>
+                  <div class="flex items-center gap-2 pt-4">
+                    <span class="material-symbols-outlined text-amber-500"
+                      >star</span
+                    >
+                    <span class="text-sm font-bold text-primary"
+                      >Technique Focus: Arpeggios</span
+                    >
+                  </div>
+                </div>
+                <div class="bg-slate-50 dark:bg-white/5 p-4 flex gap-4">
+                  <button
+                    class="flex-1 text-xs font-bold py-2 rounded-lg bg-primary text-white"
+                  >
+                    Save Note
+                  </button>
+                  <button
+                    class="flex-1 text-xs font-bold py-2 rounded-lg border border-primary/20"
+                  >
+                    Email Parent
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Student Card & Assignment Row -->
+            <div class="space-y-12">
+              <div>
+                <h3
+                  class="text-sm font-bold text-primary/60 uppercase tracking-widest mb-6"
+                >
+                  Student Card
+                </h3>
+                <div
+                  class="bg-white dark:bg-background-dark p-6 border border-primary/10 rounded-2xl flex items-center gap-6 shadow-sm"
+                >
+                  <div
+                    class="size-20 rounded-full bg-cover bg-center ring-4 ring-primary/5"
+                    data-alt="Close up portrait of a smiling young student"
+                    style="
+                      background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuCZ1slu38t-lJW4haS1BPLC0P_dLs7xvfRKPwJubBhV6DYs75Qm6Qf68wRfEWtvlQg5SD3CyeTo2JSswFtjmAIl1w-6Y_edDERzfweccT2JbjgR39xjaQk_euJv-UCmyCvT87Wbm86FMBY6u01Es3qAiqIWUHwaAmpJ5Nyy6eb-NnSSHJ9usGBqzeIi84yHdwLnPOPBZQC76XZzYNnSpByx5xKbpnCHbMXrtQ6UTTSLQX7fWD7sFjUAMmvhKrcHo1kQPXLZqm5VncQ&quot;);
+                    "
+                  ></div>
+                  <div class="flex-1">
+                    <h4 class="text-xl font-bold mb-1">Eleanor Vance</h4>
+                    <p class="text-sm text-slate-500 mb-3 italic">
+                      Intermediate Cello • Year 3
+                    </p>
+                    <div class="flex items-center gap-4">
+                      <div class="flex items-center gap-1 text-emerald-600">
+                        <span class="material-symbols-outlined text-sm"
+                          >trending_up</span
+                        >
+                        <span class="text-[10px] font-bold uppercase"
+                          >Improving</span
+                        >
+                      </div>
+                      <div class="flex items-center gap-1 text-primary/60">
+                        <span class="material-symbols-outlined text-sm"
+                          >event</span
+                        >
+                        <span class="text-[10px] font-bold uppercase"
+                          >Next: Wed</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    class="size-10 rounded-full border border-primary/10 flex items-center justify-center text-primary hover:bg-primary/5 transition-colors"
+                  >
+                    <span class="material-symbols-outlined">more_vert</span>
+                  </button>
+                </div>
+              </div>
+              <div>
+                <h3
+                  class="text-sm font-bold text-primary/60 uppercase tracking-widest mb-6"
+                >
+                  Assignment Row
+                </h3>
+                <div class="space-y-3">
+                  <div
+                    class="group bg-white dark:bg-background-dark p-4 border border-primary/10 rounded-xl flex items-center justify-between hover:border-primary/30 transition-all cursor-pointer"
+                  >
+                    <div class="flex items-center gap-4">
+                      <div
+                        class="size-10 rounded-lg bg-primary/5 flex items-center justify-center text-primary font-bold"
+                      >
+                        01
+                      </div>
+                      <div>
+                        <p class="text-sm font-bold">
+                          Chopin Nocturne Op. 9 No. 2
+                        </p>
+                        <p class="text-xs text-slate-400">
+                          Due in 3 days • 2 Pages
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                      <span
+                        class="px-3 py-1 bg-amber-50 text-amber-600 text-[10px] font-bold rounded-full"
+                        >Review Required</span
+                      >
+                      <span
+                        class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors"
+                        >chevron_right</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="group bg-white dark:bg-background-dark p-4 border border-primary/10 rounded-xl flex items-center justify-between hover:border-primary/30 transition-all cursor-pointer"
+                  >
+                    <div class="flex items-center gap-4">
+                      <div
+                        class="size-10 rounded-lg bg-primary/5 flex items-center justify-center text-primary font-bold"
+                      >
+                        02
+                      </div>
+                      <div>
+                        <p class="text-sm font-bold">
+                          Major Scale Fundamentals
+                        </p>
+                        <p class="text-xs text-slate-400">
+                          Completed yesterday
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                      <span
+                        class="px-3 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-bold rounded-full"
+                        >Pass</span
+                      >
+                      <span
+                        class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors"
+                        >chevron_right</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <!-- Footer -->
+      <footer
+        class="mt-20 border-t border-primary/10 bg-primary/5 py-12 px-6 lg:px-20"
+      >
+        <div
+          class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8"
+        >
+          <div class="flex items-center gap-3">
+            <div
+              class="size-6 bg-primary rounded flex items-center justify-center text-white"
+            >
+              <span class="material-symbols-outlined text-sm"
+                >auto_awesome</span
+              >
+            </div>
+            <span class="font-bold text-primary">Cantura Design</span>
+          </div>
+          <p class="text-xs text-slate-500">
+            © 2024 Cantura Refined Design System. All rights reserved.
+          </p>
+          <div class="flex gap-6">
+            <a
+              class="text-xs font-bold text-primary/60 hover:text-primary"
+              href="#"
+              >Docs</a
+            >
+            <a
+              class="text-xs font-bold text-primary/60 hover:text-primary"
+              href="#"
+              >Github</a
+            >
+            <a
+              class="text-xs font-bold text-primary/60 hover:text-primary"
+              href="#"
+              >Changelog</a
+            >
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

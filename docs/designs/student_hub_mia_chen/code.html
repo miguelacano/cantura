@@ -1,296 +1,502 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#3f2d1c",
-                        "background-light": "#f7f7f6",
-                        "background-dark": "#1d1915",
-                    },
-                    fontFamily: {
-                        "display": ["Manrope"]
-                    },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-                },
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#3f2d1c",
+              "background-light": "#f7f7f6",
+              "background-dark": "#1d1915",
             },
-        }
+            fontFamily: {
+              display: ["Manrope"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
     </script>
-<title>Cantura Student Hub - Mia Chen</title>
-</head>
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
-<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
-<!-- Top Navigation Bar -->
-<header class="flex items-center justify-between border-b border-primary/10 bg-background-light dark:bg-background-dark px-6 md:px-10 py-4 sticky top-0 z-50">
-<div class="flex items-center gap-4">
-<div class="text-primary size-8">
-<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<path clip-rule="evenodd" d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z" fill-rule="evenodd"></path>
-</svg>
-</div>
-<h2 class="text-primary text-xl font-bold leading-tight">Cantura Hub</h2>
-</div>
-<div class="flex flex-1 justify-end gap-3 md:gap-4">
-<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-primary/10 text-primary transition-colors hover:bg-primary/20">
-<span class="material-symbols-outlined">notifications</span>
-</button>
-<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-primary/10 text-primary transition-colors hover:bg-primary/20">
-<span class="material-symbols-outlined">settings</span>
-</button>
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/20" data-alt="Profile photo of a professional teacher" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDb9qRDdbj7ujth1o5SnaSq3ktNZpLLB8wZBZxSdziL326SgVN7Gu2bHXYcbL9_AvZgDJxVaw0dn9JcByKiqScZ5KAy07ZlMTjGSVqyu53cwgVIU5Bw6BWohCi1HQwO6mPgtuOKVUid0Gp5QaSTJlWPiERxVj35fVfeW-Sz-m3T35VHHAGhsgpL5npYvRfdZvt6357LJ3yfntVVtDTT3pWfMyHyWObi1vRbXEUGhR_cjH_tMHtnB048on6ISP0TYbVtbNWZq3OmXQs");'></div>
-</div>
-</header>
-<main class="max-w-[1200px] mx-auto w-full flex flex-col md:flex-row gap-6 p-6">
-<!-- Sidebar Navigation -->
-<aside class="w-full md:w-64 flex flex-col gap-4">
-<div class="flex items-center gap-3 mb-6">
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12 shadow-md" data-alt="Portrait of student Mia Chen smiling" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBPNRZNt-Cz8eW4eHmDLZ47v9KTNRv2cCLkF8rokHv91moXBrBVmDFRMG6eVKpf-SSwUrvD891kEyll_XWfo8yRJjqMEIOiZRx-sGthaeuKmh3GbwcNWJTx6yx9Gwr1BMaPaYgEVtMrO2tBFuxHlkRNiYvUoKH_3KNG3kjxfPl78QhLHbElhH_8V9qMnDY_z1z7YHtFBjrsO4JcM2-N2uVj_8UkM_TiDCYO9Lm-bZgYsJe3eLqbsyiE76Y4b_FtOcZjFekZq5HXVEM");'></div>
-<div>
-<h1 class="text-primary text-lg font-bold leading-none">Mia Chen</h1>
-<p class="text-slate-500 text-sm mt-1">ID: 48293</p>
-</div>
-</div>
-<nav class="flex flex-col gap-1">
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary text-white font-medium" href="#">
-<span class="material-symbols-outlined">school</span>
-                    Student Hub
-                </a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-primary/10 transition-colors" href="#">
-<span class="material-symbols-outlined">dashboard</span>
-                    Dashboard
-                </a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-primary/10 transition-colors" href="#">
-<span class="material-symbols-outlined">calendar_month</span>
-                    Schedule
-                </a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-primary/10 transition-colors" href="#">
-<span class="material-symbols-outlined">library_books</span>
-                    Resources
-                </a>
-</nav>
-<div class="mt-auto pt-6 border-t border-primary/10">
-<div class="bg-primary/5 rounded-xl p-4">
-<h4 class="text-xs font-bold uppercase tracking-wider text-primary mb-2">Current Instrument</h4>
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-primary">piano</span>
-<div>
-<p class="text-sm font-bold">Violin</p>
-<p class="text-xs text-slate-500">Intermediate Level</p>
-</div>
-</div>
-</div>
-</div>
-</aside>
-<!-- Content Area -->
-<div class="flex-1 space-y-8">
-<!-- Page Header Actions -->
-<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-<div>
-<h2 class="text-2xl font-extrabold text-slate-900 dark:text-white">Student Dashboard</h2>
-<p class="text-slate-500">Monitoring Mia's progress and upcoming goals.</p>
-</div>
-<div class="flex gap-2">
-<button class="bg-primary/10 text-primary border border-primary/20 px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-primary/20 transition-colors">
-<span class="material-symbols-outlined text-[18px]">note_add</span>
-                        Add Note
+    <title>Cantura Student Hub - Mia Chen</title>
+  </head>
+  <body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100"
+  >
+    <div
+      class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden"
+    >
+      <!-- Top Navigation Bar -->
+      <header
+        class="flex items-center justify-between border-b border-primary/10 bg-background-light dark:bg-background-dark px-6 md:px-10 py-4 sticky top-0 z-50"
+      >
+        <div class="flex items-center gap-4">
+          <div class="text-primary size-8">
+            <svg
+              fill="currentColor"
+              viewbox="0 0 48 48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z"
+                fill-rule="evenodd"
+              ></path>
+            </svg>
+          </div>
+          <h2 class="text-primary text-xl font-bold leading-tight">
+            Cantura Hub
+          </h2>
+        </div>
+        <div class="flex flex-1 justify-end gap-3 md:gap-4">
+          <button
+            class="flex items-center justify-center rounded-lg h-10 w-10 bg-primary/10 text-primary transition-colors hover:bg-primary/20"
+          >
+            <span class="material-symbols-outlined">notifications</span>
+          </button>
+          <button
+            class="flex items-center justify-center rounded-lg h-10 w-10 bg-primary/10 text-primary transition-colors hover:bg-primary/20"
+          >
+            <span class="material-symbols-outlined">settings</span>
+          </button>
+          <div
+            class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/20"
+            data-alt="Profile photo of a professional teacher"
+            style="
+              background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuDb9qRDdbj7ujth1o5SnaSq3ktNZpLLB8wZBZxSdziL326SgVN7Gu2bHXYcbL9_AvZgDJxVaw0dn9JcByKiqScZ5KAy07ZlMTjGSVqyu53cwgVIU5Bw6BWohCi1HQwO6mPgtuOKVUid0Gp5QaSTJlWPiERxVj35fVfeW-Sz-m3T35VHHAGhsgpL5npYvRfdZvt6357LJ3yfntVVtDTT3pWfMyHyWObi1vRbXEUGhR_cjH_tMHtnB048on6ISP0TYbVtbNWZq3OmXQs&quot;);
+            "
+          ></div>
+        </div>
+      </header>
+      <main
+        class="max-w-[1200px] mx-auto w-full flex flex-col md:flex-row gap-6 p-6"
+      >
+        <!-- Sidebar Navigation -->
+        <aside class="w-full md:w-64 flex flex-col gap-4">
+          <div class="flex items-center gap-3 mb-6">
+            <div
+              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12 shadow-md"
+              data-alt="Portrait of student Mia Chen smiling"
+              style="
+                background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuBPNRZNt-Cz8eW4eHmDLZ47v9KTNRv2cCLkF8rokHv91moXBrBVmDFRMG6eVKpf-SSwUrvD891kEyll_XWfo8yRJjqMEIOiZRx-sGthaeuKmh3GbwcNWJTx6yx9Gwr1BMaPaYgEVtMrO2tBFuxHlkRNiYvUoKH_3KNG3kjxfPl78QhLHbElhH_8V9qMnDY_z1z7YHtFBjrsO4JcM2-N2uVj_8UkM_TiDCYO9Lm-bZgYsJe3eLqbsyiE76Y4b_FtOcZjFekZq5HXVEM&quot;);
+              "
+            ></div>
+            <div>
+              <h1 class="text-primary text-lg font-bold leading-none">
+                Mia Chen
+              </h1>
+              <p class="text-slate-500 text-sm mt-1">ID: 48293</p>
+            </div>
+          </div>
+          <nav class="flex flex-col gap-1">
+            <a
+              class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary text-white font-medium"
+              href="#"
+            >
+              <span class="material-symbols-outlined">school</span>
+              Student Hub
+            </a>
+            <a
+              class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-primary/10 transition-colors"
+              href="#"
+            >
+              <span class="material-symbols-outlined">dashboard</span>
+              Dashboard
+            </a>
+            <a
+              class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-primary/10 transition-colors"
+              href="#"
+            >
+              <span class="material-symbols-outlined">calendar_month</span>
+              Schedule
+            </a>
+            <a
+              class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-primary/10 transition-colors"
+              href="#"
+            >
+              <span class="material-symbols-outlined">library_books</span>
+              Resources
+            </a>
+          </nav>
+          <div class="mt-auto pt-6 border-t border-primary/10">
+            <div class="bg-primary/5 rounded-xl p-4">
+              <h4
+                class="text-xs font-bold uppercase tracking-wider text-primary mb-2"
+              >
+                Current Instrument
+              </h4>
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary"
+                  >piano</span
+                >
+                <div>
+                  <p class="text-sm font-bold">Violin</p>
+                  <p class="text-xs text-slate-500">Intermediate Level</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+        <!-- Content Area -->
+        <div class="flex-1 space-y-8">
+          <!-- Page Header Actions -->
+          <div
+            class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
+          >
+            <div>
+              <h2
+                class="text-2xl font-extrabold text-slate-900 dark:text-white"
+              >
+                Student Dashboard
+              </h2>
+              <p class="text-slate-500">
+                Monitoring Mia's progress and upcoming goals.
+              </p>
+            </div>
+            <div class="flex gap-2">
+              <button
+                class="bg-primary/10 text-primary border border-primary/20 px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-primary/20 transition-colors"
+              >
+                <span class="material-symbols-outlined text-[18px]"
+                  >note_add</span
+                >
+                Add Note
+              </button>
+              <button
+                class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 hover:opacity-90 transition-opacity"
+              >
+                <span class="material-symbols-outlined text-[18px]">add</span>
+                Assign Piece
+              </button>
+            </div>
+          </div>
+          <!-- Dashboard Grid -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Main Content Column -->
+            <div class="lg:col-span-2 space-y-6">
+              <!-- Section 1: Repertoire & Assignments -->
+              <section
+                class="bg-white dark:bg-background-dark border border-primary/10 rounded-xl overflow-hidden shadow-sm"
+              >
+                <div
+                  class="px-6 py-4 border-b border-primary/10 flex justify-between items-center"
+                >
+                  <h3 class="font-bold text-lg flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary"
+                      >library_music</span
+                    >
+                    Repertoire &amp; Assignments
+                  </h3>
+                  <span
+                    class="text-xs font-bold px-2 py-1 bg-primary/5 rounded-full text-primary"
+                    >6 Active</span
+                  >
+                </div>
+                <div class="p-0">
+                  <ul class="divide-y divide-primary/5">
+                    <li
+                      class="p-4 flex items-center justify-between hover:bg-primary/5 transition-colors"
+                    >
+                      <div class="flex items-center gap-4">
+                        <div class="size-2 rounded-full bg-green-500"></div>
+                        <div>
+                          <p class="font-bold">Concerto No. 1 in A Minor</p>
+                          <p class="text-xs text-slate-500">
+                            J.B. Accolay • Focus: Intonation
+                          </p>
+                        </div>
+                      </div>
+                      <span
+                        class="text-xs font-bold text-green-600 bg-green-50 px-3 py-1 rounded-full border border-green-200"
+                        >In Progress</span
+                      >
+                    </li>
+                    <li
+                      class="p-4 flex items-center justify-between hover:bg-primary/5 transition-colors"
+                    >
+                      <div class="flex items-center gap-4">
+                        <div class="size-2 rounded-full bg-orange-500"></div>
+                        <div>
+                          <p class="font-bold">Suzuki Violin School Vol. 4</p>
+                          <p class="text-xs text-slate-500">
+                            Humoresque • Memorization
+                          </p>
+                        </div>
+                      </div>
+                      <span
+                        class="text-xs font-bold text-orange-600 bg-orange-50 px-3 py-1 rounded-full border border-orange-200"
+                        >Assigned</span
+                      >
+                    </li>
+                    <li
+                      class="p-4 flex items-center justify-between hover:bg-primary/5 transition-colors"
+                    >
+                      <div class="flex items-center gap-4">
+                        <div class="size-2 rounded-full bg-blue-500"></div>
+                        <div>
+                          <p class="font-bold">Scale System for Violin</p>
+                          <p class="text-xs text-slate-500">
+                            Carl Flesch • G Major 3 Octaves
+                          </p>
+                        </div>
+                      </div>
+                      <span
+                        class="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full border border-blue-200"
+                        >Completed</span
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </section>
+              <!-- Section 2: Practice Notes -->
+              <section
+                class="bg-white dark:bg-background-dark border border-primary/10 rounded-xl overflow-hidden shadow-sm"
+              >
+                <div class="px-6 py-4 border-b border-primary/10">
+                  <h3 class="font-bold text-lg flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary"
+                      >chat_bubble</span
+                    >
+                    Practice Notes
+                  </h3>
+                </div>
+                <div class="p-6 space-y-6">
+                  <!-- Teacher Message -->
+                  <div class="flex gap-4">
+                    <div
+                      class="bg-primary/20 size-10 rounded-full flex items-center justify-center shrink-0"
+                    >
+                      <span class="text-primary font-bold">R</span>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex items-baseline gap-2 mb-1">
+                        <span class="font-bold text-sm"
+                          >Ms. Rivera (Teacher)</span
+                        >
+                        <span class="text-[10px] text-slate-400"
+                          >Tuesday, 4:15 PM</span
+                        >
+                      </div>
+                      <div
+                        class="bg-primary/5 p-4 rounded-r-xl rounded-bl-xl border border-primary/10"
+                      >
+                        <p class="text-sm leading-relaxed">
+                          Mia did a great job today on the first position
+                          shifts. This week, please focus on the
+                          <strong>bow hold</strong>—especially keeping the pinky
+                          rounded on the frog. It will help with the control
+                          during the faster passages in Accolay.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Guardian Message -->
+                  <div class="flex gap-4 flex-row-reverse">
+                    <div
+                      class="bg-slate-200 dark:bg-slate-700 size-10 rounded-full flex items-center justify-center shrink-0"
+                    >
+                      <span class="text-slate-600 dark:text-slate-300 font-bold"
+                        >D</span
+                      >
+                    </div>
+                    <div class="flex-1 text-right">
+                      <div
+                        class="flex flex-row-reverse items-baseline gap-2 mb-1"
+                      >
+                        <span class="font-bold text-sm"
+                          >Diana Chen (Guardian)</span
+                        >
+                        <span class="text-[10px] text-slate-400"
+                          >Wednesday, 9:20 AM</span
+                        >
+                      </div>
+                      <div
+                        class="bg-slate-100 dark:bg-slate-800 p-4 rounded-l-xl rounded-br-xl border border-slate-200 dark:border-slate-700 text-left"
+                      >
+                        <p class="text-sm leading-relaxed italic">
+                          Thank you, Ms. Rivera! We will practice with the
+                          "pinky house" exercise you showed us. Mia is excited
+                          to work on the Accolay piece.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="p-4 bg-background-light dark:bg-slate-800/50 border-t border-primary/10"
+                >
+                  <div class="relative flex items-center">
+                    <input
+                      class="w-full pl-4 pr-12 py-3 bg-white dark:bg-background-dark border border-primary/10 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
+                      placeholder="Reply to notes..."
+                      type="text"
+                    />
+                    <button class="absolute right-3 text-primary">
+                      <span class="material-symbols-outlined">send</span>
                     </button>
-<button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 hover:opacity-90 transition-opacity">
-<span class="material-symbols-outlined text-[18px]">add</span>
-                        Assign Piece
-                    </button>
-</div>
-</div>
-<!-- Dashboard Grid -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-<!-- Main Content Column -->
-<div class="lg:col-span-2 space-y-6">
-<!-- Section 1: Repertoire & Assignments -->
-<section class="bg-white dark:bg-background-dark border border-primary/10 rounded-xl overflow-hidden shadow-sm">
-<div class="px-6 py-4 border-b border-primary/10 flex justify-between items-center">
-<h3 class="font-bold text-lg flex items-center gap-2">
-<span class="material-symbols-outlined text-primary">library_music</span>
-                                Repertoire &amp; Assignments
-                            </h3>
-<span class="text-xs font-bold px-2 py-1 bg-primary/5 rounded-full text-primary">6 Active</span>
-</div>
-<div class="p-0">
-<ul class="divide-y divide-primary/5">
-<li class="p-4 flex items-center justify-between hover:bg-primary/5 transition-colors">
-<div class="flex items-center gap-4">
-<div class="size-2 rounded-full bg-green-500"></div>
-<div>
-<p class="font-bold">Concerto No. 1 in A Minor</p>
-<p class="text-xs text-slate-500">J.B. Accolay • Focus: Intonation</p>
-</div>
-</div>
-<span class="text-xs font-bold text-green-600 bg-green-50 px-3 py-1 rounded-full border border-green-200">In Progress</span>
-</li>
-<li class="p-4 flex items-center justify-between hover:bg-primary/5 transition-colors">
-<div class="flex items-center gap-4">
-<div class="size-2 rounded-full bg-orange-500"></div>
-<div>
-<p class="font-bold">Suzuki Violin School Vol. 4</p>
-<p class="text-xs text-slate-500">Humoresque • Memorization</p>
-</div>
-</div>
-<span class="text-xs font-bold text-orange-600 bg-orange-50 px-3 py-1 rounded-full border border-orange-200">Assigned</span>
-</li>
-<li class="p-4 flex items-center justify-between hover:bg-primary/5 transition-colors">
-<div class="flex items-center gap-4">
-<div class="size-2 rounded-full bg-blue-500"></div>
-<div>
-<p class="font-bold">Scale System for Violin</p>
-<p class="text-xs text-slate-500">Carl Flesch • G Major 3 Octaves</p>
-</div>
-</div>
-<span class="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">Completed</span>
-</li>
-</ul>
-</div>
-</section>
-<!-- Section 2: Practice Notes -->
-<section class="bg-white dark:bg-background-dark border border-primary/10 rounded-xl overflow-hidden shadow-sm">
-<div class="px-6 py-4 border-b border-primary/10">
-<h3 class="font-bold text-lg flex items-center gap-2">
-<span class="material-symbols-outlined text-primary">chat_bubble</span>
-                                Practice Notes
-                            </h3>
-</div>
-<div class="p-6 space-y-6">
-<!-- Teacher Message -->
-<div class="flex gap-4">
-<div class="bg-primary/20 size-10 rounded-full flex items-center justify-center shrink-0">
-<span class="text-primary font-bold">R</span>
-</div>
-<div class="flex-1">
-<div class="flex items-baseline gap-2 mb-1">
-<span class="font-bold text-sm">Ms. Rivera (Teacher)</span>
-<span class="text-[10px] text-slate-400">Tuesday, 4:15 PM</span>
-</div>
-<div class="bg-primary/5 p-4 rounded-r-xl rounded-bl-xl border border-primary/10">
-<p class="text-sm leading-relaxed">
-                                            Mia did a great job today on the first position shifts. This week, please focus on the <strong>bow hold</strong>—especially keeping the pinky rounded on the frog. It will help with the control during the faster passages in Accolay.
-                                        </p>
-</div>
-</div>
-</div>
-<!-- Guardian Message -->
-<div class="flex gap-4 flex-row-reverse">
-<div class="bg-slate-200 dark:bg-slate-700 size-10 rounded-full flex items-center justify-center shrink-0">
-<span class="text-slate-600 dark:text-slate-300 font-bold">D</span>
-</div>
-<div class="flex-1 text-right">
-<div class="flex flex-row-reverse items-baseline gap-2 mb-1">
-<span class="font-bold text-sm">Diana Chen (Guardian)</span>
-<span class="text-[10px] text-slate-400">Wednesday, 9:20 AM</span>
-</div>
-<div class="bg-slate-100 dark:bg-slate-800 p-4 rounded-l-xl rounded-br-xl border border-slate-200 dark:border-slate-700 text-left">
-<p class="text-sm leading-relaxed italic">
-                                            Thank you, Ms. Rivera! We will practice with the "pinky house" exercise you showed us. Mia is excited to work on the Accolay piece.
-                                        </p>
-</div>
-</div>
-</div>
-</div>
-<div class="p-4 bg-background-light dark:bg-slate-800/50 border-t border-primary/10">
-<div class="relative flex items-center">
-<input class="w-full pl-4 pr-12 py-3 bg-white dark:bg-background-dark border border-primary/10 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none" placeholder="Reply to notes..." type="text"/>
-<button class="absolute right-3 text-primary">
-<span class="material-symbols-outlined">send</span>
-</button>
-</div>
-</div>
-</section>
-</div>
-<!-- Sidebar Content Column -->
-<div class="space-y-6">
-<!-- Section 3: Performance & Goals -->
-<section class="bg-primary text-white rounded-xl p-6 shadow-lg">
-<div class="flex items-center gap-3 mb-6">
-<span class="material-symbols-outlined text-3xl">emoji_events</span>
-<h3 class="font-bold text-xl">Upcoming Milestone</h3>
-</div>
-<div class="space-y-6">
-<div>
-<div class="flex justify-between items-end mb-2">
-<p class="text-sm font-medium text-white/80">Winter Recital Prep</p>
-<p class="text-xl font-bold">82%</p>
-</div>
-<div class="h-2 w-full bg-white/20 rounded-full">
-<div class="h-2 bg-white rounded-full" style="width: 82%;"></div>
-</div>
-<p class="text-[10px] mt-2 text-white/60">Target: Dec 15th • Performance Hall B</p>
-</div>
-<div class="bg-white/10 p-4 rounded-lg border border-white/10">
-<h4 class="text-xs font-bold uppercase tracking-widest text-white/70 mb-3">Key Focus Areas</h4>
-<ul class="space-y-3">
-<li class="flex items-center gap-2 text-xs">
-<span class="material-symbols-outlined text-[14px]">check_circle</span>
-                                        Memorization Page 1
-                                    </li>
-<li class="flex items-center gap-2 text-xs">
-<span class="material-symbols-outlined text-[14px]">radio_button_unchecked</span>
-                                        Dynamic Nuances
-                                    </li>
-<li class="flex items-center gap-2 text-xs">
-<span class="material-symbols-outlined text-[14px]">radio_button_unchecked</span>
-                                        Vibrato Consistency
-                                    </li>
-</ul>
-</div>
-</div>
-<button class="mt-8 w-full py-3 bg-white text-primary font-bold rounded-lg text-sm hover:bg-slate-100 transition-colors">
-                            View Recital Details
-                        </button>
-</section>
-<!-- Quick Stats Card -->
-<section class="bg-white dark:bg-background-dark border border-primary/10 rounded-xl p-6">
-<h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Activity this month</h4>
-<div class="grid grid-cols-2 gap-4">
-<div class="bg-primary/5 p-3 rounded-lg text-center">
-<p class="text-2xl font-black text-primary">12</p>
-<p class="text-[10px] font-bold text-slate-500">Practice Sessions</p>
-</div>
-<div class="bg-primary/5 p-3 rounded-lg text-center">
-<p class="text-2xl font-black text-primary">480</p>
-<p class="text-[10px] font-bold text-slate-500">Mins Played</p>
-</div>
-</div>
-</section>
-<!-- Resources Widget -->
-<section class="bg-white dark:bg-background-dark border border-primary/10 rounded-xl p-6">
-<h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Quick Resources</h4>
-<div class="space-y-3">
-<a class="flex items-center justify-between p-3 rounded-lg border border-primary/5 hover:border-primary/20 transition-all" href="#">
-<span class="text-xs font-bold">Metronome Tool</span>
-<span class="material-symbols-outlined text-sm text-primary">arrow_forward_ios</span>
-</a>
-<a class="flex items-center justify-between p-3 rounded-lg border border-primary/5 hover:border-primary/20 transition-all" href="#">
-<span class="text-xs font-bold">Sheet Music Folder</span>
-<span class="material-symbols-outlined text-sm text-primary">arrow_forward_ios</span>
-</a>
-<a class="flex items-center justify-between p-3 rounded-lg border border-primary/5 hover:border-primary/20 transition-all" href="#">
-<span class="text-xs font-bold">Tuning Guide (Violin)</span>
-<span class="material-symbols-outlined text-sm text-primary">arrow_forward_ios</span>
-</a>
-</div>
-</section>
-</div>
-</div>
-</div>
-</main>
-<!-- Footer Space -->
-<footer class="mt-auto py-8 text-center border-t border-primary/5">
-<p class="text-xs text-slate-400">© 2024 Cantura Music Management. All student data is encrypted.</p>
-</footer>
-</div>
-</body></html>
+                  </div>
+                </div>
+              </section>
+            </div>
+            <!-- Sidebar Content Column -->
+            <div class="space-y-6">
+              <!-- Section 3: Performance & Goals -->
+              <section class="bg-primary text-white rounded-xl p-6 shadow-lg">
+                <div class="flex items-center gap-3 mb-6">
+                  <span class="material-symbols-outlined text-3xl"
+                    >emoji_events</span
+                  >
+                  <h3 class="font-bold text-xl">Upcoming Milestone</h3>
+                </div>
+                <div class="space-y-6">
+                  <div>
+                    <div class="flex justify-between items-end mb-2">
+                      <p class="text-sm font-medium text-white/80">
+                        Winter Recital Prep
+                      </p>
+                      <p class="text-xl font-bold">82%</p>
+                    </div>
+                    <div class="h-2 w-full bg-white/20 rounded-full">
+                      <div
+                        class="h-2 bg-white rounded-full"
+                        style="width: 82%"
+                      ></div>
+                    </div>
+                    <p class="text-[10px] mt-2 text-white/60">
+                      Target: Dec 15th • Performance Hall B
+                    </p>
+                  </div>
+                  <div
+                    class="bg-white/10 p-4 rounded-lg border border-white/10"
+                  >
+                    <h4
+                      class="text-xs font-bold uppercase tracking-widest text-white/70 mb-3"
+                    >
+                      Key Focus Areas
+                    </h4>
+                    <ul class="space-y-3">
+                      <li class="flex items-center gap-2 text-xs">
+                        <span class="material-symbols-outlined text-[14px]"
+                          >check_circle</span
+                        >
+                        Memorization Page 1
+                      </li>
+                      <li class="flex items-center gap-2 text-xs">
+                        <span class="material-symbols-outlined text-[14px]"
+                          >radio_button_unchecked</span
+                        >
+                        Dynamic Nuances
+                      </li>
+                      <li class="flex items-center gap-2 text-xs">
+                        <span class="material-symbols-outlined text-[14px]"
+                          >radio_button_unchecked</span
+                        >
+                        Vibrato Consistency
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <button
+                  class="mt-8 w-full py-3 bg-white text-primary font-bold rounded-lg text-sm hover:bg-slate-100 transition-colors"
+                >
+                  View Recital Details
+                </button>
+              </section>
+              <!-- Quick Stats Card -->
+              <section
+                class="bg-white dark:bg-background-dark border border-primary/10 rounded-xl p-6"
+              >
+                <h4
+                  class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4"
+                >
+                  Activity this month
+                </h4>
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="bg-primary/5 p-3 rounded-lg text-center">
+                    <p class="text-2xl font-black text-primary">12</p>
+                    <p class="text-[10px] font-bold text-slate-500">
+                      Practice Sessions
+                    </p>
+                  </div>
+                  <div class="bg-primary/5 p-3 rounded-lg text-center">
+                    <p class="text-2xl font-black text-primary">480</p>
+                    <p class="text-[10px] font-bold text-slate-500">
+                      Mins Played
+                    </p>
+                  </div>
+                </div>
+              </section>
+              <!-- Resources Widget -->
+              <section
+                class="bg-white dark:bg-background-dark border border-primary/10 rounded-xl p-6"
+              >
+                <h4
+                  class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4"
+                >
+                  Quick Resources
+                </h4>
+                <div class="space-y-3">
+                  <a
+                    class="flex items-center justify-between p-3 rounded-lg border border-primary/5 hover:border-primary/20 transition-all"
+                    href="#"
+                  >
+                    <span class="text-xs font-bold">Metronome Tool</span>
+                    <span class="material-symbols-outlined text-sm text-primary"
+                      >arrow_forward_ios</span
+                    >
+                  </a>
+                  <a
+                    class="flex items-center justify-between p-3 rounded-lg border border-primary/5 hover:border-primary/20 transition-all"
+                    href="#"
+                  >
+                    <span class="text-xs font-bold">Sheet Music Folder</span>
+                    <span class="material-symbols-outlined text-sm text-primary"
+                      >arrow_forward_ios</span
+                    >
+                  </a>
+                  <a
+                    class="flex items-center justify-between p-3 rounded-lg border border-primary/5 hover:border-primary/20 transition-all"
+                    href="#"
+                  >
+                    <span class="text-xs font-bold">Tuning Guide (Violin)</span>
+                    <span class="material-symbols-outlined text-sm text-primary"
+                      >arrow_forward_ios</span
+                    >
+                  </a>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </main>
+      <!-- Footer Space -->
+      <footer class="mt-auto py-8 text-center border-t border-primary/5">
+        <p class="text-xs text-slate-400">
+          © 2024 Cantura Music Management. All student data is encrypted.
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>

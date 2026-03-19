@@ -4,20 +4,20 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Target environment for seeding'
+        description: "Target environment for seeding"
         required: true
         type: choice
         options:
           - preview
           - production
       run_migrations:
-        description: 'Run prisma migrate deploy before seeding'
+        description: "Run prisma migrate deploy before seeding"
         required: false
-        default: 'true'
+        default: "true"
         type: choice
         options:
-          - 'true'
-          - 'false'
+          - "true"
+          - "false"
 
 jobs:
   seed:

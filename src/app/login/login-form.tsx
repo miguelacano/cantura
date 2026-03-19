@@ -1,9 +1,9 @@
-"use client"
-import { useActionState } from "react"
-import { loginAction } from "./actions"
+"use client";
+import { useActionState } from "react";
+import { loginAction } from "./actions";
 
 export function LoginForm() {
-  const [state, action, pending] = useActionState(loginAction, undefined)
+  const [state, action, pending] = useActionState(loginAction, undefined);
 
   return (
     <form
@@ -13,9 +13,7 @@ export function LoginForm() {
       <h1 className="font-serif text-xl font-semibold text-stone-900">
         Sign in to Cantura
       </h1>
-      {state?.error && (
-        <p className="text-sm text-red-600">{state.error}</p>
-      )}
+      {state?.error && <p className="text-sm text-red-600">{state.error}</p>}
       <div className="space-y-1">
         <label className="block text-sm font-medium text-stone-700">
           Email
@@ -46,5 +44,5 @@ export function LoginForm() {
         {pending ? "Signing in…" : "Sign in"}
       </button>
     </form>
-  )
+  );
 }

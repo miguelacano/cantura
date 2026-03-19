@@ -10,13 +10,16 @@
     "lint": "eslint",
     "stylelint": "stylelint \"src/**/*.{css,scss}\"",
     "stylelint:fix": "pnpm stylelint --fix",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write .",
     "test": "vitest",
     "test:run": "vitest run",
     "typecheck": "tsc --noEmit",
     "commitlint": "commitlint",
     "db:generate": "prisma generate",
     "db:migrate:deploy": "prisma migrate deploy",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "prepare": "husky"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -34,6 +37,8 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.7.1",
+    "@commitlint/config-conventional": "^19.7.1",
     "@tailwindcss/postcss": "^4",
     "@types/bcryptjs": "^3.0.0",
     "@types/node": "^20",
@@ -44,8 +49,10 @@
     "dotenv": "^17.3.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
-    "@commitlint/cli": "^19.7.1",
-    "@commitlint/config-conventional": "^19.7.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "husky": "^9.1.7",
+    "prettier": "^3.8.1",
     "prisma": "^7.4.2",
     "stylelint": "^16.22.0",
     "stylelint-config-standard": "^36.0.0",
@@ -55,7 +62,11 @@
     "vitest": "^4.0.18"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["@prisma/engines", "prisma", "esbuild"]
+    "onlyBuiltDependencies": [
+      "@prisma/engines",
+      "prisma",
+      "esbuild"
+    ]
   },
   "commitlint": {
     "extends": [
