@@ -16,6 +16,7 @@ jobs:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/cantura
       AUTH_SECRET: test-ci-secret
       AUTH_URL: http://localhost:3000
+      VERCEL_TELEMETRY_DISABLED: 1
     services:
       postgres:
         image: postgres:16
@@ -60,8 +61,13 @@ jobs:
         run: pnpm test:run
       - name: Type check
         run: pnpm typecheck
+      - name: Pull Vercel environment
+        run: pnpm vercel pull --yes --environment=${{ github.event_name == 'pull_request' && 'preview' || 'production' }} --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       - name: Build
-        run: pnpm vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        run: pnpm vercel build ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
