@@ -1,4 +1,5 @@
-@import url("tailwindcss");
+/* DO NOT use @import url("tailwindcss") — the url() wrapper breaks Tailwind v4 PostCSS processing */
+@import "tailwindcss";
 
 :root {
   --background: #fff;
