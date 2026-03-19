@@ -59,6 +59,7 @@
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5",
+    "vercel": "^50.34.0",
     "vitest": "^4.0.18"
   },
   "pnpm": {
