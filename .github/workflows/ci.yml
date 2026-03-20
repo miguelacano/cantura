@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
     branches: [main]
 
 env:
@@ -41,11 +42,11 @@ jobs:
             --from="${{ github.event.pull_request.base.sha }}" \
             --to="${{ github.sha }}"
 
-  # JOB 2: Storybook Build + Deploy (PR previews only)
+  # JOB 2: Storybook Build + Deploy (PR previews only, non-draft)
   storybook:
     needs: static-checks
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && github.event.pull_request.draft == false
     steps:
       - uses: actions/checkout@v4
       - name: Setup pnpm
@@ -59,22 +60,42 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Pull Vercel environment (Storybook)
+        run: pnpm vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }}
       - name: Build Storybook
         run: pnpm build-storybook
+      - name: Prepare prebuilt output
+        run: |
+          mkdir -p .vercel/output/static
+          cp -r storybook-static/. .vercel/output/static/
+          echo '{"version":3}' > .vercel/output/config.json
       - name: Deploy Storybook to Vercel
-        uses: amondnet/vercel-action@v41.1.4
+        id: deploy
+        run: |
+          url=$(pnpm vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+          echo "url=$url" >> $GITHUB_OUTPUT
+        env:
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }}
+      - name: Comment Storybook URL on PR
+        uses: actions/github-script@v7
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }}
-          working-directory: ./storybook-static
-          github-comment: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '📚 Storybook preview: ${{ steps.deploy.outputs.url }}'
+            })
 
   # JOB 3: Heavy Lifting (Database + Build + Deploy)
   test-and-deploy:
     needs: static-checks
     runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.event.pull_request.draft == false)
     env:
       # CI intentionally uses an isolated ephemeral Postgres instance.
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/cantura
