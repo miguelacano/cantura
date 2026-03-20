@@ -30,14 +30,10 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Prisma generate
-        run: pnpm db:generate
       - name: Lint
         run: pnpm lint
       - name: Style lint
         run: pnpm stylelint
-      - name: Type check
-        run: pnpm typecheck
       - name: Commit message lint
         if: github.event_name == 'pull_request'
         run: |
@@ -115,6 +111,8 @@ jobs:
         run: pnpm db:generate
       - name: Apply migrations
         run: pnpm db:migrate:deploy
+      - name: Type check
+        run: pnpm typecheck
       - name: Run tests
         run: pnpm test:run
       - name: Pull Vercel environment
