@@ -1,22 +1,108 @@
-name: CI
+name: CI/CD Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: [main]
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  VERCEL_TELEMETRY_DISABLED: 1
 
 jobs:
-  ci:
+  # JOB 1: Fast Feedback (No Database)
+  static-checks:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.29.3
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm lint
+      - name: Style lint
+        run: pnpm stylelint
+      - name: Commit message lint
+        if: github.event_name == 'pull_request'
+        run: |
+          pnpm commitlint \
+            --from="${{ github.event.pull_request.base.sha }}" \
+            --to="${{ github.sha }}"
+
+  # JOB 2: Storybook Build + Deploy (PR previews only, non-draft)
+  storybook:
+    needs: static-checks
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.pull_request.draft == false
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.29.3
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Pull Vercel environment (Storybook)
+        run: pnpm vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }}
+      - name: Build Storybook
+        run: pnpm build-storybook
+      - name: Prepare prebuilt output
+        run: |
+          mkdir -p .vercel/output/static
+          cp -r storybook-static/. .vercel/output/static/
+          echo '{"version":3}' > .vercel/output/config.json
+      - name: Deploy Storybook to Vercel
+        id: deploy
+        run: |
+          url=$(pnpm vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+          echo "url=$url" >> $GITHUB_OUTPUT
+        env:
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }}
+      - name: Comment Storybook URL on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '📚 Storybook preview: ${{ steps.deploy.outputs.url }}'
+            })
+
+  # JOB 3: Heavy Lifting (Database + Build + Deploy)
+  test-and-deploy:
+    needs: static-checks
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.event.pull_request.draft == false)
     env:
       # CI intentionally uses an isolated ephemeral Postgres instance.
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/cantura
       AUTH_SECRET: test-ci-secret
       AUTH_URL: http://localhost:3000
-      VERCEL_TELEMETRY_DISABLED: 1
     services:
       postgres:
         image: postgres:16
@@ -33,8 +119,6 @@ jobs:
           - 5432:5432
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -50,36 +134,23 @@ jobs:
         run: pnpm db:generate
       - name: Apply migrations
         run: pnpm db:migrate:deploy
-      - name: Lint
-        run: pnpm lint
-      - name: Style lint
-        run: pnpm stylelint
-      - name: Commit message lint
-        if: github.event_name == 'pull_request'
-        run: pnpm commitlint --from="${{ github.event.pull_request.base.sha }}" --to="${{ github.sha }}"
-      - name: Run tests
-        run: pnpm test:run
       - name: Type check
         run: pnpm typecheck
+      - name: Run tests
+        run: pnpm test:run
       - name: Pull Vercel environment
-        run: pnpm vercel pull --yes --environment=${{ github.event_name == 'pull_request' && 'preview' || 'production' }} --token=${{ secrets.VERCEL_TOKEN }}
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          pnpm vercel pull --yes \
+            --environment=${{ github.event_name == 'pull_request' && 'preview' || 'production' }} \
+            --token=${{ secrets.VERCEL_TOKEN }}
       - name: Build
-        run: pnpm vercel build ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }}
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-      - name: Deploy to Vercel (preview | pr)
+        run: |
+          pnpm vercel build \
+            ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && '--prod' || '' }} \
+            --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy to Vercel (preview)
         if: github.event_name == 'pull_request'
         run: pnpm vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       - name: Deploy to Vercel (production)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: pnpm vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
