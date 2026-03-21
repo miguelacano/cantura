@@ -50,12 +50,12 @@ function Swatch({
   label,
   hex,
   note,
-  dark = false,
+  // dark = false,
 }: {
   label: string;
   hex: string;
   note?: string;
-  dark?: boolean;
+  // dark?: boolean;
 }) {
   return (
     <div className="flex flex-col gap-1" style={{ minWidth: 120 }}>
@@ -327,12 +327,28 @@ export const Palette: Story = {};
  */
 export const BrandColors: Story = {
   render: () => (
-    <div style={{ fontFamily: '"Manrope", system-ui, sans-serif', padding: 32 }}>
-      <h2 style={{ fontSize: 18, fontWeight: 700, marginBottom: 20 }}>Brand Colors</h2>
+    <div
+      style={{ fontFamily: '"Manrope", system-ui, sans-serif', padding: 32 }}
+    >
+      <h2 style={{ fontSize: 18, fontWeight: 700, marginBottom: 20 }}>
+        Brand Colors
+      </h2>
       <div style={{ display: "flex", gap: 16 }}>
-        <Swatch label="brand.primary" hex={colors.brand.primary} note="Primary CTA, active nav" />
-        <Swatch label="brand.primaryHover" hex={colors.brand.primaryHover} note="Hover state" />
-        <Swatch label="brand.primarySubtle" hex={colors.brand.primarySubtle} note="Focus ring, tinted surface" />
+        <Swatch
+          label="brand.primary"
+          hex={colors.brand.primary}
+          note="Primary CTA, active nav"
+        />
+        <Swatch
+          label="brand.primaryHover"
+          hex={colors.brand.primaryHover}
+          note="Hover state"
+        />
+        <Swatch
+          label="brand.primarySubtle"
+          hex={colors.brand.primarySubtle}
+          note="Focus ring, tinted surface"
+        />
       </div>
     </div>
   ),
@@ -344,12 +360,25 @@ export const BrandColors: Story = {
  */
 export const SemanticColors: Story = {
   render: () => (
-    <div style={{ fontFamily: '"Manrope", system-ui, sans-serif', padding: 32 }}>
-      <h2 style={{ fontSize: 18, fontWeight: 700, marginBottom: 20 }}>Semantic Status Colors</h2>
+    <div
+      style={{ fontFamily: '"Manrope", system-ui, sans-serif', padding: 32 }}
+    >
+      <h2 style={{ fontSize: 18, fontWeight: 700, marginBottom: 20 }}>
+        Semantic Status Colors
+      </h2>
 
       {(["success", "warning", "error", "info"] as const).map((group) => (
         <div key={group} style={{ marginBottom: 24 }}>
-          <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#64748b", marginBottom: 12 }}>
+          <p
+            style={{
+              fontSize: 11,
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+              color: "#64748b",
+              marginBottom: 12,
+            }}
+          >
             {group}
           </p>
           <div style={{ display: "flex", gap: 12, alignItems: "stretch" }}>
@@ -364,10 +393,19 @@ export const SemanticColors: Story = {
                   minWidth: 120,
                 }}
               >
-                <p style={{ fontSize: 12, fontWeight: 600, color: "#0f172a", margin: 0 }}>
+                <p
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: "#0f172a",
+                    margin: 0,
+                  }}
+                >
                   {group}.{key}
                 </p>
-                <p style={{ fontSize: 11, color: "#64748b", margin: 0 }}>{hex as string}</p>
+                <p style={{ fontSize: 11, color: "#64748b", margin: 0 }}>
+                  {hex as string}
+                </p>
               </div>
             ))}
           </div>
@@ -383,11 +421,26 @@ export const SemanticColors: Story = {
  */
 export const TextScale: Story = {
   render: () => (
-    <div style={{ fontFamily: '"Manrope", system-ui, sans-serif', padding: 32, background: colors.surface.light }}>
-      <h2 style={{ fontSize: 18, fontWeight: 700, marginBottom: 20 }}>Text Color Scale</h2>
+    <div
+      style={{
+        fontFamily: '"Manrope", system-ui, sans-serif',
+        padding: 32,
+        background: colors.surface.light,
+      }}
+    >
+      <h2 style={{ fontSize: 18, fontWeight: 700, marginBottom: 20 }}>
+        Text Color Scale
+      </h2>
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        <p style={{ fontSize: 20, fontWeight: 700, color: colors.text.primary, margin: 0 }}>
-          text.primary — Mia Chen's Practice Notes
+        <p
+          style={{
+            fontSize: 20,
+            fontWeight: 700,
+            color: colors.text.primary,
+            margin: 0,
+          }}
+        >
+          text.primary — Mia Chen&apos;s Practice Notes
         </p>
         <p style={{ fontSize: 16, color: colors.text.muted, margin: 0 }}>
           text.muted — Secondary body copy, lesson descriptions, form hints
@@ -395,8 +448,22 @@ export const TextScale: Story = {
         <p style={{ fontSize: 14, color: colors.text.subtle, margin: 0 }}>
           text.subtle — 2 hours ago · Read · Metadata
         </p>
-        <div style={{ background: colors.brand.primary, padding: "12px 16px", borderRadius: 8, display: "inline-block" }}>
-          <p style={{ fontSize: 14, fontWeight: 600, color: colors.text.inverse, margin: 0 }}>
+        <div
+          style={{
+            background: colors.brand.primary,
+            padding: "12px 16px",
+            borderRadius: 8,
+            display: "inline-block",
+          }}
+        >
+          <p
+            style={{
+              fontSize: 14,
+              fontWeight: 600,
+              color: colors.text.inverse,
+              margin: 0,
+            }}
+          >
             text.inverse — on dark/brand backgrounds
           </p>
         </div>

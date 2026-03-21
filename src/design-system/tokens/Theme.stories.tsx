@@ -73,7 +73,14 @@ function RadiusBox({
   const pxValue = scale === "full" ? "9999px" : `${parseFloat(value) * 16}px`;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 12 }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        gap: 12,
+      }}
+    >
       <div
         style={{
           width: 96,
@@ -84,10 +91,19 @@ function RadiusBox({
         }}
       />
       <div>
-        <p style={{ fontSize: 13, fontWeight: 700, color: colors.text.primary, margin: "0 0 2px" }}>
+        <p
+          style={{
+            fontSize: 13,
+            fontWeight: 700,
+            color: colors.text.primary,
+            margin: "0 0 2px",
+          }}
+        >
           radius.{scale}
         </p>
-        <p style={{ fontSize: 12, color: colors.text.muted, margin: "0 0 2px" }}>
+        <p
+          style={{ fontSize: 12, color: colors.text.muted, margin: "0 0 2px" }}
+        >
           {value} ({pxValue})
         </p>
         <code
@@ -103,19 +119,38 @@ function RadiusBox({
         >
           {tailwind}
         </code>
-        <p style={{ fontSize: 11, color: colors.text.subtle, margin: 0 }}>{use}</p>
+        <p style={{ fontSize: 11, color: colors.text.subtle, margin: 0 }}>
+          {use}
+        </p>
       </div>
     </div>
   );
 }
 
 function RadiusSpecimen() {
-  const items: { scale: keyof typeof radius; tailwind: string; use: string }[] = [
-    { scale: "sm", tailwind: "rounded-sm", use: "Chips, small badges, inline tags" },
-    { scale: "md", tailwind: "rounded-md", use: "Inputs, buttons, standard cards" },
-    { scale: "lg", tailwind: "rounded-lg", use: "Modals, prominent cards, sidebar" },
-    { scale: "full", tailwind: "rounded-full", use: "Avatars, toggles, pill badges" },
-  ];
+  const items: { scale: keyof typeof radius; tailwind: string; use: string }[] =
+    [
+      {
+        scale: "sm",
+        tailwind: "rounded-sm",
+        use: "Chips, small badges, inline tags",
+      },
+      {
+        scale: "md",
+        tailwind: "rounded-md",
+        use: "Inputs, buttons, standard cards",
+      },
+      {
+        scale: "lg",
+        tailwind: "rounded-lg",
+        use: "Modals, prominent cards, sidebar",
+      },
+      {
+        scale: "full",
+        tailwind: "rounded-full",
+        use: "Avatars, toggles, pill badges",
+      },
+    ];
 
   return (
     <div
@@ -126,7 +161,9 @@ function RadiusSpecimen() {
         color: colors.text.primary,
       }}
     >
-      <h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 8 }}>Border Radius</h1>
+      <h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 8 }}>
+        Border Radius
+      </h1>
       <p style={{ color: colors.text.muted, marginBottom: 32 }}>
         Four radius steps. Every component uses one of these — no custom values.
       </p>
@@ -144,7 +181,13 @@ function RadiusSpecimen() {
       </div>
 
       {/* Applied examples */}
-      <div style={{ marginTop: 48, paddingTop: 32, borderTop: `1px solid ${colors.border.default}` }}>
+      <div
+        style={{
+          marginTop: 48,
+          paddingTop: 32,
+          borderTop: `1px solid ${colors.border.default}`,
+        }}
+      >
         <p
           style={{
             fontSize: 11,
@@ -157,7 +200,14 @@ function RadiusSpecimen() {
         >
           Applied to real surfaces
         </p>
-        <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: 16,
+            alignItems: "center",
+            flexWrap: "wrap",
+          }}
+        >
           {/* Chip — sm */}
           <span
             style={{
@@ -243,10 +293,12 @@ function SpacingSpecimen() {
         color: colors.text.primary,
       }}
     >
-      <h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 8 }}>Spacing Scale</h1>
+      <h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 8 }}>
+        Spacing Scale
+      </h1>
       <p style={{ color: colors.text.muted, marginBottom: 32 }}>
-        Cantura uses the Tailwind default spacing scale (1 unit = 4px).
-        These aliases document semantic intent for common values.
+        Cantura uses the Tailwind default spacing scale (1 unit = 4px). These
+        aliases document semantic intent for common values.
       </p>
 
       {items.map(([key, rem]) => {
@@ -290,7 +342,10 @@ function SpacingSpecimen() {
                 {key}
               </code>
               <span style={{ fontSize: 13, color: colors.text.muted }}>
-                {rem} · {px}px · <code style={{ fontFamily: "monospace", fontSize: 12 }}>p-{key} / gap-{key} / m-{key}</code>
+                {rem} · {px}px ·{" "}
+                <code style={{ fontFamily: "monospace", fontSize: 12 }}>
+                  p-{key} / gap-{key} / m-{key}
+                </code>
               </span>
             </div>
           </div>
@@ -314,18 +369,42 @@ function ThemeOverview() {
         minHeight: "100vh",
       }}
     >
-      <h1 style={{ fontSize: 36, fontWeight: 800, letterSpacing: "-0.025em", marginBottom: 8 }}>
+      <h1
+        style={{
+          fontSize: 36,
+          fontWeight: 800,
+          letterSpacing: "-0.025em",
+          marginBottom: 8,
+        }}
+      >
         Cantura Design System
       </h1>
-      <p style={{ fontSize: 16, color: colors.text.muted, marginBottom: 48, lineHeight: 1.625 }}>
-        A token-driven system for building Cantura's music studio management UI.
-        All tokens are defined in <code>src/design-system/tokens/</code> and
-        registered as Tailwind v4 CSS custom properties.
+      <p
+        style={{
+          fontSize: 16,
+          color: colors.text.muted,
+          marginBottom: 48,
+          lineHeight: 1.625,
+        }}
+      >
+        A token-driven system for building Cantura&apos;s music studio
+        management UI. All tokens are defined in{" "}
+        <code>src/design-system/tokens/</code> and registered as Tailwind v4 CSS
+        custom properties.
       </p>
 
       {/* Color preview strip */}
       <section style={{ marginBottom: 48 }}>
-        <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: colors.text.subtle, marginBottom: 16 }}>
+        <p
+          style={{
+            fontSize: 11,
+            fontWeight: 700,
+            textTransform: "uppercase",
+            letterSpacing: "0.1em",
+            color: colors.text.subtle,
+            marginBottom: 16,
+          }}
+        >
           Color Tokens
         </p>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -340,8 +419,19 @@ function ThemeOverview() {
             { hex: colors.text.primary, label: "text" },
           ].map(({ hex, label }) => (
             <div key={label} style={{ textAlign: "center" }}>
-              <div style={{ width: 48, height: 48, borderRadius: 8, background: hex, border: "1px solid rgba(0,0,0,0.08)", marginBottom: 4 }} />
-              <p style={{ fontSize: 10, color: colors.text.subtle, margin: 0 }}>{label}</p>
+              <div
+                style={{
+                  width: 48,
+                  height: 48,
+                  borderRadius: 8,
+                  background: hex,
+                  border: "1px solid rgba(0,0,0,0.08)",
+                  marginBottom: 4,
+                }}
+              />
+              <p style={{ fontSize: 10, color: colors.text.subtle, margin: 0 }}>
+                {label}
+              </p>
             </div>
           ))}
         </div>
@@ -349,31 +439,72 @@ function ThemeOverview() {
 
       {/* Typography preview */}
       <section style={{ marginBottom: 48 }}>
-        <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: colors.text.subtle, marginBottom: 16 }}>
+        <p
+          style={{
+            fontSize: 11,
+            fontWeight: 700,
+            textTransform: "uppercase",
+            letterSpacing: "0.1em",
+            color: colors.text.subtle,
+            marginBottom: 16,
+          }}
+        >
           Type Scale
         </p>
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          {(Object.keys(typography.scale) as (keyof typeof typography.scale)[]).map((role) => {
+          {(
+            Object.keys(typography.scale) as (keyof typeof typography.scale)[]
+          ).map((role) => {
             const token = typography.scale[role];
-            const sizeMap: Record<string, number> = { xs: 12, sm: 14, base: 16, xl: 20, "2xl": 24, "4xl": 36 };
-            const weightMap: Record<string, number> = { regular: 400, medium: 500, bold: 700, extrabold: 800 };
-            const trackMap: Record<string, string> = { tight: "-0.025em", widest: "0.1em", normal: "0" };
+            const sizeMap: Record<string, number> = {
+              xs: 12,
+              sm: 14,
+              base: 16,
+              xl: 20,
+              "2xl": 24,
+              "4xl": 36,
+            };
+            const weightMap: Record<string, number> = {
+              regular: 400,
+              medium: 500,
+              bold: 700,
+              extrabold: 800,
+            };
+            const trackMap: Record<string, string> = {
+              tight: "-0.025em",
+              widest: "0.1em",
+              normal: "0",
+            };
             return (
-              <div key={role} style={{ display: "flex", alignItems: "baseline", gap: 16 }}>
+              <div
+                key={role}
+                style={{ display: "flex", alignItems: "baseline", gap: 16 }}
+              >
                 <span
                   style={{
                     fontFamily: '"Manrope", system-ui, sans-serif',
                     fontSize: sizeMap[token.size] ?? 16,
                     fontWeight: weightMap[token.weight] ?? 400,
-                    letterSpacing: "tracking" in token ? trackMap[token.tracking as string] ?? "0" : "0",
-                    textTransform: ("transform" in token ? token.transform : "none") as React.CSSProperties["textTransform"],
+                    letterSpacing:
+                      "tracking" in token
+                        ? (trackMap[token.tracking as string] ?? "0")
+                        : "0",
+                    textTransform: ("transform" in token
+                      ? token.transform
+                      : "none") as React.CSSProperties["textTransform"],
                     color: colors.text.primary,
                     lineHeight: 1,
                   }}
                 >
                   Cantura
                 </span>
-                <span style={{ fontSize: 11, color: colors.text.subtle, fontFamily: "monospace" }}>
+                <span
+                  style={{
+                    fontSize: 11,
+                    color: colors.text.subtle,
+                    fontFamily: "monospace",
+                  }}
+                >
                   {role} · {token.size} / {token.weight}
                 </span>
               </div>
@@ -384,24 +515,39 @@ function ThemeOverview() {
 
       {/* Radius preview */}
       <section style={{ marginBottom: 48 }}>
-        <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: colors.text.subtle, marginBottom: 16 }}>
+        <p
+          style={{
+            fontSize: 11,
+            fontWeight: 700,
+            textTransform: "uppercase",
+            letterSpacing: "0.1em",
+            color: colors.text.subtle,
+            marginBottom: 16,
+          }}
+        >
           Border Radius
         </p>
         <div style={{ display: "flex", gap: 16, alignItems: "flex-end" }}>
-          {(Object.entries(radius) as [keyof typeof radius, string][]).map(([key, val]) => (
-            <div key={key} style={{ textAlign: "center" }}>
-              <div
-                style={{
-                  width: 56,
-                  height: 56,
-                  background: colors.brand.primary,
-                  borderRadius: val,
-                  marginBottom: 8,
-                }}
-              />
-              <p style={{ fontSize: 11, color: colors.text.subtle, margin: 0 }}>radius.{key}</p>
-            </div>
-          ))}
+          {(Object.entries(radius) as [keyof typeof radius, string][]).map(
+            ([key, val]) => (
+              <div key={key} style={{ textAlign: "center" }}>
+                <div
+                  style={{
+                    width: 56,
+                    height: 56,
+                    background: colors.brand.primary,
+                    borderRadius: val,
+                    marginBottom: 8,
+                  }}
+                />
+                <p
+                  style={{ fontSize: 11, color: colors.text.subtle, margin: 0 }}
+                >
+                  radius.{key}
+                </p>
+              </div>
+            )
+          )}
         </div>
       </section>
 
@@ -414,7 +560,9 @@ function ThemeOverview() {
           padding: 24,
         }}
       >
-        <p style={{ fontSize: 14, fontWeight: 700, marginBottom: 12 }}>Token pipeline</p>
+        <p style={{ fontSize: 14, fontWeight: 700, marginBottom: 12 }}>
+          Token pipeline
+        </p>
         <pre
           style={{
             fontSize: 12,
@@ -424,7 +572,7 @@ function ThemeOverview() {
             fontFamily: "ui-monospace, monospace",
           }}
         >
-{`tokens/colors.ts        → colors.brand.primary = "#3f2d1c"
+          {`tokens/colors.ts        → colors.brand.primary = "#3f2d1c"
         ↓
 globals.css             → --color-brand-primary: #3f2d1c;  (inside @theme)
         ↓

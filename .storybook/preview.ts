@@ -26,8 +26,7 @@ const preview: Preview = {
   decorators: [
     (Story) => {
       if (typeof document !== "undefined") {
-        document.body.style.fontFamily =
-          '"Manrope", system-ui, sans-serif';
+        document.body.style.fontFamily = '"Manrope", system-ui, sans-serif';
       }
       return Story();
     },

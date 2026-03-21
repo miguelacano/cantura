@@ -72,13 +72,15 @@ const scaleData: {
     role: "displayLg",
     label: "Display Large",
     specimen: "Music shapes the soul.",
-    description: "36px · extrabold · tight tracking — hero headings, dashboard welcome",
+    description:
+      "36px · extrabold · tight tracking — hero headings, dashboard welcome",
   },
   {
     role: "displayMd",
     label: "Display Medium",
     specimen: "Today's Lessons",
-    description: "24px · bold · tight tracking — section headings, modal titles",
+    description:
+      "24px · bold · tight tracking — section headings, modal titles",
   },
   {
     role: "displaySm",
@@ -91,26 +93,29 @@ const scaleData: {
     label: "Body Large",
     specimen:
       "Practice the first 8 bars with a metronome at ♩=80. Focus on even finger weight in the left hand.",
-    description: "16px · regular · relaxed leading — main body copy, note content",
+    description:
+      "16px · regular · relaxed leading — main body copy, note content",
   },
   {
     role: "bodySm",
     label: "Body Small",
-    specimen:
-      "Next lesson on Thursday at 4:00 PM. Bring your practice log.",
-    description: "14px · regular · relaxed leading — secondary text, sidebar, form hints",
+    specimen: "Next lesson on Thursday at 4:00 PM. Bring your practice log.",
+    description:
+      "14px · regular · relaxed leading — secondary text, sidebar, form hints",
   },
   {
     role: "label",
     label: "Label",
     specimen: "Instrument",
-    description: "12px · bold · widest tracking · UPPERCASE — form labels, section dividers",
+    description:
+      "12px · bold · widest tracking · UPPERCASE — form labels, section dividers",
   },
   {
     role: "caption",
     label: "Caption",
     specimen: "Updated 2 hours ago · Read",
-    description: "12px · medium · normal tracking — timestamps, metadata, helper text",
+    description:
+      "12px · medium · normal tracking — timestamps, metadata, helper text",
   },
 ];
 
@@ -156,9 +161,12 @@ function ScaleRow({ role }: { role: ScaleKey }) {
   const token = typography.scale[role];
   const fontSize = sizeToPixels(token.size);
   const fontWeight = weightToNumber(token.weight);
-  const letterSpacing = "tracking" in token ? trackingToEm(token.tracking as string) : "0";
-  const lineHeight = "leading" in token ? (token.leading === "relaxed" ? 1.625 : 1.5) : 1.2;
-  const textTransform = "transform" in token ? (token.transform as string) : "none";
+  const letterSpacing =
+    "tracking" in token ? trackingToEm(token.tracking as string) : "0";
+  const lineHeight =
+    "leading" in token ? (token.leading === "relaxed" ? 1.625 : 1.5) : 1.2;
+  const textTransform =
+    "transform" in token ? (token.transform as string) : "none";
   const data = scaleData.find((d) => d.role === role)!;
 
   return (
@@ -174,10 +182,27 @@ function ScaleRow({ role }: { role: ScaleKey }) {
     >
       {/* Meta column */}
       <div>
-        <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: colors.text.muted, margin: "0 0 4px" }}>
+        <p
+          style={{
+            fontSize: 11,
+            fontWeight: 700,
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+            color: colors.text.muted,
+            margin: "0 0 4px",
+          }}
+        >
           {data.label}
         </p>
-        <code style={{ fontSize: 11, color: colors.brand.primary, background: colors.brand.primarySubtle, padding: "2px 6px", borderRadius: 4 }}>
+        <code
+          style={{
+            fontSize: 11,
+            color: colors.brand.primary,
+            background: colors.brand.primarySubtle,
+            padding: "2px 6px",
+            borderRadius: 4,
+          }}
+        >
           typography.scale.{role}
         </code>
       </div>
@@ -200,10 +225,24 @@ function ScaleRow({ role }: { role: ScaleKey }) {
 
       {/* Details column */}
       <div>
-        <p style={{ fontSize: 11, color: colors.text.subtle, margin: 0, lineHeight: 1.6 }}>
+        <p
+          style={{
+            fontSize: 11,
+            color: colors.text.subtle,
+            margin: 0,
+            lineHeight: 1.6,
+          }}
+        >
           {data.description}
         </p>
-        <p style={{ fontSize: 11, color: colors.text.subtle, margin: "4px 0 0", fontFamily: "monospace" }}>
+        <p
+          style={{
+            fontSize: 11,
+            color: colors.text.subtle,
+            margin: "4px 0 0",
+            fontFamily: "monospace",
+          }}
+        >
           text-{token.size} · font-{token.weight}
           {"tracking" in token ? ` · tracking-${token.tracking}` : ""}
           {"leading" in token ? ` · leading-${token.leading}` : ""}
@@ -225,13 +264,16 @@ function TypeScaleSpecimen() {
         color: colors.text.primary,
       }}
     >
-      <h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 8 }}>Typography Tokens</h1>
+      <h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 8 }}>
+        Typography Tokens
+      </h1>
       <p style={{ color: colors.text.muted, marginBottom: 8 }}>
-        Cantura uses Manrope (300–800) as its sole UI typeface. Seven named roles cover every
-        text use-case in the product.
+        Cantura uses Manrope (300–800) as its sole UI typeface. Seven named
+        roles cover every text use-case in the product.
       </p>
       <p style={{ color: colors.text.subtle, fontSize: 13, marginBottom: 32 }}>
-        Columns: <strong>token role</strong> · <strong>live specimen</strong> · <strong>Tailwind utilities + description</strong>
+        Columns: <strong>token role</strong> · <strong>live specimen</strong> ·{" "}
+        <strong>Tailwind utilities + description</strong>
       </p>
 
       {/* Header row */}
@@ -263,12 +305,42 @@ function TypeScaleSpecimen() {
 
 function FontWeightSpecimen() {
   const weights = [
-    { key: "light", value: 300, label: "Light 300", use: "Decorative large numerics only" },
-    { key: "regular", value: 400, label: "Regular 400", use: "Body copy — notes, descriptions" },
-    { key: "medium", value: 500, label: "Medium 500", use: "Captions, secondary labels, timestamps" },
-    { key: "semibold", value: 600, label: "Semibold 600", use: "Nav items, badge text, form values" },
-    { key: "bold", value: 700, label: "Bold 700", use: "Card titles, section headings, CTA labels" },
-    { key: "extrabold", value: 800, label: "Extrabold 800", use: "Hero/display headings, dashboard welcome" },
+    {
+      key: "light",
+      value: 300,
+      label: "Light 300",
+      use: "Decorative large numerics only",
+    },
+    {
+      key: "regular",
+      value: 400,
+      label: "Regular 400",
+      use: "Body copy — notes, descriptions",
+    },
+    {
+      key: "medium",
+      value: 500,
+      label: "Medium 500",
+      use: "Captions, secondary labels, timestamps",
+    },
+    {
+      key: "semibold",
+      value: 600,
+      label: "Semibold 600",
+      use: "Nav items, badge text, form values",
+    },
+    {
+      key: "bold",
+      value: 700,
+      label: "Bold 700",
+      use: "Card titles, section headings, CTA labels",
+    },
+    {
+      key: "extrabold",
+      value: 800,
+      label: "Extrabold 800",
+      use: "Hero/display headings, dashboard welcome",
+    },
   ];
 
   return (
@@ -280,10 +352,12 @@ function FontWeightSpecimen() {
         color: colors.text.primary,
       }}
     >
-      <h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 8 }}>Font Weights</h1>
+      <h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 8 }}>
+        Font Weights
+      </h1>
       <p style={{ color: colors.text.muted, marginBottom: 32 }}>
-        Manrope's variable weight axis gives us six steps. Use the named
-        token keys — not raw numbers — in component className strings.
+        Manrope&apos;s variable weight axis gives us six steps. Use the named
+        keys — not raw numbers — in component className strings.
       </p>
 
       {weights.map(({ key, value, label, use }) => (
@@ -320,7 +394,15 @@ function FontWeightSpecimen() {
             >
               font-{key}
             </code>
-            <p style={{ fontSize: 12, color: colors.text.subtle, margin: "4px 0 0" }}>{use}</p>
+            <p
+              style={{
+                fontSize: 12,
+                color: colors.text.subtle,
+                margin: "4px 0 0",
+              }}
+            >
+              {use}
+            </p>
           </div>
         </div>
       ))}
@@ -339,7 +421,9 @@ function TypographyInContext() {
         color: colors.text.primary,
       }}
     >
-      <h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 8 }}>Typography In Context</h1>
+      <h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 8 }}>
+        Typography In Context
+      </h1>
       <p style={{ color: colors.text.muted, marginBottom: 32 }}>
         Realistic usage examples — how the scale roles work together.
       </p>
@@ -367,11 +451,21 @@ function TypographyInContext() {
           {/* Label role */}
           Today · 4:00 PM
         </p>
-        <p style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.025em", color: colors.text.primary, margin: "0 0 4px" }}>
+        <p
+          style={{
+            fontSize: 20,
+            fontWeight: 700,
+            letterSpacing: "-0.025em",
+            color: colors.text.primary,
+            margin: "0 0 4px",
+          }}
+        >
           {/* displaySm role */}
           Mia Chen
         </p>
-        <p style={{ fontSize: 16, color: colors.text.muted, margin: "0 0 12px" }}>
+        <p
+          style={{ fontSize: 16, color: colors.text.muted, margin: "0 0 12px" }}
+        >
           {/* bodyLg role */}
           Piano · Grade 5 · In Studio
         </p>
@@ -402,7 +496,14 @@ function TypographyInContext() {
         >
           Practice Note
         </p>
-        <p style={{ fontSize: 16, color: colors.text.primary, lineHeight: 1.625, margin: "0 0 8px" }}>
+        <p
+          style={{
+            fontSize: 16,
+            color: colors.text.primary,
+            lineHeight: 1.625,
+            margin: "0 0 8px",
+          }}
+        >
           Focus on the left-hand passage in bars 12–16. Use the metronome at
           ♩=72 and increase by 4 bpm each day until ♩=92.
         </p>
