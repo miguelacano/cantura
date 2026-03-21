@@ -1,27 +1,76 @@
 /* DO NOT use @import url("tailwindcss") — the url() wrapper breaks Tailwind v4 PostCSS processing */
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   Cantura Design Tokens → Tailwind v4 @theme
+   All values are sourced from src/design-system/tokens/*.ts — keep in sync.
+   ───────────────────────────────────────────────────────────────────────────── */
+@theme {
+  /* ── Fonts ──────────────────────────────────────────────────────────────── */
+  --font-display: "Manrope", system-ui, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* ── Border Radius ───────────────────────────────────────────────────────── */
+  --radius-sm:   0.25rem;   /* chips, small badges, inline tags */
+  --radius-md:   0.5rem;    /* inputs, buttons, standard cards */
+  --radius-lg:   0.75rem;   /* modals, prominent cards, sidebar */
+  --radius-full: 9999px;    /* avatars, toggles, pill badges */
+
+  /* ── Brand Colors ────────────────────────────────────────────────────────── */
+  --color-brand-primary:        #3f2d1c;  /* warm brown — main CTAs, active nav */
+  --color-brand-primary-hover:  #5a4130;  /* hover on primary */
+  --color-brand-primary-subtle: #f5ede6;  /* tinted surface, focus rings */
+
+  /* ── Surface / Background ───────────────────────────────────────────────── */
+  --color-surface-light:    #f7f7f6;  /* light mode app canvas */
+  --color-surface-dark:     #1d1915;  /* dark mode app canvas */
+  --color-surface-card:     #ffffff;  /* card / panel over light canvas */
+  --color-surface-elevated: #f1f0ef;  /* hover rows, dropdowns */
+
+  /* ── Semantic — Success ─────────────────────────────────────────────────── */
+  --color-success-bg:   #d1fae5;  /* "Completed", "On Track" badge backgrounds */
+  --color-success-text: #047857;  /* text readable on success-bg */
+  --color-success-bold: #059669;  /* icon fills, progress fills */
+
+  /* ── Semantic — Warning ─────────────────────────────────────────────────── */
+  --color-warning-bg:   #fef3c7;  /* "In Progress", "Review Required" */
+  --color-warning-text: #b45309;  /* text readable on warning-bg */
+  --color-warning-icon: #f59e0b;  /* star / flag highlight icons */
+
+  /* ── Semantic — Error ───────────────────────────────────────────────────── */
+  --color-error-bg:   #fee2e2;  /* "Late", form validation backgrounds */
+  --color-error-text: #b91c1c;  /* text readable on error-bg */
+
+  /* ── Semantic — Info ────────────────────────────────────────────────────── */
+  --color-info-bg:   #dbeafe;  /* "Online" lesson mode indicator */
+  --color-info-text: #1d40af;  /* text readable on info-bg */
+
+  /* ── Accent ─────────────────────────────────────────────────────────────── */
+  --color-accent-sand: #fef3c7;  /* callout backgrounds, highlighted areas */
+
+  /* ── Text ───────────────────────────────────────────────────────────────── */
+  --color-text-primary: #0f172a;  /* headings, key labels, body copy */
+  --color-text-muted:   #64748b;  /* secondary body, descriptions */
+  --color-text-subtle:  #94a3b8;  /* timestamps, metadata, placeholders */
+  --color-text-inverse: #ffffff;  /* text on dark/primary backgrounds */
+
+  /* ── Border / Divider ───────────────────────────────────────────────────── */
+  --color-border-default: #e2e8f0;  /* cards, inputs, dividers */
+  --color-border-strong:  #94a3b8;  /* active inputs, selected states */
+  --color-border-subtle:  #f1f5f9;  /* very light separators */
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Base styles
+   ───────────────────────────────────────────────────────────────────────────── */
 :root {
-  --background: #fff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  font-family: var(--font-display);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-display);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-light);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
