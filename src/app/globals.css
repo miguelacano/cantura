@@ -8,7 +8,7 @@
 @theme {
   /* ── Fonts ──────────────────────────────────────────────────────────────── */
   --font-display: "Manrope", system-ui, sans-serif;
-  --font-mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-mono: ui-monospace, "SFMono-Regular", menlo, monospace;
 
   /* ── Border Radius ───────────────────────────────────────────────────────── */
   --radius-sm:   0.25rem;   /* chips, small badges, inline tags */
@@ -24,7 +24,7 @@
   /* ── Surface / Background ───────────────────────────────────────────────── */
   --color-surface-light:    #f7f7f6;  /* light mode app canvas */
   --color-surface-dark:     #1d1915;  /* dark mode app canvas */
-  --color-surface-card:     #ffffff;  /* card / panel over light canvas */
+  --color-surface-card:     #fff;  /* card / panel over light canvas */
   --color-surface-elevated: #f1f0ef;  /* hover rows, dropdowns */
 
   /* ── Semantic — Success ─────────────────────────────────────────────────── */
@@ -52,7 +52,7 @@
   --color-text-primary: #0f172a;  /* headings, key labels, body copy */
   --color-text-muted:   #64748b;  /* secondary body, descriptions */
   --color-text-subtle:  #94a3b8;  /* timestamps, metadata, placeholders */
-  --color-text-inverse: #ffffff;  /* text on dark/primary backgrounds */
+  --color-text-inverse: #fff;  /* text on dark/primary backgrounds */
 
   /* ── Border / Divider ───────────────────────────────────────────────────── */
   --color-border-default: #e2e8f0;  /* cards, inputs, dividers */
