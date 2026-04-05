@@ -369,9 +369,9 @@ function TypographySection() {
         code rather than the class strings directly.
       </p>
       <div className="flex flex-col divide-y divide-border-default">
-        {typeScaleRows.map((row) => (
+        {typeScaleRows.map((row, index) => (
           <div
-            key={row.role}
+            key={`row.label-${index}`}
             className="grid gap-6 py-5"
             style={{ gridTemplateColumns: "160px 1fr 240px" }}
           >
