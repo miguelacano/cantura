@@ -20,7 +20,7 @@
     "db:migrate:deploy": "prisma migrate deploy",
     "db:seed": "tsx prisma/seed.ts",
     "prepare": "husky",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "node --title=storybook node_modules/storybook/bin/index.cjs dev -p 6006",
     "build-storybook": "storybook build"
   },
   "prisma": {
