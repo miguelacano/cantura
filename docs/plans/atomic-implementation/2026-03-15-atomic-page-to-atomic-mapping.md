@@ -43,7 +43,7 @@ Yes. This mapping is the control mechanism.
 ## 4) Reuse governance rules (mandatory)
 
 1. **Canonical structure**
-   - tokens: `src/design-system/tokens/*`
+   - tokens: `src/app/globals.css` (`@theme` block) — reference in `src/design-system/Theme.stories.tsx`
    - atoms: `src/design-system/atoms/*`
    - molecules: `src/design-system/molecules/*`
    - organisms: `src/design-system/organisms/*`
@@ -220,10 +220,10 @@ Before any implementation PR:
 
 ## 9) Execution plan (no duplication)
 
-### Phase A — Tokens + base primitives
-1. Complete token setup from the base design plan.
-2. Add stories for all required color, spacing, typography, and radius tokens.
-3. Ensure atom APIs are token-driven.
+### Phase A — Tokens + base primitives ✓ COMPLETE
+1. ~~Complete token setup from the base design plan.~~ Done — `src/app/globals.css` `@theme` block is the token system.
+2. ~~Add stories for all required color, spacing, typography, and radius tokens.~~ Done — `src/design-system/Theme.stories.tsx` (Colors, Typography, Radius stories).
+3. Atom APIs use Tailwind utility classes derived from `@theme` — see component-library-design.md for the class reference.
 
 ### Phase B — Shared molecules first
 1. Implement `FormField`, `SearchBar`, `NavItem`, `StatCard`, `Badge`, `ProgressBar`.

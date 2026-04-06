@@ -16,11 +16,7 @@ The component library is internal to Cantura only — no publishing, no external
 ```
 src/
   design-system/
-    tokens/
-      colors.ts
-      typography.ts
-      radius.ts
-      index.ts          ← re-exports all tokens, generates @theme input for globals.css
+    Theme.stories.tsx   ← living reference: colors, typography, radius documented via Tailwind classes
     atoms/
       Button/
         Button.tsx
@@ -70,86 +66,52 @@ src/
 
 ## Token Layer
 
-Tokens are TypeScript `as const` objects that feed into Tailwind v4's `@theme` block via `tokens/index.ts`. They are the single source of truth — Tailwind utilities, component classes, and Storybook docs all derive from the same values.
+Design tokens are defined once in `src/app/globals.css` inside a Tailwind v4 `@theme` block. Tailwind reads that block and automatically generates CSS custom properties and utility classes — no separate TypeScript token files are needed.
 
-### `tokens/colors.ts`
-
-```ts
-export const colors = {
-  // Brand
-  primary:    "#3f2d1c",   // warm brown — main brand color
-  bgLight:    "#f7f7f6",   // app surface (light mode)
-  bgDark:     "#1d1915",   // app surface (dark mode)
-
-  // Semantic — status and feedback
-  success: {
-    bg:   "#d1fae5",   // emerald-100  — "Completed", "On Track"
-    text: "#047857",   // emerald-700
-    bold: "#059669",   // emerald-600  — icons, progress fills
-  },
-  warning: {
-    bg:   "#fef3c7",   // amber-100    — "In Progress", "Review Required"
-    text: "#b45309",   // amber-700
-    icon: "#f59e0b",   // amber-500    — star/highlight icons
-  },
-  error: {
-    bg:   "#fee2e2",   // red-100      — "Late"
-    text: "#b91c1c",   // red-700
-  },
-  info: {
-    bg:   "#dbeafe",   // blue-100     — "Online" lesson mode
-    text: "#1d40af",   // blue-700
-  },
-
-  // Accent
-  sand:        "#fef3c7",   // amber-100 — "Accent Sand", highlights, callout backgrounds
-
-  // Text
-  textPrimary: "#0f172a",   // slate-900
-  textMuted:   "#64748b",   // slate-500/600 range
-  textSubtle:  "#94a3b8",   // slate-400 — timestamps, metadata
-} as const
+```
+globals.css @theme
+  --color-brand-primary: #3f2d1c
+       ↓
+Tailwind generates utility classes
+  bg-brand-primary  /  text-brand-primary  /  border-brand-primary
+       ↓
+Used in component className
+  <button className="bg-brand-primary text-text-inverse rounded-md">
 ```
 
-### `tokens/typography.ts`
+All available tokens and their generated utility classes are documented in `src/design-system/Theme.stories.tsx`, which serves as the living reference for colors, typography scale, radius, and fonts. Open that story in Storybook to see every token and its corresponding Tailwind utility.
 
-```ts
-export const typography = {
-  fontFamily: {
-    display: ["Manrope", "sans-serif"],
-  },
-  fontWeight: {
-    light:     "300",
-    regular:   "400",
-    medium:    "500",
-    semibold:  "600",
-    bold:      "700",
-    extrabold: "800",
-  },
-  // Named type roles — used by Heading, Text, Label, Caption atoms
-  scale: {
-    displayLg: { size: "4xl",  weight: "extrabold", tracking: "tight"         },  // 36px — page titles
-    displayMd: { size: "2xl",  weight: "bold",      tracking: "tight"         },  // 24px — section headings
-    displaySm: { size: "xl",   weight: "bold",      tracking: "tight"         },  // 20px — card titles
-    bodyLg:    { size: "base", weight: "regular",   leading:  "relaxed"       },  // 16px — main body
-    bodySm:    { size: "sm",   weight: "regular",   leading:  "relaxed"       },  // 14px — secondary text
-    label:     { size: "xs",   weight: "bold",      tracking: "widest",
-                 transform: "uppercase"                                        },  // ALL CAPS labels
-    caption:   { size: "xs",   weight: "medium",    tracking: "normal"        },  // timestamps, metadata
-  },
-} as const
-```
+### Color utility class naming
 
-### `tokens/radius.ts`
+| Group | Example utility classes |
+|---|---|
+| Brand | `bg-brand-primary`, `bg-brand-primary-hover`, `bg-brand-primary-subtle` |
+| Surface | `bg-surface-light`, `bg-surface-dark`, `bg-surface-card`, `bg-surface-elevated` |
+| Semantic | `bg-success-bg`, `text-success-text`, `bg-warning-bg`, `text-warning-text`, etc. |
+| Text | `text-text-primary`, `text-text-muted`, `text-text-subtle`, `text-text-inverse` |
+| Border | `border-border-default`, `border-border-strong`, `border-border-subtle` |
+| Accent | `bg-accent-sand` |
 
-```ts
-export const radius = {
-  sm:   "0.25rem",   // DEFAULT — tight elements (chips, small badges)
-  md:   "0.5rem",    // lg — inputs, standard cards
-  lg:   "0.75rem",   // xl — prominent cards, modals, sidebar
-  full: "9999px",    // pills, avatars, toggle tracks
-} as const
-```
+### Typography scale (Tailwind class groups)
+
+| Role | Classes |
+|---|---|
+| Display Large | `text-4xl font-extrabold tracking-tight` |
+| Display Medium | `text-2xl font-bold tracking-tight` |
+| Display Small | `text-xl font-bold tracking-tight` |
+| Body Large | `text-base font-normal leading-relaxed` |
+| Body Small | `text-sm font-normal leading-relaxed` |
+| Label | `text-xs font-bold tracking-widest uppercase` |
+| Caption | `text-xs font-medium tracking-normal` |
+
+### Radius
+
+| Token | Tailwind utility | Use |
+|---|---|---|
+| `--radius-sm` | `rounded-sm` | Chips, badges, tags |
+| `--radius-md` | `rounded-md` | Inputs, buttons, cards |
+| `--radius-lg` | `rounded-lg` | Modals, panels, sidebar |
+| `--radius-full` | `rounded-full` | Avatars, toggles, pills |
 
 ---
 
@@ -311,13 +273,13 @@ export const ShowsEmailError: Story = {
 
 ---
 
-## Design Tokens Story Page
+## Theme Story
 
-The "Design Tokens" entry is the first page in Storybook. It renders:
+`src/design-system/Theme.stories.tsx` is the first entry in Storybook under **Design System / Theme**. Three focused stories:
 
-1. **Color palette** — brand swatches + each semantic group (success / warning / error / info / sand) displayed as a grid of labeled swatches with hex values and usage notes
-2. **Typography specimen** — one row per scale role showing Manrope at the correct size, weight, and tracking with the role name and CSS values noted
-3. **Border radius reference** — four boxes showing each radius value with a label
+1. **Colors** — every color group with CSS variable name, Tailwind utility class, and a live swatch
+2. **Typography** — seven scale roles each showing the Tailwind class group and a live specimen
+3. **Radius** — four steps with visual examples and use cases
 
 ---
 

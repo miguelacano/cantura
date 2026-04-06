@@ -168,16 +168,24 @@ git commit -m "chore: configure Storybook preview with fonts and dark mode toggl
 
 ---
 
-## Phase 2: Token Layer
+## Phase 2: Token Layer ✓ COMPLETE
 
-### Task 3: Create design tokens
+> **Status:** Done. Approach changed from the original plan.
+>
+> TypeScript token files were evaluated and removed. `src/app/globals.css` `@theme` block is the single source of truth for all design tokens. Tailwind generates utility classes from it automatically.
+>
+> `src/design-system/Theme.stories.tsx` is the living reference — three stories (Colors, Typography, Radius) documenting every token and its Tailwind utility class.
+>
+> See `docs/plans/2026-03-10-component-library-design.md` → Token Layer for the full utility class reference.
+
+### ~~Task 3: Create design tokens~~ ✓
 
 **Files:**
-- Create: `src/design-system/tokens/colors.ts`
-- Create: `src/design-system/tokens/typography.ts`
-- Create: `src/design-system/tokens/radius.ts`
-- Create: `src/design-system/tokens/index.ts`
-- Modify: `src/app/globals.css`
+- ~~Create: `src/design-system/tokens/colors.ts`~~
+- ~~Create: `src/design-system/tokens/typography.ts`~~
+- ~~Create: `src/design-system/tokens/radius.ts`~~
+- ~~Create: `src/design-system/tokens/index.ts`~~
+- Done: `src/app/globals.css` — `@theme` block defines all tokens
 
 **Step 1: Create `src/design-system/tokens/colors.ts`**
 
@@ -294,10 +302,11 @@ git commit -m "feat: add design token layer (colors, typography, radius)"
 
 ---
 
-### Task 4: Design Tokens story page
+### ~~Task 4: Design Tokens story page~~ ✓
 
 **Files:**
-- Create: `src/design-system/tokens/tokens.stories.tsx`
+- ~~Create: `src/design-system/tokens/tokens.stories.tsx`~~
+- Done: `src/design-system/Theme.stories.tsx` — Colors, Typography, Radius stories
 
 **Step 1: Create `src/design-system/tokens/tokens.stories.tsx`**
 
@@ -438,10 +447,10 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary:   "bg-primary text-white hover:opacity-90",
-  secondary: "bg-primary/10 text-primary hover:bg-primary/20",
-  outline:   "border border-primary/20 text-primary hover:bg-primary/5",
-  ghost:     "text-primary hover:bg-primary/5",
+  primary:   "bg-brand-primary text-text-inverse hover:bg-brand-primary-hover",
+  secondary: "bg-brand-primary-subtle text-brand-primary hover:opacity-90",
+  outline:   "border border-brand-primary text-brand-primary hover:bg-brand-primary-subtle",
+  ghost:     "text-brand-primary hover:bg-brand-primary-subtle",
 }
 
 const sizeClasses: Record<ButtonSize, string> = {
@@ -463,7 +472,7 @@ export function Button({
     <button
       className={[
         "inline-flex items-center justify-center rounded-lg font-bold",
-        "transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
+        "transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary",
         "disabled:opacity-50 disabled:cursor-not-allowed",
         variantClasses[variant],
         sizeClasses[size],
