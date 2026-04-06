@@ -249,9 +249,15 @@ const typeScaleRows = [
   },
   {
     label: "Body Large",
-    classes: "text-base font-normal leading-relaxed",
+    classes: "text-lg font-normal leading-relaxed",
     use: "Main body copy, notes, descriptions",
     specimen: "Practice the first 8 bars with a metronome at ♩=80.",
+  },
+  {
+    label: "Body",
+    classes: "text-base font-normal leading-relaxed",
+    use: "Default UI text, form inputs, buttons",
+    specimen: "Next lesson on Thursday at 4:00 PM.",
   },
   {
     label: "Body Small",

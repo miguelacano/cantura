@@ -99,7 +99,8 @@ All available tokens and their generated utility classes are documented in `src/
 | Display Large | `text-4xl font-extrabold tracking-tight` |
 | Display Medium | `text-2xl font-bold tracking-tight` |
 | Display Small | `text-xl font-bold tracking-tight` |
-| Body Large | `text-base font-normal leading-relaxed` |
+| Body Large | `text-lg font-normal leading-relaxed` |
+| Body | `text-base font-normal leading-relaxed` |
 | Body Small | `text-sm font-normal leading-relaxed` |
 | Label | `text-xs font-bold tracking-widest uppercase` |
 | Caption | `text-xs font-medium tracking-normal` |
