@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { HTMLAttributes } from "react";
+import { cn } from "../lib/utils";
 
 type AvatarSize = "sm" | "md" | "lg";
 type AvatarStatus = "online" | "offline" | "away";
@@ -43,13 +44,13 @@ export function Avatar({
   size = "md",
   status,
   alt = "",
-  className = "",
+  className,
   ...props
 }: AvatarProps) {
   const px = sizePixels[size];
 
   return (
-    <div className={`relative inline-flex shrink-0 ${className}`} {...props}>
+    <div className={cn("relative inline-flex shrink-0", className)} {...props}>
       {src ? (
         <Image
           src={src}
@@ -60,14 +61,21 @@ export function Avatar({
         />
       ) : (
         <div
-          className={`${sizeClasses[size]} rounded-full bg-brand-primary-subtle text-brand-primary font-bold flex items-center justify-center select-none`}
+          className={cn(
+            sizeClasses[size],
+            "rounded-full bg-brand-primary-subtle text-brand-primary font-bold flex items-center justify-center select-none"
+          )}
         >
           {initials ?? "?"}
         </div>
       )}
       {status && (
         <span
-          className={`absolute bottom-0 right-0 ${statusDotSizeClasses[size]} rounded-full border-2 border-surface-card ${statusColorClasses[status]}`}
+          className={cn(
+            "absolute bottom-0 right-0 rounded-full border-2 border-surface-card",
+            statusDotSizeClasses[size],
+            statusColorClasses[status]
+          )}
         />
       )}
     </div>
