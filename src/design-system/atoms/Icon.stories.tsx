@@ -36,6 +36,7 @@ export const ExtraLarge: Story = {
 };
 
 export const Sampler: Story = {
+  args: { name: "music_note" },
   render: () => (
     <div className="flex flex-wrap gap-4 p-4 bg-surface-light">
       {[
