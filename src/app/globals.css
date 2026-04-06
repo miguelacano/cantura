@@ -3,7 +3,7 @@
 
 /* ─────────────────────────────────────────────────────────────────────────────
    Cantura Design Tokens → Tailwind v4 @theme
-   All values are sourced from src/design-system/tokens/*.ts — keep in sync.
+   Single source of truth — Tailwind reads this block and generates all utility classes.
    ───────────────────────────────────────────────────────────────────────────── */
 @theme {
   /* ── Fonts ──────────────────────────────────────────────────────────────── */
