@@ -1,36 +1,110 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cantura
 
-## Getting Started
+A studio management app for private music teachers. Cantura helps teachers manage students, track repertoire and assignments, and communicate with students and guardians — all in one place.
 
-First, run the development server:
+> **Status:** Early development / MVP
+
+---
+
+## Tech Stack
+
+| Layer | Choice |
+|---|---|
+| Framework | Next.js 16 (App Router, Turbopack) |
+| Language | TypeScript |
+| Database | PostgreSQL via Prisma 7 (driver adapters) |
+| Auth | Auth.js v5 (next-auth@beta) — JWT, Credentials provider |
+| Validation | Zod |
+| Styling | Tailwind CSS v4 |
+| Testing | Vitest + Storybook |
+| Package Manager | pnpm |
+
+---
+
+## Getting Started (Local Development)
+
+### Prerequisites
+
+- Node.js 20+
+- pnpm (`npm i -g pnpm`)
+- A PostgreSQL database (local or hosted — see [Vercel Postgres via Marketplace](https://vercel.com/marketplace) or use a local instance)
+
+### 1. Clone and install
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/cantura.git
+cd cantura
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Configure environment variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Copy the example env file and fill in your own values:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+cp .env.example .env
+```
 
-## Learn More
+You will need to provide:
 
-To learn more about Next.js, take a look at the following resources:
+- A PostgreSQL connection string (`DATABASE_URL`)
+- Auth.js secrets (`AUTH_SECRET`, etc.)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 3. Apply migrations and seed the database
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm db:migrate:deploy
+pnpm db:seed
+```
 
-## Deploy on Vercel
+### 4. Start the development server
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pnpm dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## Setting Up Your Own Instance
+
+### Vercel (recommended)
+
+1. [Create a Vercel account](https://vercel.com/signup) and install the CLI: `npm i -g vercel`
+2. From the project root, run `vercel` and follow the prompts to link or create a project
+3. Add your environment variables via `vercel env add` or through the Vercel dashboard
+4. Add a PostgreSQL database through the [Vercel Marketplace](https://vercel.com/marketplace) and link it to your project — Vercel will inject the `DATABASE_URL` automatically
+5. Deploy: `vercel --prod`
+
+After each deploy, run migrations:
+
+```bash
+vercel env pull .env.local   # pull remote env vars locally
+pnpm db:migrate:deploy
+```
+
+### Database (standalone PostgreSQL)
+
+Any PostgreSQL 14+ instance works. Recommended hosted options:
+
+- [Neon](https://neon.tech) — serverless Postgres, generous free tier
+- [Supabase](https://supabase.com) — Postgres with extras
+- Local Docker: `docker run -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres`
+
+Set `DATABASE_URL` to your connection string before running migrations.
+
+---
+
+## Available Scripts
+
+| Command | Description |
+|---|---|
+| `pnpm dev` | Start dev server with Turbopack |
+| `pnpm build` | Generate Prisma client + production build |
+| `pnpm test` | Run Vitest tests |
+| `pnpm storybook` | Start Storybook on port 6006 |
+| `pnpm db:migrate:deploy` | Apply pending migrations |
+| `pnpm db:seed` | Seed the database |
+| `pnpm typecheck` | TypeScript type check (no emit) |
+| `pnpm lint` | Run ESLint |

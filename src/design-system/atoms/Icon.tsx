@@ -1,33 +1,43 @@
 import { HTMLAttributes } from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "../lib/utils";
 
-type IconSize = "sm" | "md" | "lg" | "xl";
+export const iconVariants = cva(
+  "material-symbols-outlined select-none leading-none",
+  {
+    variants: {
+      size: {
+        sm: "text-base", // ~16px
+        md: "text-xl", // ~20px
+        lg: "text-2xl", // ~24px
+        xl: "text-3xl", // ~30px
+      },
+    },
+    defaultVariants: {
+      size: "md",
+    },
+  }
+);
 
-interface IconProps extends HTMLAttributes<HTMLSpanElement> {
+interface IconProps
+  extends HTMLAttributes<HTMLSpanElement>, VariantProps<typeof iconVariants> {
   /** Material Symbols name, e.g. "check_circle", "arrow_forward" */
   name: string;
-  size?: IconSize;
   /** Filled variant of the icon */
   filled?: boolean;
 }
 
-const sizeClasses: Record<IconSize, string> = {
-  sm: "text-base", // ~16px
-  md: "text-xl", // ~20px
-  lg: "text-2xl", // ~24px
-  xl: "text-3xl", // ~30px
-};
-
 export function Icon({
   name,
-  size = "md",
+  size,
   filled = false,
-  className = "",
+  className,
   style,
   ...props
 }: IconProps) {
   return (
     <span
-      className={`material-symbols-outlined select-none leading-none ${sizeClasses[size]} ${className}`}
+      className={cn(iconVariants({ size }), className)}
       style={{
         fontVariationSettings: `'FILL' ${filled ? 1 : 0}, 'wght' 300, 'GRAD' 0, 'opsz' 24`,
         ...style,
