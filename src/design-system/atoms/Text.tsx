@@ -20,12 +20,15 @@ export const textVariants = cva("", {
   },
 });
 
+type TextTag = "p" | "span" | "div";
+
 interface TextProps
-  extends
-    HTMLAttributes<HTMLParagraphElement>,
-    VariantProps<typeof textVariants> {}
+  extends HTMLAttributes<HTMLElement>, VariantProps<typeof textVariants> {
+  as?: TextTag;
+}
 
 export function Text({
+  as: Tag = "p",
   size,
   muted,
   className,
@@ -33,8 +36,8 @@ export function Text({
   ...props
 }: TextProps) {
   return (
-    <p className={cn(textVariants({ size, muted }), className)} {...props}>
+    <Tag className={cn(textVariants({ size, muted }), className)} {...props}>
       {children}
-    </p>
+    </Tag>
   );
 }

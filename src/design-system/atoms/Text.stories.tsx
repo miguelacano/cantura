@@ -7,6 +7,7 @@ const meta = {
   parameters: { layout: "padded" },
   tags: ["autodocs"],
   argTypes: {
+    as: { control: "select", options: ["p", "span", "div"] },
     size: { control: "select", options: ["lg", "md", "sm"] },
     muted: { control: "boolean" },
   },
@@ -38,4 +39,17 @@ export const Muted: Story = {
     muted: true,
     children: "Secondary description or hint text.",
   },
+};
+
+export const Inline: Story = {
+  render: () => (
+    <div className="flex items-center gap-2">
+      <Text as="span" size="sm" muted>
+        Last practiced:
+      </Text>
+      <Text as="span" size="sm">
+        Thursday at 4:00 PM
+      </Text>
+    </div>
+  ),
 };
