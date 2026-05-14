@@ -46,7 +46,7 @@ jobs:
   storybook:
     needs: static-checks
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.event.pull_request.draft == false
+    if: github.event_name == 'pull_request' && github.event.pull_request.draft == false && github.actor != 'dependabot[bot]'
     permissions:
       pull-requests: write
     steps:
@@ -141,17 +141,19 @@ jobs:
       - name: Run tests
         run: pnpm test:run
       - name: Pull Vercel environment
+        if: github.actor != 'dependabot[bot]' || github.event_name == 'push'
         run: |
           pnpm vercel pull --yes \
             --environment=${{ github.event_name == 'pull_request' && 'preview' || 'production' }} \
             --token=${{ secrets.VERCEL_TOKEN }}
       - name: Build
+        if: github.actor != 'dependabot[bot]' || github.event_name == 'push'
         run: |
           pnpm vercel build \
             ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && '--prod' || '' }} \
             --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy to Vercel (preview)
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
         run: pnpm vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy to Vercel (production)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
