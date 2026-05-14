@@ -37,9 +37,19 @@ describe("textVariants", () => {
 });
 
 describe("Text", () => {
-  it("renders as a p element", () => {
+  it("renders as a p element by default", () => {
     render(<Text>Body copy</Text>);
     expect(screen.getByText("Body copy").tagName).toBe("P");
+  });
+
+  it("renders as span when as=span", () => {
+    render(<Text as="span">Inline text</Text>);
+    expect(screen.getByText("Inline text").tagName).toBe("SPAN");
+  });
+
+  it("renders as div when as=div", () => {
+    render(<Text as="div">Block text</Text>);
+    expect(screen.getByText("Block text").tagName).toBe("DIV");
   });
 
   it("renders children", () => {
