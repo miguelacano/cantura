@@ -1,0 +1,18 @@
+enum UserRole {
+  ADMIN
+  TEACHER
+  GUARDIAN
+  STUDENT
+}
+
+enum StudentAccessRole {
+  TEACHER
+  GUARDIAN
+  STUDENT
+}
+
+enum AssignmentStatus {
+  ACTIVE
+  COMPLETED
+  DROPPED
+}

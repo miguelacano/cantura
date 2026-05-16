@@ -1,0 +1,20 @@
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  role         UserRole @default(TEACHER)
+  passwordHash String?
+  bio          String?
+  studioName   String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  studentAccess       StudentAccess[]
+  notes               Note[]
+  teacherLibraryItems TeacherLibraryItem[]
+  lastSeen            UserStudentLastSeen[]
+  teacherThreads      MessageThread[]          @relation("TeacherThreads")
+  guardianThreads     MessageThread[]          @relation("GuardianThreads")
+  authoredMessages    Message[]                @relation("MessageAuthor")
+  threadReadStatus    MessageThreadReadStatus[]
+}

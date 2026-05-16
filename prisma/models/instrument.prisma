@@ -1,0 +1,8 @@
+model Instrument {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+
+  studentAccess StudentAccess[]
+  assignments   StudentAssignment[]
+}
