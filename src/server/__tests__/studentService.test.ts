@@ -7,62 +7,59 @@ const validGuardian = {
   email: "alex@example.com",
 };
 
+const validInput = {
+  firstName: "Jamie",
+  lastName: "Chen",
+  instrumentId: "instrument-cuid-123",
+  guardian: validGuardian,
+};
+
 describe("CreateStudentSchema", () => {
   it("accepts valid input", () => {
-    expect(() =>
-      CreateStudentSchema.parse({
-        firstName: "Jamie",
-        lastName: "Chen",
-        guardian: validGuardian,
-      })
-    ).not.toThrow();
+    expect(() => CreateStudentSchema.parse(validInput)).not.toThrow();
   });
 
   it("accepts input with optional level", () => {
     expect(() =>
-      CreateStudentSchema.parse({
-        firstName: "Jamie",
-        lastName: "Chen",
-        level: "Beginner",
-        guardian: validGuardian,
-      })
+      CreateStudentSchema.parse({ ...validInput, level: "Beginner" })
     ).not.toThrow();
   });
 
   it("rejects empty firstName", () => {
     expect(() =>
-      CreateStudentSchema.parse({
-        firstName: "",
-        lastName: "Chen",
-        guardian: validGuardian,
-      })
+      CreateStudentSchema.parse({ ...validInput, firstName: "" })
     ).toThrow();
   });
 
   it("rejects empty lastName", () => {
     expect(() =>
-      CreateStudentSchema.parse({
-        firstName: "Jamie",
-        lastName: "",
-        guardian: validGuardian,
-      })
+      CreateStudentSchema.parse({ ...validInput, lastName: "" })
+    ).toThrow();
+  });
+
+  it("rejects missing instrumentId", () => {
+    const { instrumentId: _, ...rest } = validInput;
+    expect(() => CreateStudentSchema.parse(rest)).toThrow();
+  });
+
+  it("rejects empty instrumentId", () => {
+    expect(() =>
+      CreateStudentSchema.parse({ ...validInput, instrumentId: "" })
     ).toThrow();
   });
 
   it("rejects invalid guardian email", () => {
     expect(() =>
       CreateStudentSchema.parse({
-        firstName: "Jamie",
-        lastName: "Chen",
+        ...validInput,
         guardian: { ...validGuardian, email: "not-an-email" },
       })
     ).toThrow();
   });
 
   it("rejects missing guardian", () => {
-    expect(() =>
-      CreateStudentSchema.parse({ firstName: "Jamie", lastName: "Chen" })
-    ).toThrow();
+    const { guardian: _, ...rest } = validInput;
+    expect(() => CreateStudentSchema.parse(rest)).toThrow();
   });
 });
 
