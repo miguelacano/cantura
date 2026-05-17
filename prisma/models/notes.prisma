@@ -1,0 +1,18 @@
+model Note {
+  id           String             @id @default(cuid())
+  authorId     String
+  author       User               @relation(fields: [authorId], references: [id])
+  studentId    String
+  student      Student            @relation(fields: [studentId], references: [id])
+  assignmentId String?
+  assignment   StudentAssignment? @relation(fields: [assignmentId], references: [id])
+  parentId     String?
+  parent       Note?              @relation("NoteReplies", fields: [parentId], references: [id])
+  replies      Note[]             @relation("NoteReplies")
+  body         String
+  createdAt    DateTime           @default(now())
+
+  @@index([studentId, createdAt])
+  @@index([parentId, createdAt])
+  @@index([authorId, createdAt])
+}

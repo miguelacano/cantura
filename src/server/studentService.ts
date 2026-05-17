@@ -5,10 +5,11 @@ export const CreateStudentSchema = z.object({
   firstName: z.string().min(1).max(50),
   lastName: z.string().min(1).max(50),
   level: z.string().optional(),
+  instrumentId: z.string().min(1),
   guardian: z.object({
     firstName: z.string().min(1).max(50),
     lastName: z.string().min(1).max(50),
-    email: z.string().email(),
+    email: z.email(),
   }),
 });
 
@@ -24,22 +25,18 @@ export async function createStudent(
 ) {
   const data = CreateStudentSchema.parse(input);
 
-  // Find or create guardian user (deduplicate by email)
-  let guardian = await db.user.findUnique({
-    where: { email: data.guardian.email },
-  });
-  if (!guardian) {
-    guardian = await db.user.create({
-      data: {
+  // Create student, guardian, and access records atomically
+  return db.$transaction(async (tx) => {
+    const guardian = await tx.user.upsert({
+      where: { email: data.guardian.email },
+      update: {},
+      create: {
         email: data.guardian.email,
         name: `${data.guardian.firstName} ${data.guardian.lastName}`,
         role: "GUARDIAN",
       },
     });
-  }
 
-  // Create student + access records in a transaction
-  return db.$transaction(async (tx) => {
     const student = await tx.student.create({
       data: {
         firstName: data.firstName,
@@ -48,13 +45,13 @@ export async function createStudent(
       },
     });
 
-    // Teacher access
+    // Teacher access — instrument-scoped
     await tx.studentAccess.create({
       data: {
         studentId: student.id,
         userId: teacherId,
         role: "TEACHER",
-        instrumentId: null,
+        instrumentId: data.instrumentId,
       },
     });
 

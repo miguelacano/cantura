@@ -4,7 +4,10 @@
       "mcp__github__pull_request_read",
       "mcp__vercel__get_deployment_build_logs",
       "mcp__vercel__list_deployments",
-      "Bash(pnpm stylelint:*)"
+      "mcp__claude_ai_Notion__notion-fetch",
+      "mcp__claude_ai_Notion__notion-search",
+      "mcp__claude_ai_Notion__notion-update-page",
+      "mcp__claude_ai_Notion__notion-create-pages"
     ]
   }
 }
