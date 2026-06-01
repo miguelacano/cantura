@@ -60,7 +60,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^5.2.0",
-    "@vitest/browser": "^4.1.2",
+    "@vitest/browser": "^4.1.6",
     "@vitest/browser-playwright": "^4.1.2",
     "@vitest/coverage-v8": "4.1.2",
     "dotenv": "^17.3.1",
